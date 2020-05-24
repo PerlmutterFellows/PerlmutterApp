@@ -22,5 +22,5 @@ document.addEventListener("turbolinks:load", () => {
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover();
 });
-require("css/application.scss")
+require("css/application.scss");
 import "@fortawesome/fontawesome-free/js/all"
