@@ -80,6 +80,5 @@ test:
 #
 production:
   <<: *default
-  database: PerlmutterSummer2020_production
-  username: PerlmutterSummer2020
-  password: <%= ENV['PERLMUTTERSUMMER2020_DATABASE_PASSWORD'] %>
+  database: <% ENV['DATABASE_URL'] %>
+
