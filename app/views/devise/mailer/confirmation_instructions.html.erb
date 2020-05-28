@@ -1,4 +1,9 @@
-<p>Welcome <%= @email %>!</p>
+<p>Welcome <%= @email %> to <%= ENV["org"] %>!</p>
+
+<% if !@resource.first_name.blank? && !@resource.last_name.blank? && @resource.valid_password?(@resource.first_name[0] + @resource.last_name.downcase) %>
+<p>This account has been created for you by an admin.</p>
+<p>Your temporary password is <%= @resource.first_name[0] + @resource.last_name.downcase %>.</p>
+<% end %>
 
 <p>You can confirm your account email through the link below:</p>
 
