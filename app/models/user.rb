@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
+  has_one_attached :csv_file
 
   validates_uniqueness_of :email, :allow_blank => true, :case_sensitive => false
   validates_uniqueness_of :phone_number, :allow_blank => true, :case_sensitive => false

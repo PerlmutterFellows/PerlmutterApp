@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="#"><h4>Home</h4> <span class="sr-only">(current)</span></a>
+        <h4><%= link_to "Home", root_path, class: "nav-link" %></h4>
       </li>
       <% if current_user %>
         <li class="nav-item">
@@ -21,9 +21,11 @@
           <h4><%= link_to "Sign In", new_user_session_path, class: "nav-link" %></h4>
         </li>
       <% end %>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><h4>Disabled</h4></a>
-      </li>
+      <% if current_user && current_user.admin %>
+        <li class="nav-item">
+          <h4><%= link_to "Admin", admin_user_new_path, class: "nav-link" %></h4>
+        </li>
+      <% end %>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

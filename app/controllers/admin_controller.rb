@@ -5,6 +5,11 @@ class AdminController < ApplicationController
   end
 
   def create
-    redirect_to createUserFromAdminForm(params)
+    case params['commit']
+    when "Submit CSV"
+      redirect_to createUserFromAdminCsv(params)
+    else
+      redirect_to createUserFromAdminForm(params)
+    end
   end
 end
