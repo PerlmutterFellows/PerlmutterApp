@@ -19,7 +19,7 @@
 
   <div class="field">
     <%= f.label :phone_number %><br />
-    <%= f.phone_field :phone_number, autocomplete: "phone" %>
+    <%= f.phone_field :phone_number, autocomplete: "phone", :pattern => '\d{10}' %>
     <br />
     <em>in 1234567890 format</em>
   </div>
