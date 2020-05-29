@@ -23,3 +23,5 @@ document.addEventListener("turbolinks:load", () => {
     $('[data-toggle="popover"]').popover();
 });
 import "@fortawesome/fontawesome-free/js/all"
+
+global.toastr = require("toastr")
