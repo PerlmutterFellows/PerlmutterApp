@@ -1,4 +1,7 @@
 require 'csv'
+require 'date'
+require 'time'
+
 
 module AdminHelper
 
@@ -6,8 +9,16 @@ module AdminHelper
     "Creation failed. Please input either email, phone number, or both."
   end
 
-  def errorMessage
-    "An error has occurred saving your user. Please contact the administrator."
+  def eventSuccessMessage
+    "Your event was successful!"
+  end
+
+  def notFoundMessage(type)
+    "Your #{type} was not found. Please try again, and if this persists, contact the administrator."
+  end
+
+  def errorMessage(type)
+    "An error has occurred saving your #{type}. Please contact the administrator."
   end
 
   def accountTakenMessage(type)
@@ -46,7 +57,7 @@ module AdminHelper
       elsif User.exists?(phone_number: parsedPhone)
         flash[:notice] = accountTakenMessage("phone number")
       else
-        flash[:notice] = errorMessage
+        flash[:notice] = errorMessage("user")
       end
     else
       @user.email = email
@@ -57,7 +68,7 @@ module AdminHelper
       elsif User.exists?(email: email)
         flash[:notice] = accountTakenMessage("email address")
       else
-        flash[:notice] = errorMessage
+        flash[:notice] = errorMessage("user")
       end
     end
     path
@@ -83,9 +94,9 @@ module AdminHelper
         end
 
         user = User.new(:first_name => row['first_name'].to_s,
-                 :last_name => row['last_name'].to_s,
-                 :password => pass,
-                 :password_confirmation => pass)
+                        :last_name => row['last_name'].to_s,
+                        :password => pass,
+                        :password_confirmation => pass)
 
         case
         when email.blank? && phone.blank?
@@ -110,8 +121,41 @@ module AdminHelper
       flash[:notice] = csvNumSuccessesMessage(failed_rows)
       root_path
     else
-      flash[:notice] = errorMessage
+      flash[:notice] = errorMessage("user")
       admin_user_new_path
     end
+  end
+
+  def modifyEventFromAdminForm(params)
+    path = admin_event_new_path
+
+    if Event.exists?(id: params['id'])
+      @event = Event.where(["id = ?", params['id']]).first
+    else
+      @event = Event.new
+    end
+
+    @event.title = params['title']
+    @event.description = params['description']
+    @event.tag = params['tag']
+    @event.to = params['to']
+    @event.published = params['published']
+
+    unless params['date'].blank?
+      @event.date = params['date']
+    end
+
+    unless params['time'].blank?
+      @event.time = params['time']
+    end
+
+    if @event.save
+      # invoke publish if published
+      flash[:notice] = eventSuccessMessage
+      path = root_path
+    else
+      flash[:notice] = errorMessage("event")
+    end
+  path
   end
 end
