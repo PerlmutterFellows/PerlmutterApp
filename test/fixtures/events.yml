@@ -1,5 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-
+  id: 1
+  title: Title
+  description: Description
+  tag: Event
+  to: auser@aol.com
+  published: false
 two:
+  id: 2
+  title: Title
+  description: Description
+  tag: Info
+  to: anotheruser@aol.com
+  published: true
