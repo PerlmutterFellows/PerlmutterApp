@@ -1,4 +1,6 @@
 @import "bootstrap_custom";
-@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap";
 @import '@fortawesome/fontawesome-free';
 @import 'toastr';
+@import "devise.scss";
+@import "shared.scss";

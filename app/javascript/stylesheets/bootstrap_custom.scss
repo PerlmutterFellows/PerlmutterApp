@@ -3,5 +3,37 @@ $theme-colors: (
         "primary": $primary,
         "danger": $secondary
 );
+$font-family-sans-serif: sans-serif, Roboto, Arial;
 $enable-responsive-font-sizes: true;
 $enable-shadows: true;
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0!important;
+}
+
+// Form Customization
+.is-invalid {
+  border-color: red!important;
+}
+
+.invalid-feedback {
+  color: red!important;
+}
+
+.form-control.is-invalid:focus {
+  box-shadow: none!important;
+}
+
+@import "~bootstrap/scss/_functions.scss";
+@import "~bootstrap/scss/_variables.scss";
+
+$custom-control-indicator-size: 1.5rem;
+$custom-switch-width: $custom-control-indicator-size * 1.75;
+$custom-switch-indicator-border-radius: $custom-control-indicator-size / 2;
+$custom-switch-indicator-size: subtract(
+                $custom-control-indicator-size,
+                $custom-control-indicator-border-width * 4
+);
+
+$custom-checkbox-indicator-indeterminate-color: $secondary
+

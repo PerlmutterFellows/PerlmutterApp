@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'home/index'
+  #devise_scope :user do
+  #  root to: "devise/sessions#new"
+  #end
   devise_for :users, controllers: {
       sessions: 'users/sessions'
   }, path: '', path_names: { sign_in: 'login', sign_up: 'registration', sign_out: 'logout', confirmation: 'verification'}
