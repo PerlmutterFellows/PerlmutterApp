@@ -1,0 +1,46 @@
+<div class="full-page d-flex justify-content-center align-items-center sessions-background">
+  <div class="m-4 shadow w-md-75 h-75 row no-gutters justify-content-center align-items-center bg-light">
+    <div class="p-2 w-md-75">
+      <%= bootstrap_form_for(@event) do |f| %>
+        <h3 class="font-weight-light mb-1"><%= t title %></h3>
+        <h4 class="font-weight-lighter"><%= t prompt %></h4>
+        <hr />
+        <div class="row">
+          <div class="col-md-6 col-xs-12">
+            <%= f.text_field :title, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            <%= f.text_area :description, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <%= f.form_group :eventType, label: { text: "Event Type" }, help: "A tag describing the content" do %>
+              <%= f.radio_button :eventType, "event", label: "Event", checked: true %>
+              <%= f.radio_button :eventType, "info", label: "Info" %>
+              <%= f.radio_button :eventType, "message", label: "Message" %>
+            <% end %>
+          </div>
+          <div class="col-12">
+            <%= f.text_field :to, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+          </div>
+          <div class="col-12">
+            <%= f.text_field :location, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <%= f.date_field :startDate, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <%= f.time_field :startTime, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <%= f.date_field :startDate, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <%= f.time_field :endTime, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+          </div>
+          <div class="col-12">
+            <%= f.check_box :published, label: "Publish?", autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+          </div>
+        </div>
+        <%= f.submit "Submit" %>
+      <% end %>
+    </div>
+  </div>
+</div>

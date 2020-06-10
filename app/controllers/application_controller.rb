@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  include AdminHelper
+  include RegistrationsHelper
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected
@@ -12,14 +12,18 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     unless user_signed_in?
-      flash[:notice] = "You must be signed in to view this page!"
+      flash[:error] = "You must be signed in to view this page!"
       redirect_to root_path
     end
   end
 
+  def admin_signed_in?
+    user_signed_in? && current_user.admin
+  end
+
   def authenticate_admin!
-    unless user_signed_in? && current_user.admin
-      flash[:notice] = "You must be an admin to view this page!"
+    unless admin_signed_in?
+      flash[:error] = "You must be an admin to view this page!"
       redirect_to root_path
     end
   end

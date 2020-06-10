@@ -11,19 +11,22 @@
       </li>
       <% if current_user %>
         <li class="nav-item">
-          <h4><%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "nav-link" %></h4>
+          <h4><%= link_to (t "global.menu.newsletter"), events_path, class: "nav-link" %></h4>
+        </li>
+        <li class="nav-item">
+          <h4><%= link_to (t "global.menu.sign_out"), destroy_user_session_path, method: :delete, class: "nav-link" %></h4>
         </li>
       <% else %>
         <li class="nav-item">
-          <h4><%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %></h4>
+          <h4><%= link_to (t "global.menu.sign_up"), new_user_registration_path, class: "nav-link" %></h4>
         </li>
         <li class="nav-item">
-          <h4><%= link_to "Sign In", new_user_session_path, class: "nav-link" %></h4>
+          <h4><%= link_to (t "global.menu.sign_in"), new_user_session_path, class: "nav-link" %></h4>
         </li>
       <% end %>
       <% if current_user && current_user.admin %>
         <li class="nav-item">
-          <h4><%= link_to "Admin", admin_user_new_path, class: "nav-link" %></h4>
+          <h4><%= link_to (t "global.menu.admin"), admin_user_new_path, class: "nav-link" %></h4>
         </li>
       <% end %>
     </ul>

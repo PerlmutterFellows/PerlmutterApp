@@ -1,0 +1,49 @@
+<div class="full-page d-flex justify-content-center align-items-center sessions-background">
+  <div class="m-4 shadow w-md-75 h-75 row no-gutters justify-content-center align-items-center bg-light" data-controller="tabs">
+    <div class="p-2 w-md-75 tabs">
+      <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" data-target="tabs.tab" data-action="click->tabs#change">Form</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-target="tabs.tab" data-action="click->tabs#change">CSV</a>
+      </li>
+    </ul>
+    </div>
+    <div class="p-2 w-md-75">
+      <div class="tab" data-target="tabs.panel">
+        <%= bootstrap_form_for user, url: '/admin/user/create' do |f| %>
+          <h3 class="font-weight-light mb-1"><%= t '.form' %></h3>
+          <h4 class="font-weight-lighter"><%= t '.form_prompt' %></h4>
+          <hr />
+          <div class="row">
+            <div class="col-md-6 col-xs-12">
+              <%= f.text_field :first_name, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <%= f.text_field :last_name, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            </div>
+            <div class="col-12">
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            </div>
+            <div class="col-12">
+              <%= f.text_field :phone_number, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            </div>
+          </div>
+          <%= f.submit "Submit Form" %>
+        <% end %>
+      </div>
+      <div class="tab" data-target="tabs.panel">
+        <%= bootstrap_form_tag(url: admin_user_create_path) do |f| %>
+          <h3 class="font-weight-light mb-1"><%= t '.csv' %></h3>
+          <h4 class="font-weight-lighter"><%= link_to t('.csv_prompt'), '/sample.csv' %></h4>
+          <hr />
+          <div data-controller="upload">
+          <%= f.file_field :file, data: {target: 'upload.file', action: 'change->upload#update'}, accept: '.csv'%>
+          </div>
+          <%= f.submit "Submit CSV" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

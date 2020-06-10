@@ -11,9 +11,7 @@
 </head>
 
   <body>
-    <% unless controller_name == "sessions" || controller_name == "registrations" %>
-       <%= render "shared/header" %>
-    <% end %>
+    <%= render "shared/header" %>
     <%= toastr_flash %>
     <%= yield %>
   </body>

@@ -1,16 +1,25 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  id: 1
-  title: Title
-  description: Description
-  tag: Event
-  to: auser@aol.com
+  title: MyString
+  description: MyString
+  startDate: 2020-06-09
+  startTime: 2020-06-09 20:54:10
+  endDate: 2020-06-09
+  endTime: 2020-06-09 20:54:10
+  location: MyString
+  eventType: 1
   published: false
+  to: MyString
+
 two:
-  id: 2
-  title: Title
-  description: Description
-  tag: Info
-  to: anotheruser@aol.com
-  published: true
+  title: MyString
+  description: MyString
+  startDate: 2020-06-09
+  startTime: 2020-06-09 20:54:10
+  endDate: 2020-06-09
+  endTime: 2020-06-09 20:54:10
+  location: MyString
+  eventType: 1
+  published: false
+  to: MyString
