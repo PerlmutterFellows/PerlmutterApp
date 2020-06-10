@@ -10,6 +10,13 @@ valid:
   email: jsmith@gmail.com
   phone_number: 0123456789
 
+valid_admin:
+  first_name: John
+  last_name: Smith
+  email: jsmith@gmail.com
+  phone_number: 0123456789
+  admin: true
+
 valid_only_email:
   first_name: Jane
   last_name: Doe
@@ -31,8 +38,5 @@ invalid_no_first_name:
 invalid_no_last_name:
   first_name: Billy
   phone_number: 0321456789
-
-
-
 
 
