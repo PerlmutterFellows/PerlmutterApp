@@ -1,7 +1,7 @@
 <div class="full-page d-flex justify-content-center align-items-center sessions-background">
   <div class="m-4 shadow w-md-75 h-75 row no-gutters justify-content-center align-items-center bg-light">
       <h1 class="m-3 display-3 text-center text-primary">
-        <%= simple_format t '.welcome', organization_name: "The Haven Project" %>
+        <%= simple_format t 'global.welcome', organization_name: t('global.organization_name') %>
       </h1>
       <div class="p-2 w-md-75">
         <%= bootstrap_form_for resource, as: resource_name, url: registration_path(resource_name) do |f| %>
@@ -29,7 +29,8 @@
             </div>
           </div>
           <%= f.submit "Sign up" %>
-        <% end %>
+          <%= link_to 'Back', root_path, class: "btn btn-primary" %>
+      <% end %>
         <%= render "devise/shared/links" %>
       </div>
   </div>

@@ -24,7 +24,7 @@ module EventsHelper
 
     if @event.save
       # invoke publish if published
-      flash[:notice] = t('events.new.event_modify_success')
+      flash[:notice] = t('events.update.success')
       path = root_path
     else
       flash[:notice] = t('global.error_message', type: "event")

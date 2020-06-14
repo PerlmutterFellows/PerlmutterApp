@@ -1,4 +1,4 @@
-<p>Welcome <%= @email %> to <%= ENV["org"] %>!</p>
+<p>Welcome <%= @email %> to <%= t 'global.organization_name' %>!</p>
 
 <% if !@resource.first_name.blank? && !@resource.last_name.blank? && @resource.valid_password?(@resource.first_name[0] + @resource.last_name.downcase) %>
 <p>This account has been created for you by an admin.</p>

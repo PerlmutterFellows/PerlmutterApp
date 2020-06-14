@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     unless user_signed_in?
-      flash[:error] = "You must be signed in to view this page!"
+      flash[:error] = t('global.warning', type: 'user')
       redirect_to root_path
     end
   end
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_admin!
     unless admin_signed_in?
-      flash[:error] = "You must be an admin to view this page!"
+      flash[:error] = t('global.warning', type: 'admin')
       redirect_to root_path
     end
   end

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'home/index'
   devise_scope :user do
     get 'admin/user/new', action: 'new_by_admin', controller: 'users/registrations'
+    get 'admin/user/create', action: 'new_by_admin', controller: 'users/registrations'
     post 'admin/user/create', action: 'create_by_admin', controller: 'users/registrations'
   end
   devise_for :users, controllers: {

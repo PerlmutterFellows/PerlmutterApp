@@ -36,3 +36,21 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+
+
+if Rails.env.development?
+  require 'ngrok/tunnel'
+  can_run_ngrok = true
+  begin
+    Ngrok::Tunnel.start(port: 3000)
+  rescue StandardError => e
+    can_run_ngrok = false
+  end
+  if can_run_ngrok && Ngrok::Tunnel.status == :running
+    url = Ngrok::Tunnel.ngrok_url_https
+    puts("[NGROK] tunneling at #{url}")
+    TwilioHandler.new.set_dev_callbacks(url)
+  else
+    puts("[NGROK] failed to start. Please ensure ngrok is locally installed to PATH.")
+  end
+end

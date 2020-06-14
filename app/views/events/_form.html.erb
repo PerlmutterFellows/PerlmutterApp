@@ -2,8 +2,8 @@
   <div class="m-4 shadow w-md-75 h-75 row no-gutters justify-content-center align-items-center bg-light">
     <div class="p-2 w-md-75">
       <%= bootstrap_form_for(@event) do |f| %>
-        <h3 class="font-weight-light mb-1"><%= t title %></h3>
-        <h4 class="font-weight-lighter"><%= t prompt %></h4>
+        <h3 class="font-weight-light mb-1"><%= title %></h3>
+        <h4 class="font-weight-lighter"><%= prompt %></h4>
         <hr />
         <div class="row">
           <div class="col-md-6 col-xs-12">
@@ -40,7 +40,11 @@
           </div>
         </div>
         <%= f.submit "Submit" %>
-      <% end %>
+        <% if @event.valid? %>
+        <%= link_to 'Show', @event, class: "btn btn-primary" %>
+        <% end %>
+        <%= link_to 'Back', events_path, class: "btn btn-primary" %>
+    <% end %>
     </div>
   </div>
 </div>

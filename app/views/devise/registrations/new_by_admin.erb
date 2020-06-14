@@ -31,6 +31,7 @@
             </div>
           </div>
           <%= f.submit "Submit Form" %>
+          <%= link_to 'Back', root_path, class: "btn btn-primary" %>
         <% end %>
       </div>
       <div class="tab" data-target="tabs.panel">
@@ -42,6 +43,7 @@
           <%= f.file_field :file, data: {target: 'upload.file', action: 'change->upload#update'}, accept: '.csv'%>
           </div>
           <%= f.submit "Submit CSV" %>
+          <%= link_to 'Back', root_path, class: "btn btn-primary" %>
         <% end %>
       </div>
     </div>

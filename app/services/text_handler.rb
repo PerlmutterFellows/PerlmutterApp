@@ -9,21 +9,21 @@ class TextHandler
         user.confirmed_at = DateTime.now
         user.confirmation_sent_at = DateTime.now
         user.save
-        t('texts.confirmation_success_response')
+        I18n.t('texts.confirmation_success_response')
       else
-        t('texts.confirmation_failed_response')
+        I18n.t('texts.confirmation_failed_response')
       end
     when "STOP"
       if user.confirmed_at.blank?
-        t('texts.stop_failed_response')
+        I18n.t('texts.stop_failed_response')
       else
         user.confirmed_at = nil
         user.confirmation_sent_at = nil
         user.save
-        t('texts.stop_success_response')
+        I18n.t('texts.stop_success_response')
       end
     else
-      t('global.invalid_input')
+      I18n.t('global.invalid_input')
     end
   end
 end

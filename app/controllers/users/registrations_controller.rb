@@ -27,9 +27,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
         redirect_to create_user_from_admin_csv(params)
       else
         created_user = User.new(sign_up_params)
-        puts(sign_up_params)
+        generate_password_by_name(created_user)
+
         if created_user.valid?
-          redirect_to create_user_from_admin_form(created_user)
+          redirect_to handle_user_creation(created_user)
         else
           render :template => 'devise/registrations/new_by_admin', :locals => {user: created_user}
         end

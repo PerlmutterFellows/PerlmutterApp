@@ -6,8 +6,7 @@ class TwilioController < ApplicationController
   end
 
   def receive_text
-    phone = params[:From].to_s.include? "+1" ? params[:From].to_s : "+1#{params[:From].to_s}"
-
+    phone = params[:From].to_s
     user = User.where(["phone_number = ?", phone]).first
     response = TextHandler.new.process_input(user, params)
     render xml: TwilioHandler.new.send_respond_text(response).to_s
