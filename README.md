@@ -12,19 +12,21 @@ They provide direct service to more than 200 homeless unaccompanied youth ages 1
 3) Run yarn, bundle, and initialize the database
 4) If running in development, install ngrok (https://ngrok.com/download, or `brew cask install ngrok` on OSX with Homebrew) for receiving calls/texts
 
-## Developers
+## Team
+### Developers
 [Mitchell Dodell](https://github.com/mdodell)
 
 [Adam Fleishaker](https://github.com/adamflyme)
 
+### Project Manager
 [Daniel Khudyak](https://www.linkedin.com/in/daniel-khudyak/)
 
-## Advisor
+### Advisors
 [Prof. Gene Miller](https://www.brandeis.edu/facultyguide/person.html?emplid=a17250782cc27b6ced397bc3c9310b5f32e03d34)
 
 [Prof. Ian Roy](https://www.brandeis.edu/facultyguide/person.html?emplid=e1b21496896ddff81d7249e1bc6d95387a2c72e5)
 
-## Thanks
+### Special Thanks
 [Beth Marshdoyle](https://www.linkedin.com/in/bethmarshdoyle)
 ## Workflow
 To better understand our workflow and progression, please install the Zenhub extension and look at our Zenhub project board for this repository.

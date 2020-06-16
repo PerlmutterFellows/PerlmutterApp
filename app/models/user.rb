@@ -6,17 +6,11 @@ class User < ApplicationRecord
   has_one_attached :csv_file
   validates_presence_of :first_name
   validates_presence_of :last_name
-  validates_presence_of :password
-  validates_presence_of :password_confirmation
   validates_confirmation_of :password
   validate :check_if_email_or_phone_entered?
   validate :format_phone_number
   validates_uniqueness_of :phone_number, conditions: -> {where.not(:phone_number => '')}
   after_save :send_phone_confirmation
-
-  def password_required?
-    false
-  end
 
   def email_required?
     false

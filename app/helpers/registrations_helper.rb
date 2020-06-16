@@ -8,6 +8,9 @@ module RegistrationsHelper
   def generate_password_by_name(user)
     if !user.first_name.blank? && !user.last_name.blank?
       user.password = user.first_name.to_s[0] + user.last_name.to_s.downcase
+      while user.password.length < 6
+        user.password += (('a'..'z').to_a.concat (('1'...'10').to_a)).sample
+      end
       user.password_confirmation = user.password
     end
   end
@@ -48,7 +51,7 @@ module RegistrationsHelper
       user.phone_number = row["phone_number"]
       user.password = row["password"]
 
-      unless user.password.blank?
+      if user.password.blank?
         generate_password_by_name(user)
       end
 
