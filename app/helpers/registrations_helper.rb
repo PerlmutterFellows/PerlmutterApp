@@ -16,7 +16,7 @@ module RegistrationsHelper
   end
 
   def send_confirmation_text(user)
-    if !user.phone_number.blank? && user.email.blank? && !user.confirmed_at.blank?
+    if !user.phone_number.blank? && user.email.blank? && user.confirmed_at.blank?
       success, error = TwilioHandler.new.send_text(user, t('texts.confirmation', name: user.first_name, organization_name: t('global.organization_name')))
       unless success
         user.delete
