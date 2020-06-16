@@ -1,9 +1,6 @@
 class TextHandler
-  def getTextConfirmation(user)
-    "Welcome #{user.first_name} to #{ENV["org"]}! Respond CONFIRM to confirm your interest in notifications, STOP to cancel."
-  end
 
-  def processInput(user, params)
+  def process_input(user, params)
     body = params[:Body].upcase
 
     case body
@@ -12,21 +9,21 @@ class TextHandler
         user.confirmed_at = DateTime.now
         user.confirmation_sent_at = DateTime.now
         user.save
-        "Thanks! You are now confirmed!"
+        I18n.t('texts.confirmation_success_response')
       else
-        "You are already confirmed!"
+        I18n.t('texts.confirmation_failed_response')
       end
     when "STOP"
       if user.confirmed_at.blank?
-        "You already do not receive notifications. Please reregister to recieve notifications."
+        I18n.t('texts.stop_failed_response')
       else
         user.confirmed_at = nil
         user.confirmation_sent_at = nil
         user.save
-        "You will no longer receive notifications."
+        I18n.t('texts.stop_success_response')
       end
     else
-      "Invalid input. Please try again."
+      I18n.t('global.invalid_input')
     end
   end
 end

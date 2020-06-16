@@ -2,34 +2,33 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#"><h2>Navbar</h2></a>
+  <a class="navbar-brand" href="#"><h2><%= t 'global.organization_name' %></h2></a>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
-        <h4><%= link_to "Home", root_path, class: "nav-link" %></h4>
+        <h4><%= link_to (t "global.menu.home"), root_path, class: "nav-link" %></h4>
       </li>
       <% if current_user %>
         <li class="nav-item">
-          <h4><%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "nav-link" %></h4>
+          <h4><%= link_to (t "global.menu.newsletter"), events_path, class: "nav-link" %></h4>
+        </li>
+        <li class="nav-item">
+          <h4><%= link_to (t "global.menu.sign_out"), destroy_user_session_path, method: :delete, class: "nav-link" %></h4>
         </li>
       <% else %>
         <li class="nav-item">
-          <h4><%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %></h4>
+          <h4><%= link_to (t "global.menu.sign_up"), new_user_registration_path, class: "nav-link" %></h4>
         </li>
         <li class="nav-item">
-          <h4><%= link_to "Sign In", new_user_session_path, class: "nav-link" %></h4>
+          <h4><%= link_to (t "global.menu.sign_in"), new_user_session_path, class: "nav-link" %></h4>
         </li>
       <% end %>
       <% if current_user && current_user.admin %>
         <li class="nav-item">
-          <h4><%= link_to "Admin", admin_user_new_path, class: "nav-link" %></h4>
+          <h4><%= link_to (t "global.menu.admin"), admin_user_new_path, class: "nav-link" %></h4>
         </li>
       <% end %>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
   </div>
 </nav>

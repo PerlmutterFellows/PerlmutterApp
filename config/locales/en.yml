@@ -1,33 +1,56 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  global:
+    organization_name: "The Haven Project"
+    menu:
+      home: "Home"
+      newsletter: "Newsletter"
+      sign_up: "Sign Up"
+      sign_in: "Sign In"
+      sign_out: "Sign Out"
+      admin: "Admin"
+      my_profile: "My Profile"
+    welcome: "Welcome to <br> %{organization_name}"
+    not_found: "Your %{type} was not found. Please try again, and if this persists, contact the administrator."
+    error_message: "An error has occurred saving your %{type}. Please contact the administrator."
+    invalid_input: "Invalid input. Please try again."
+    warning: "You must be signed in as a(n) %{type} to view this page!"
+  users:
+    registrations:
+      create_by_admin:
+        type_missing: "Creation failed. Please input either email, phone number, or both."
+        csv_success: "Users have been created."
+        csv_failures: "Users have all failed. Please review your CSV and resubmit. The following rows failed:<br><br>%{rows}"
+        csv_success_with_failures: "Users have been created, but there were failures. Please review your CSV and edit the failed rows should you want to create them. The following rows failed:<br><br>%{rows}"
+  texts:
+    confirmation: "Welcome %{name} to %{organization_name}! Respond CONFIRM to confirm your interest in notifications, STOP to cancel."
+    confirmation_success_response: "Thanks! You are now confirmed!"
+    confirmation_failed_response: "You are already confirmed."
+    stop_success_response: "You will no longer receive notifications."
+    stop_failed_response: "You already do not receive notifications. Please reregister to recieve notifications."
+  events:
+    new:
+      create: "Create event"
+      create_prompt: "Please fill out this form to create an event!"
+    edit:
+      edit: "Edit event"
+      edit_prompt: "Please fill out this form to modify and/or publish event!"
+    update:
+      success: "Your event was successfully modified!"
+    create:
+      success: "Your event was successfully created!"
+    destroy:
+      success: "Your event was successfully deleted!"
+  devise:
+    registrations:
+      new:
+        sign_up: "Sign Up"
+        sign_up_prompt: "Please fill out this form to create an account!"
+      new_by_admin:
+        form: "Create user via form"
+        form_prompt: "Please fill out this form to create an account!"
+        csv: "Create user via CSV"
+        csv_prompt: "Click here for a user CSV template!"
+    sessions:
+      new:
+        login: "Login"
+        login_prompt: "Please login below using your username, email, or phone number."

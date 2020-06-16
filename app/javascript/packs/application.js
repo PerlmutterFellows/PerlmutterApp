@@ -25,3 +25,5 @@ document.addEventListener("turbolinks:load", () => {
 import "@fortawesome/fontawesome-free/js/all"
 
 global.toastr = require("toastr")
+
+import "controllers"

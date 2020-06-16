@@ -11,8 +11,32 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   # def create
-  #   super
+  #    super
   # end
+
+  def new_by_admin
+    unless authenticate_admin!
+      render :template => 'devise/registrations/new_by_admin', :locals => {user: User.new}
+    end
+  end
+
+  def create_by_admin
+    unless authenticate_admin!
+      case params['commit']
+      when "Submit CSV"
+        redirect_to create_user_from_admin_csv(params)
+      else
+        created_user = User.new(sign_up_params)
+        generate_password_by_name(created_user)
+
+        if created_user.valid?
+          redirect_to handle_user_creation(created_user)
+        else
+          render :template => 'devise/registrations/new_by_admin', :locals => {user: created_user}
+        end
+      end
+    end
+  end
 
   # GET /resource/edit
   # def edit
@@ -38,12 +62,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
 
   # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_up_params
-  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
-  # end
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :phone_number])
+  end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
