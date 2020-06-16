@@ -10,8 +10,5 @@ class CreateEventsOld < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
-    create_table :file_models do |t|
-      t.timestamps
-    end
   end
 end
