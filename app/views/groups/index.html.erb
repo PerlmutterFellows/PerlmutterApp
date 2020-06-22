@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Groups</h1>
+<%= link_to 'New Group', new_group_path, class: "btn btn-secondary" %>
+<% @groups.select {|group| group.visible == true }.each do |group| %>
+  <div class="col-sm-6">
+    <div class="card w-75">
+      <div class="card-body">
+        <h5 class="card-title"><strong><%=I18n.t("groups.name") %>:</strong> <%= group.name %></h5>
+        <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= group.users.count %> users</p>
+        <%= link_to 'Edit', edit_group_path(group), class: "btn btn-primary" %>
+        <%= link_to 'Destroy', group, class: "btn btn-primary", method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= link_to 'Show', group, class: "btn btn-primary"%>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -8,11 +8,24 @@ en:
       sign_in: "Sign In"
       sign_out: "Sign Out"
       admin: "Admin"
+      events: "Events"
+      groups: "Groups"
+      users: "Users"
       my_profile: "My Profile"
+    deleted: "Deleted"
+    updated: "Updated"
+    new: "New"
+    non_message: "Non-Message"
+    not_delivered: "Not Delivered"
+    delivered: "Delivered"
+    not_responded: "Not Responding"
+    not_attending: "Not Attending"
+    attending: "Attending"
     welcome: "Welcome to <br> %{organization_name}"
     not_found: "Your %{type} was not found. Please try again, and if this persists, contact the administrator."
     error_message: "An error has occurred saving your %{type}. Please contact the administrator."
     invalid_input: "Invalid input. Please try again."
+    invalid_action: "This action cannot be completed. Please try another selection or try again later."
     warning: "You must be signed in as a(n) %{type} to view this page!"
   users:
     registrations:
@@ -23,6 +36,11 @@ en:
         csv_success_with_failures: "Users have been created, but there were failures. Please review your CSV and edit the failed rows should you want to create them. The following rows failed:<br><br>%{rows}"
   texts:
     confirmation: "Welcome %{name} to %{organization_name}! Respond CONFIRM to confirm your interest in notifications, STOP to cancel."
+    new_event: "New %{type}:\n%{params}%{prompt}"
+    updated_event: "%{type} updated:\n%{params}%{prompt}"
+    deleted_event: "%{type} deleted:\n%{params}"
+    new_prompt: "Respond %{id}Y to confirm your attendance, %{id}N to decline."
+    updated_prompt: "If you haven't already, respond %{id}Y to confirm your attendance, %{id}N to decline."
     confirmation_success_response: "Thanks! You are now confirmed!"
     confirmation_failed_response: "You are already confirmed."
     stop_success_response: "You will no longer receive notifications."
@@ -40,6 +58,30 @@ en:
       success: "Your event was successfully created!"
     destroy:
       success: "Your event was successfully deleted!"
+    attending_success_response: "You are now confirmed!"
+    attending_failed_response: "You are already confirmed."
+    not_attending_success_response: "You are no longer confirmed."
+    not_attending_failed_response: "You are already unconfirmed."
+    title: "Title"
+    description: "Description"
+    when: "When"
+    where: "Where"
+    type: "Type"
+    published: "Published"
+  groups:
+    new:
+      create: "Create group"
+      create_prompt: "Please fill out this form to create an group!"
+    edit:
+      edit: "Edit group"
+      edit_prompt: "Please fill out this form to modify and/or publish group!"
+    update:
+      success: "Your group was successfully modified!"
+    create:
+      success: "Your group was successfully created!"
+    destroy:
+      success: "Your group was successfully deleted!"
+    name: "Name"
   devise:
     registrations:
       new:

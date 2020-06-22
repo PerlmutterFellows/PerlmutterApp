@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_005410) do
+ActiveRecord::Schema.define(version: 2020_06_21_182123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,9 +46,24 @@ ActiveRecord::Schema.define(version: 2020_06_10_005410) do
     t.string "location"
     t.integer "eventType", default: 0, null: false
     t.boolean "published", default: false, null: false
-    t.string "to", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "group_memberships", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.integer "group_id", null: false
+    t.integer "state", default: 0, null: false
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "visible", default: true
+    t.integer "event_id"
   end
 
   create_table "users", force: :cascade do |t|

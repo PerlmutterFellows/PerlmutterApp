@@ -1,0 +1,23 @@
+<p>Hi <%= user.first_name %>, you have a new email from <%= t 'global.organization_name' %>!</p>
+<% if !delete.blank? %>
+  <% header = I18n.t("global.deleted") %>
+<% else %>
+  <% update_state ? header = I18n.t("global.updated") : header = I18n.t("global.new") %>
+<% end %>
+<p><%= header %> <%= event.eventType %>:</p>
+
+<p><%= get_event_text_params(event, true).html_safe%></p>
+
+<% if delete.blank? %>
+
+  <% if Event.eventTypes[event.eventType].to_i < 2 %>
+    <p><%= link_to 'More information', event_url(event) %></p>
+  <% end %>
+
+  <% if Event.eventTypes[event.eventType].to_i < 1 %>
+    <p><%= update_state ? "If you haven't already, you" : "You" %> can confirm your attendance through the links below:</p>
+
+    <p><%= link_to 'Attend this event', attend_event_url(event) %></p>
+    <p><%= link_to 'Decline this event', unattend_event_url(event) %></p>
+  <% end %>
+<% end %>

@@ -25,8 +25,15 @@
         </li>
       <% end %>
       <% if current_user && current_user.admin %>
-        <li class="nav-item">
-          <h4><%= link_to (t "global.menu.admin"), admin_user_new_path, class: "nav-link" %></h4>
+        <li class="nav-item dropdown">
+          <h4 class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= (t "global.menu.admin") %>
+          </h4>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <h4 class="dropdown-item"><%= link_to (t "global.menu.events"), events_path, class: "nav-link" %></h4>
+            <h4 class="dropdown-item"><%= link_to (t "global.menu.groups"), groups_path, class: "nav-link" %></h4>
+            <h4 class="dropdown-item"><%= link_to (t "global.menu.users"), users_new_path, class: "nav-link" %></h4>
+          </div>
         </li>
       <% end %>
     </ul>

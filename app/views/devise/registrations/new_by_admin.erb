@@ -12,7 +12,7 @@
     </div>
     <div class="p-2 w-md-75">
       <div class="tab" data-target="tabs.panel">
-        <%= bootstrap_form_for user, url: '/admin/user/create' do |f| %>
+        <%= bootstrap_form_for user, url: users_create_path do |f| %>
           <h3 class="font-weight-light mb-1"><%= t '.form' %></h3>
           <h4 class="font-weight-lighter"><%= t '.form_prompt' %></h4>
           <hr />
@@ -35,7 +35,7 @@
         <% end %>
       </div>
       <div class="tab" data-target="tabs.panel">
-        <%= bootstrap_form_tag(url: admin_user_create_path) do |f| %>
+        <%= bootstrap_form_tag(url: users_create_path) do |f| %>
           <h3 class="font-weight-light mb-1"><%= t '.csv' %></h3>
           <h4 class="font-weight-lighter"><%= link_to t('.csv_prompt'), '/sample.csv' %></h4>
           <hr />

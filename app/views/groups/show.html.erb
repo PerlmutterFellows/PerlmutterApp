@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @group.name %>
+</p>
+<p>
+  <strong>Users:</strong>
+</p>
+<% @group.users.each do |user| %>
+  <% val_label = [user.first_name, user.last_name].join(' ') %>
+
+  <% unless user.phone_number.blank? %>
+    <% val_label += " <span class='badge'><i class='fa fa-phone-square' aria-hidden='true'></i> #{user.phone_number}</span>" %>
+  <% end %>
+
+  <% unless user.email.blank? %>
+    <% val_label += " <span class='badge'><i class='fa fa-envelope-square' aria-hidden='true'></i> #{user.email}</span>" %>
+  <% end %>
+
+  <p><%= val_label.html_safe %></p>
+<% end %>
+
+<%= link_to 'Edit', edit_group_path(@group), class: "btn btn-primary" %>
+<%= link_to 'Back', groups_path, class: "btn btn-primary" %>

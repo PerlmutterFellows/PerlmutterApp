@@ -3,7 +3,9 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
-  has_one_attached :csv_file
+  has_many :group_memberships
+  has_many :groups, :through => :group_memberships
+  accepts_nested_attributes_for :group_memberships
   validates_presence_of :first_name
   validates_presence_of :last_name
   validates_confirmation_of :password
@@ -29,8 +31,6 @@ class User < ApplicationRecord
       valid_number, error = TwilioHandler.new.get_valid_phone_number(phone_number)
       if error.blank?
         self.phone_number = valid_number
-        puts(self.phone_number)
-        puts(phone_number)
       elsif
         errors.add(:phone_number, I18n.t('global.invalid_input'))
       else

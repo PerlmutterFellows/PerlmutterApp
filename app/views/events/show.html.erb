@@ -1,55 +1,67 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Title:</strong>
-  <%= @event.title %>
+  <strong><%=I18n.t("events.title") %>:</strong>
+  <%= @event.title %> <span class="badge badge-primary ml-1"><%= @event.eventType %></span>
 </p>
 
 <p>
-  <strong>Description:</strong>
+  <strong><%=I18n.t("events.description") %>:</strong>
   <%= @event.description %>
 </p>
 
 <p>
-  <strong>Startdate:</strong>
-  <%= @event.startDate %>
+  <strong><%=I18n.t("events.when") %>:</strong>
+  <%= get_when_text(@event) %>
 </p>
 
 <p>
-  <strong>Starttime:</strong>
-  <%= @event.startTime %>
-</p>
-
-<p>
-  <strong>Enddate:</strong>
-  <%= @event.endDate %>
-</p>
-
-<p>
-  <strong>Endtime:</strong>
-  <%= @event.endTime %>
-</p>
-
-<p>
-  <strong>Location:</strong>
+  <strong><%=I18n.t("events.where") %>:</strong>
   <%= @event.location %>
 </p>
 
 <p>
-  <strong>Eventtype:</strong>
-  <%= @event.eventType %>
-</p>
-
-<p>
-  <strong>Published:</strong>
+  <strong><%=I18n.t("events.published") %>:</strong>
   <%= @event.published %>
 </p>
-
-<p>
-  <strong>To:</strong>
-  <%= @event.to %>
+<% non_message, not_delivered, delivered, not_responded, not_attending, attending =
+       get_users_state_counts(@event) %>
+<% if current_user && !current_user.admin && @event.eventType == "event"%>
+  <% membership = GroupMembership.find_by(user_id: current_user.id, group_id: @event.group.id) %>
+  <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= (membership.state == "attending") ? "You and #{attending-1}" : "#{attending}" %> others attending</p>
+  <p>
+  <%= link_to (membership.state == "attending" ? unattend_event_path(@event) : attend_event_path(@event)), method: :post do %>
+  <%= check_box_tag "Attending", true, membership.state == "attending", id: "attendCheck" %>
+  <label class="form-check-label" for="attendCheck">
+    Attending
+  </label>
+  <% end %>
 </p>
-<% if current_user && current_user.admin %>
+<% elsif current_user && current_user.admin %>
+  <% if @event.eventType == "event" %>
+    <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= "#{attending}" %> attending</p>
+  <% end %>
+  <p>
+    <strong>Users:</strong>
+  </p>
+  <% @event.group.users.each do |user| %>
+    <% val_label = [user.first_name, user.last_name].join(' ') %>
+
+    <% unless user.phone_number.blank? %>
+      <% val_label += " <span class='badge'><i class='fa fa-phone-square' aria-hidden='true'></i> #{user.phone_number}</span>" %>
+    <% end %>
+
+    <% unless user.email.blank? %>
+      <% val_label += " <span class='badge'><i class='fa fa-envelope-square' aria-hidden='true'></i> #{user.email}</span>" %>
+    <% end %>
+
+    <% membership = GroupMembership.find_by(user_id: user.id, group_id: @event.group.id) %>
+    <% unless membership.blank? %>
+      <% state_str = ".global."+membership.state %>
+      <% val_label += " " + t(:"#{state_str}") %>
+    <% end %>
+    <p><%= val_label.html_safe %></p>
+  <% end %>
   <%= link_to 'Edit', edit_event_path(@event), class: "btn btn-primary" %>
 <% end %>
 <%= link_to 'Back', events_path, class: "btn btn-primary" %>

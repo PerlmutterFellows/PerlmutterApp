@@ -23,7 +23,24 @@ class TextHandler
         I18n.t('texts.stop_success_response')
       end
     else
+      process_rsvp(user, body)
+    end
+  end
+
+  def process_rsvp(user, body)
+    event = Event.find_by_id(body[0...-1])
+    if body.length > 1 && !event.blank?
+      case body[-1]
+      when "Y"
+        ApplicationController.new.toggle_attendance(user.id, event.group.id, true, false)
+      when "N"
+        ApplicationController.new.toggle_attendance(user.id, event.group.id, false, false)
+      else
+        I18n.t('global.invalid_input')
+      end
+    else
       I18n.t('global.invalid_input')
     end
   end
+
 end

@@ -1,10 +1,20 @@
 Rails.application.routes.draw do
-  resources :events
+  resources :groups
+  resources :events do
+    member do
+      get :attend
+      post :attend
+    end
+    member do
+      get :unattend
+      post :unattend
+    end
+  end
   get 'home/index'
   devise_scope :user do
-    get 'admin/user/new', action: 'new_by_admin', controller: 'users/registrations'
-    get 'admin/user/create', action: 'new_by_admin', controller: 'users/registrations'
-    post 'admin/user/create', action: 'create_by_admin', controller: 'users/registrations'
+    get 'users/new', action: 'new_by_admin', controller: 'users/registrations'
+    get 'users/create', action: 'new_by_admin', controller: 'users/registrations'
+    post 'users/create', action: 'create_by_admin', controller: 'users/registrations'
   end
   devise_for :users, controllers: {
       sessions: 'users/sessions'
