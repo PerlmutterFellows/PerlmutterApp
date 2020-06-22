@@ -24,11 +24,11 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
   #
   #   assert_redirected_to event_url(Event.last)
   # end
-
-  test "should show event" do
-    get event_url(@event)
-    assert_response :success
-  end
+  #
+  # test "should show event" do
+  #   get event_url(@event)
+  #   assert_response :success
+  # end
   #
   # test "should get edit" do
   #   get edit_event_url(@event)
