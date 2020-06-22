@@ -10,7 +10,6 @@ one:
   location: MyString
   eventType: 1
   published: false
-  to: MyString
 
 two:
   title: MyString
@@ -22,4 +21,3 @@ two:
   location: MyString
   eventType: 1
   published: false
-  to: MyString
