@@ -1,6 +1,12 @@
 en:
   global:
     organization_name: "The Haven Project"
+    organization_description:
+          "The Haven Project provides direct service to more
+          than 200 homeless unaccompanied youth ages 17-24 each
+          year in our Drop-in Centers, with referrals to other youth
+          serving organizations for hundreds more who don't meet intake
+          criteria based on age, homelessness or other factors."
     menu:
       home: "Home"
       newsletter: "Newsletter"

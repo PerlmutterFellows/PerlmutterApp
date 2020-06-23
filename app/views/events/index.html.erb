@@ -1,25 +1,37 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Events</h1>
-<% if current_user && current_user.admin %>
-  <%= link_to 'New Event', new_event_path, class: "btn btn-secondary" %>
-<% end %>
-<% @events.each do |event| %>
-  <div class="col-sm-6">
-    <div class="card w-25">
-      <!--img class="card-img-top" src="..." alt="Card image"-->
-      <div class="card-body">
-        <h5 class="card-title"><%= event.title %><span class="badge badge-primary ml-1"><%= event.eventType %></span></h5>
-        <p class="card-text"><%= event.description %></p>
-        <p class="card-text"><%= event.startDate %> <%= event.startTime %></p>
-        <p class="card-text"><%= event.endDate %> <%= event.endTime %></p>
-        <p class="card-text"><%= event.location %></p>
-        <%= link_to 'Show', event, class: "btn btn-primary"%>
-        <% if current_user && current_user.admin %>
-          <%= link_to 'Edit', edit_event_path(event), class: "btn btn-primary" %>
-          <%= link_to 'Destroy', event, class: "btn btn-primary", method: :delete, data: { confirm: 'Are you sure?' } %>
-        <% end %>
-      </div>
+<div class="d-flex justify-content-center">
+  <div class="row w-75 m-4">
+    <div class="col-6 d-flex align-items-center">
+      <h1 class="font-weight-light">Events</h1>
     </div>
+    <div class="col-6 d-flex align-items-center justify-content-end">
+      <% if user_is_admin? %>
+        <%= link_to 'New Event', new_event_path, class: "btn btn-secondary" %>
+      <% end %>
+    </div>
+      <% @events.each do |event| %>
+      <div class="col-lg-4 col-md-6 col-sm-12 mt-3 d-flex align-items-stretch">
+        <div class="card">
+          <div class="card-header row no-gutters d-flex align-items-center">
+            <div class="col-6">
+              <h4><%= event.title %></h4>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+              <p><span class="badge badge-primary d-flex align-items-center justify-content-center"><%= event.eventType %></span></p>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-text"><%= event.description %></p>
+            <p class="card-text"><%= event.startDate %> <%= event.startTime %></p>
+            <p class="card-text"><%= event.endDate %> <%= event.endTime %></p>
+            <p class="card-text"><%= event.location %></p>
+            <%= link_to 'Show', event, class: "btn btn-primary"%>
+            <% if user_is_admin? %>
+              <%= link_to 'Edit', edit_event_path(event), class: "btn btn-primary" %>
+              <%= link_to 'Destroy', event, class: "btn btn-primary", method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+  <% end %>
   </div>
-<% end %>
+</div>

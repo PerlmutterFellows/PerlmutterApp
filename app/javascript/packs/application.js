@@ -14,7 +14,11 @@ require("channels")
 // or the `imagePath` JavaScript helper below.
 //
 // const images = require.context('../images', true)
-// const imagePath = (name) => images(name, true)
+// // const imagePath = (name) => images(name, true)
+
+const svgs = require.context('../svgs', true);
+const svgPath = (name) =>  svgs(name, true);
+
 import 'bootstrap';
 import '../stylesheets/application';
 

@@ -31,6 +31,10 @@ gem 'dotenv-rails'
 gem 'twilio-ruby', '~> 5.35.0'
 # Use bootstrap_form for nicely formatted forms with error handling
 gem "bootstrap_form", "~> 4.0"
+# For displaying SVG images/icons
+gem 'inline_svg'
+# For adding emoji support
+gem 'gemoji'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
@@ -40,6 +44,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # For generating fake data for testing
+  gem 'faker'
 end
 
 group :development do

@@ -2,33 +2,57 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#"><h2><%= t 'global.organization_name' %></h2></a>
-
+  <a class="navbar-brand" href="#"><h4 class="font-weight-bolder"><%= t('global.organization_name') %></h4></a>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
-        <h4><%= link_to (t "global.menu.home"), root_path, class: "nav-link" %></h4>
+        <h4 class="font-weight-light"><%= link_to (t "global.menu.home"), root_path, class: "nav-link" %></h4>
       </li>
       <% if current_user %>
         <li class="nav-item">
-          <h4><%= link_to (t "global.menu.newsletter"), events_path, class: "nav-link" %></h4>
-        </li>
-        <li class="nav-item">
-          <h4><%= link_to (t "global.menu.sign_out"), destroy_user_session_path, method: :delete, class: "nav-link" %></h4>
+          <h4 class="font-weight-light"><%= link_to (t "global.menu.newsletter"), events_path, class: "nav-link" %></h4>
         </li>
       <% else %>
         <li class="nav-item">
-          <h4><%= link_to (t "global.menu.sign_up"), new_user_registration_path, class: "nav-link" %></h4>
+          <h4 class="font-weight-light"><%= link_to (t "global.menu.sign_up"), new_user_registration_path, class: "nav-link" %></h4>
         </li>
         <li class="nav-item">
-          <h4><%= link_to (t "global.menu.sign_in"), new_user_session_path, class: "nav-link" %></h4>
+          <h4 class="font-weight-light"><%= link_to (t "global.menu.sign_in"), new_user_session_path, class: "nav-link" %></h4>
         </li>
       <% end %>
       <% if current_user && current_user.admin %>
         <li class="nav-item">
-          <h4><%= link_to (t "global.menu.admin"), admin_user_new_path, class: "nav-link" %></h4>
+          <h4 class="font-weight-light"><%= link_to (t "global.menu.admin"), admin_user_new_path, class: "nav-link" %></h4>
         </li>
       <% end %>
+    </ul>
+    <hr />
+    <ul class="nav navbar-nav flex-row justify-content-start flex-nowrap">
+      <% if current_user %>
+          <ul class="nav-item dropdown d-none d-lg-block">
+            <h4 class="nav-link d-flex align-items-center dropdown-toggle" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-user" aria-hidden="true"></i>
+            </h4>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+              <p><%= link_to (t "global.menu.sign_out"), destroy_user_session_path, method: :delete, class: "nav-link" %></p>
+            </div>
+          </ul>
+      <% end %>
+      <h4 class="nav-item dropdown">
+        <a class="nav-link" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <h4 class="dropdown-toggle">
+            <% if I18n.locale == :en %>
+              <%= emojify('English :us:') %>
+            <% elsif I18n.locale == :es %>
+              <%= emojify('Español :es:') %>
+            <% end %>
+          </h4>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <p><%= link_to emojify('English :us:'), url_for(locale: :en), class: "dropdown-item" %></p>
+          <p><%= link_to emojify('Español :es:'), url_for(locale: :es), class: "dropdown-item" %></p>
+        </div>
+      </h4>
     </ul>
   </div>
 </nav>
