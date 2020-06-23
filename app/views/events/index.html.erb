@@ -1,11 +1,9 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Events</h1>
 <% if current_user && current_user.admin %>
   <%= link_to 'New Event', new_event_path, class: "btn btn-secondary" %>
   <% visible_events = @events %>
 <% else %>
-  <% visible_events = @events.select {|event| event.group.users.exists?(current_user.id) && event.published && event.eventType != "message"} %>
+  <% visible_events = @events.select {|event| event.group.users.exists?(current_user.id) && event.published && !event.message?} %>
 <% end %>
 <% visible_events.each do |event| %>
   <div class="col-sm-6">
@@ -15,21 +13,20 @@
         <p class="card-text"><strong><%=I18n.t("events.description") %>:</strong> <%= event.description %></p>
         <p class="card-text"><strong><%=I18n.t("events.when") %>:</strong> <%= get_when_text(event) %></p>
         <p class="card-text"><strong><%=I18n.t("events.where") %>:</strong> <%= event.location %></p>
-        <% non_message, not_delivered, delivered, not_responded, not_attending, attending =
-               get_users_state_counts(event) %>
-        <% if current_user && !current_user.admin && event.eventType == "event" %>
+        <% attending = get_attending_counts(event) %>
+        <% if current_user && !current_user.admin && event.event? %>
           <% membership = GroupMembership.find_by(user_id: current_user.id, group_id: event.group.id) %>
-          <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= (membership.state == "attending") ? "You and #{attending-1}" : "#{attending}" %> others attending</p>
+          <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= (membership.attending?) ? "You and #{attending-1}" : "#{attending}" %> others attending</p>
           <p>
-            <%= link_to (membership.state == "attending" ? unattend_event_path(event) : attend_event_path(event)), method: :post do %>
-              <%= check_box_tag "Attending", true, membership.state == "attending", id: "attendCheck" %>
+            <%= link_to (membership.attending? ? unattend_event_path(event) : attend_event_path(event)), method: :post do %>
+              <%= check_box_tag "Attending", true, membership.attending?, id: "attendCheck" %>
               <label class="form-check-label" for="attendCheck">
                 Attending
               </label>
             <% end %>
           </p>
         <% elsif current_user && current_user.admin %>
-          <% if event.eventType == "event" %>
+          <% if event.event? %>
             <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= "#{attending}" %> attending</p>
           <% end %>
           <%= link_to 'Edit', edit_event_path(event), class: "btn btn-primary" %>

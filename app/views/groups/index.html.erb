@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Groups</h1>
 <%= link_to 'New Group', new_group_path, class: "btn btn-secondary" %>
 <% @groups.select {|group| group.visible == true }.each do |group| %>

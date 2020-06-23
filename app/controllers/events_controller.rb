@@ -49,7 +49,7 @@ class EventsController < ApplicationController
         else
         flash['success'] = t('.success')
         if @event.published
-          publish_event(@event)
+          handle_notify_event(@event, true)
         end
         format.html { redirect_to @event }
         format.json { render :show, status: :created, location: @event }
@@ -75,7 +75,7 @@ class EventsController < ApplicationController
         end
         flash['success'] = t(".success")
         if @event.published
-          publish_event(@event)
+          handle_notify_event(@event, true)
         end
         format.html { redirect_to @event}
         format.json { render :show, status: :ok, location: @event }
@@ -90,7 +90,7 @@ class EventsController < ApplicationController
   # DELETE /events/1.json
   def destroy
     if @event.published
-      notify_delete_event(@event)
+      handle_notify_event(@event, false)
     end
     @event.destroy
     respond_to do |format|
@@ -101,7 +101,7 @@ class EventsController < ApplicationController
   end
 
   def authenticate_event_type!
-    if !@event.blank? && !current_user.admin && @event.eventType == "message"
+    if !@event.blank? && !current_user.admin && @event.message?
       flash[:error] = t('global.invalid_action')
       redirect_to root_path
     end

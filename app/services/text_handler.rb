@@ -28,9 +28,11 @@ class TextHandler
   end
 
   def process_rsvp(user, body)
-    event = Event.find_by_id(body[0...-1])
+    event_id = body[0...-1] # Gets all but the last character, which is the attendance_case
+    attendance_case = body[-1] # Gets the last character, the attendance_case
+    event = Event.find_by_id(event_id)
     if body.length > 1 && !event.blank?
-      case body[-1]
+      case attendance_case
       when "Y"
         ApplicationController.new.toggle_attendance(user.id, event.group.id, true, false)
       when "N"

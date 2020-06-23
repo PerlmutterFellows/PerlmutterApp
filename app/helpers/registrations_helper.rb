@@ -2,7 +2,6 @@ require 'csv'
 require 'date'
 require 'time'
 require 'cgi'
-require 'faker'
 
 module RegistrationsHelper
 
@@ -13,20 +12,6 @@ module RegistrationsHelper
         user.password += (('a'..'z').to_a.concat (('1'...'10').to_a)).sample
       end
       user.password_confirmation = user.password
-    end
-  end
-
-  def generate_users
-    while User.all.count < 100
-      pass = Faker::Internet.unique.email
-      user = User.new
-      user.first_name = Faker::Name.first_name
-      user.last_name = Faker::Name.last_name
-      user.email = pass
-      user.password = pass
-      user.password_confirmation = pass
-      user.skip_confirmation!
-      user.save
     end
   end
 

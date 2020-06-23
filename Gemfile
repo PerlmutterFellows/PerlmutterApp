@@ -33,7 +33,8 @@ gem 'twilio-ruby', '~> 5.35.0'
 gem "bootstrap_form", "~> 4.0"
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+# Use Faker for seeded records
+gem 'faker'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

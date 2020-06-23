@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong><%=I18n.t("events.title") %>:</strong>
   <%= @event.title %> <span class="badge badge-primary ml-1"><%= @event.eventType %></span>
@@ -24,21 +22,20 @@
   <strong><%=I18n.t("events.published") %>:</strong>
   <%= @event.published %>
 </p>
-<% non_message, not_delivered, delivered, not_responded, not_attending, attending =
-       get_users_state_counts(@event) %>
-<% if current_user && !current_user.admin && @event.eventType == "event"%>
+<% attending = get_attending_counts(@event) %>
+<% if current_user && !current_user.admin && @event.event?%>
   <% membership = GroupMembership.find_by(user_id: current_user.id, group_id: @event.group.id) %>
-  <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= (membership.state == "attending") ? "You and #{attending-1}" : "#{attending}" %> others attending</p>
+  <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= (membership.attending?) ? "You and #{attending-1}" : "#{attending}" %> others attending</p>
   <p>
-  <%= link_to (membership.state == "attending" ? unattend_event_path(@event) : attend_event_path(@event)), method: :post do %>
-  <%= check_box_tag "Attending", true, membership.state == "attending", id: "attendCheck" %>
+  <%= link_to (membership.attending? ? unattend_event_path(@event) : attend_event_path(@event)), method: :post do %>
+  <%= check_box_tag "Attending", true, membership.attending?, id: "attendCheck" %>
   <label class="form-check-label" for="attendCheck">
     Attending
   </label>
   <% end %>
 </p>
 <% elsif current_user && current_user.admin %>
-  <% if @event.eventType == "event" %>
+  <% if @event.event? %>
     <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= "#{attending}" %> attending</p>
   <% end %>
   <p>
