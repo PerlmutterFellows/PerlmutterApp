@@ -1,0 +1,90 @@
+@import "media_queries_utils";
+// Width Helpers
+// These can be accessed by doing w-md-50, w-md-75, w-xs-25, etc...
+@include respond-below(sm){
+  .w-xs-25 {
+    width: 25% !important;
+  }
+
+  .w-xs-50 {
+    width: 50% !important;;
+  }
+
+  .w-xs-75 {
+    width: 75% !important;
+  }
+
+  .w-xs-90 {
+    width: 90% !important;
+  }
+
+  .w-xs-100 {
+    width: 100% !important;
+  }
+}
+
+@include respond-between(sm, md){
+  .w-sm-25 {
+    width: 25% !important;
+  }
+
+  .w-sm-50 {
+    width: 50% !important;;
+  }
+
+  .w-sm-75 {
+    width: 75% !important;
+  }
+
+  .w-sm-90 {
+    width: 90% !important;
+  }
+
+  .w-sm-100 {
+    width: 100% !important;
+  }
+}
+
+@include respond-between(md, lg){
+  .w-md-25 {
+    width: 25% !important;
+  }
+
+  .w-md-50 {
+    width: 50% !important;;
+  }
+
+  .w-md-75 {
+    width: 75% !important;
+  }
+
+  .w-md-90 {
+    width: 90% !important;
+  }
+
+  .w-md-100 {
+    width: 100% !important;
+  }
+}
+
+@include respond-above(lg){
+  .w-lg-25 {
+    width: 25% !important;
+  }
+
+  .w-lg-50 {
+    width: 50% !important;;
+  }
+
+  .w-lg-75 {
+    width: 75% !important;
+  }
+
+  .w-lg-90 {
+    width: 90% !important;
+  }
+
+  .w-lg-100 {
+    width: 100% !important;
+  }
+}

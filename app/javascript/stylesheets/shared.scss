@@ -1,7 +1,20 @@
+@import "media_queries_utils";
+
 // Page covers
 .full-page {
   min-height: 100vh;
   width: 100vw;
+}
+
+.full-page-nav {
+  width: 100vw;
+  min-height: calc(100vh - 64px);
+}
+
+@include respond-below(lg) {
+  .full-page-nav {
+    min-height: calc(100vh - 56px);
+  }
 }
 
 // Height Helpers
@@ -19,36 +32,6 @@
 
 .h-100 {
   height: 100%;
-}
-
-// Width Helpers
-// These can be accessed by doing w-md-50, w-md-75, w-xs-25, etc...
-@mixin create-breakpoint-class ($class-name-prefix, $class-name-suffix) {
-  @each $breakpoint in map-keys($grid-breakpoints) {
-    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-
-    .#{$class-name-prefix}#{$infix}-#{$class-name-suffix} {
-      @include media-breakpoint-up ($breakpoint) {
-        @content;
-      }
-    }
-  }
-}
-
-@include create-breakpoint-class('w', '25') {
-  width: 25% !important;
-}
-
-@include create-breakpoint-class('w', '50') {
-  width: 50% !important;
-}
-
-@include create-breakpoint-class('w', '75') {
-  width: 75% !important;
-}
-
-@include create-breakpoint-class('w', '100') {
-  width: 100% !important;
 }
 
 // Image Helpers

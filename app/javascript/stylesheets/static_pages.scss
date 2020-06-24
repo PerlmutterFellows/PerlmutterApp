@@ -1,0 +1,28 @@
+@import 'media_queries_utils';
+
+// Root page
+.organization-svg {
+  width: 90%;
+  height: 90%;
+}
+
+@include respond-between(sm, md) {
+  .organization-svg {
+    width: 70%;
+    height: 70%;
+  }
+}
+
+@include respond-below(sm){
+  .organization-svg {
+    width: 70%;
+    height: 70%;
+  }
+}
+
+//@include respond-below(xs){
+//  .organization-svg {
+//    width: 70%;
+//    height: 70%;
+//  }
+//}
