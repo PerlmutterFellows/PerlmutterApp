@@ -1,8 +1,23 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  before_action :set_user, only: [:show, :edit, :delete]
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
+
+  def index
+    unless authenticate_admin!
+      render :template => 'devise/registrations/index'
+    end
+  end
+
+  def show
+    if (user_signed_in? && @user.id == current_user.id) || admin_signed_in?
+      render :template => 'devise/registrations/show'
+    else
+      authenticate_admin!
+    end
+  end
 
   # GET /resource/sign_up
   # def new
@@ -53,6 +68,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
+  def delete
+    if current_user.id.to_i == @user.id.to_i
+      destroy_user(current_user, root_path)
+    else
+      authenticate_admin!
+      destroy_user(@user, users_path)
+    end
+  end
+
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
   # in to be expired now. This is useful if the user wants to
@@ -83,4 +107,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+  #
+  private
+  def set_user
+    @user = User.find(params[:id])
+  end
 end

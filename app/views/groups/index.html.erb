@@ -1,15 +1,29 @@
-<h1>Groups</h1>
-<%= link_to 'New Group', new_group_path, class: "btn btn-secondary" %>
-<% @groups.select {|group| group.visible == true }.each do |group| %>
-  <div class="col-sm-6">
-    <div class="card w-75">
-      <div class="card-body">
-        <h5 class="card-title"><strong><%=I18n.t("groups.name") %>:</strong> <%= group.name %></h5>
-        <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= group.users.count %> users</p>
-        <%= link_to 'Edit', edit_group_path(group), class: "btn btn-primary" %>
-        <%= link_to 'Destroy', group, class: "btn btn-primary", method: :delete, data: { confirm: 'Are you sure?' } %>
-        <%= link_to 'Show', group, class: "btn btn-primary"%>
-      </div>
+<div class="d-flex justify-content-center">
+  <div class="row w-75 m-4 d-flex justify-content-center">
+    <div class="col-6 d-flex align-items-center">
+      <h1 class="font-weight-light"><%= I18n.t("global.menu.groups") %></h1>
     </div>
+    <div class="col-6 d-flex align-items-center justify-content-end">
+      <% if user_is_admin? %>
+        <%= link_to I18n.t("global.new"), new_group_path, class: "btn btn-secondary" %>
+      <% end %>
+    </div>
+    <% groups = @groups.select {|group| group.visible == true } %>
+    <% groups.each do |group| %>
+      <div class="col-lg-4 col-md-6 col-sm-12 mt-3 d-flex align-items-stretch justify-content-center">
+        <%= render 'shared/card',
+                   header: get_group_html_header,
+                   img: "",
+                   title: get_group_html_title(group),
+                   body: get_group_html_body(group, false),
+                   footer: get_group_html_buttons(group, false) %>
+      </div>
+    <% end %>
+    <%= render 'shared/empty_notice', condition: groups.count == 0,
+               if_prompt: I18n.t('global.missing_input', types: t('global.menu.events').downcase),
+               else_prompt: "",
+               sub_condition: user_is_admin?,
+               sub_if_prompt: I18n.t('global.missing_input_admin_prompt'),
+               sub_else_prompt: I18n.t('global.missing_input_user_prompt') %>
   </div>
-<% end %>
+</div>

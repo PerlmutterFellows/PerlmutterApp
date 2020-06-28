@@ -36,7 +36,8 @@ class GroupsController < ApplicationController
           format.html { render :new }
           format.json { render json: @group.errors, status: :unprocessable_entity }
         end
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
+        flash['success'] = t('global.model_created', type: t('global.group').downcase)
+        format.html { redirect_to @group }
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
@@ -58,7 +59,8 @@ class GroupsController < ApplicationController
           format.html { render :edit }
           format.json { render json: @group.errors, status: :unprocessable_entity }
         end
-        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
+        flash['success'] = t('global.model_modified', type: t('global.group').downcase)
+        format.html { redirect_to @group }
         format.json { render :show, status: :ok, location: @group }
       else
         format.html { render :edit }
@@ -72,7 +74,8 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
+      flash['success'] = t('global.model_deleted', type: t('global.group').downcase)
+      format.html { redirect_to groups_url }
       format.json { head :no_content }
     end
   end

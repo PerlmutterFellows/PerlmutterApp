@@ -5,15 +5,15 @@
         <h3 class="font-weight-light mb-1"><%= title %></h3>
         <h4 class="font-weight-lighter"><%= prompt %></h4>
         <hr />
-        <div class="col-md-6 col-xs-12">
-          <%= f.text_field :name, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+        <div class="form-group-lg">
+          <%= f.text_field :name, label: I18n.t('groups.name'), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
         </div>
 
         <% select_vals = [] %>
         <% id_vals = [] %>
 
-        <% User.all.each do |user| %>
-          <% val_label = [user.first_name, user.last_name].join(' ') %>
+        <% User.all.select {|user| !user.admin}.each do |user| %>
+          <% val_label = get_full_name(user) %>
 
           <% unless user.phone_number.blank? %>
             <% val_label += " <span class='badge'><i class='fa fa-phone-square' aria-hidden='true'></i> #{user.phone_number}</span>" %>
@@ -39,15 +39,17 @@
 
         <p hidden id="selected_vals"><%= selected_vals %></p>
 
-        <div class="col-md-6 col-xs-12" data-controller="group">
-          <%= f.select :users, select_vals, {}, {class: "selectpicker", multiple: "", data: {"live-search": "true", "show-subtext": "true", target: 'group.dropdown'}} %>
+        <div class="p-2 w-md-75">
+        <div class="form-group-lg" data-controller="group">
+          <%= f.select :users, select_vals, {hide_label: true}, {class: "selectpicker", multiple: "", "title": I18n.t("global.menu.users"), data: {"style": "", "styleBase": "form-control", "width":"200px", "live-search": "true", "show-subtext": "true", "actions-box": "true", target: 'group.dropdown'}} %>
+        </div>
         </div>
 
-        <%= f.submit "Submit" %>
+        <%= f.submit I18n.t("global.submit") %>
         <% if @group.valid? %>
-          <%= link_to 'Show', @group, class: "btn btn-primary" %>
+          <%= link_to I18n.t("global.show"), @group, class: "btn btn-primary" %>
         <% end %>
-        <%= link_to 'Back', groups_path, class: "btn btn-primary" %>
+        <%= link_to I18n.t("global.back"), groups_path, class: "btn btn-primary" %>
       <% end %>
     </div>
   </div>

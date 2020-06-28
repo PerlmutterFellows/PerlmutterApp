@@ -1,4 +1,82 @@
 module EventsHelper
+
+  def get_event_html_header(event)
+    if event.event?
+      fa_icon = 'fa fa-calendar-alt'
+      type = I18n.t("events.event")
+    else
+      fa_icon = 'fa fa-info-circle'
+      type = I18n.t("events.info")
+    end
+    TextHandler.new.process_fa(fa_icon, nil, "<span>#{type}</span>", nil).html_safe
+  end
+
+  def get_event_html_title(event)
+    "#{event.title}".html_safe
+  end
+
+  def get_event_html_body(event, attending_count, is_on_show)
+    attendance_check_box_html = ""
+    attendance_display_html = ""
+    users_html = ""
+    if !user_is_admin?
+      membership = GroupMembership.find_by(user_id: current_user.id, group_id: event.group.id)
+      if membership.attending?
+        attendance_display_html = I18n.t("global.others_count", count: (attending_count - 1).to_s, prefix: I18n.t("global.others_prefix"), suffix: I18n.t("global.attending").downcase)
+        confirm_path = unattend_event_path(event)
+      else
+        attendance_display_html = I18n.t("global.others_count", count: attending_count.to_s, prefix: "", suffix: I18n.t("global.attending").downcase)
+        confirm_path = attend_event_path(event)
+      end
+      attendance_check_box_html = check_box_tag(I18n.t("global.attending"), true, membership.attending?, id: "attendCheck", class: "mr-2")
+      attendance_check_box_html = "<p>#{link_to confirm_path, method: :post do
+        "#{attendance_check_box_html}<label class='form-check-label' for='attendCheck'>#{I18n.t('global.attending')}</label>".html_safe
+      end }</p>"
+    else
+      if is_on_show
+        event.group.users.each do |user|
+        users_html += "<p class='card-text pt-2'><strong>#{get_full_name(user)}</strong></p>" + get_user_html_body(user, GroupMembership.find_by(user_id: user.id, group_id: event.group.id))
+        end
+      end
+      attendance_display_html = "#{attending_count} #{I18n.t("global.attending").downcase}"
+    end
+
+    if event.event?
+      attendance_display_html = "<p class='card-text'>#{TextHandler.new.process_fa("fa fa-user-circle", nil, attendance_display_html, nil)}</p>"
+    else
+      attendance_display_html = ""
+    end
+
+    "#{!event.description.blank? ?
+           "<p class='card-text'><strong>#{I18n.t("events.description")}:</strong> #{event.description}</p>" :
+           ""}
+    #{!get_when_text(event).blank? ?
+          "<p class='card-text'><strong>#{I18n.t("events.when")}:</strong> #{get_when_text(event)}</p>" :
+          ""}
+    #{!event.location.blank? ?
+          "<p class='card-text'><strong>#{I18n.t("events.where")}:</strong> #{event.location}</p>" :
+          ""}
+    #{attendance_display_html}
+    #{attendance_check_box_html}
+    #{users_html}"
+    .html_safe
+  end
+
+  def get_event_html_buttons(event, is_on_show)
+    if is_on_show
+      tertiary_button = "#{link_to I18n.t("global.back"), events_path, class: "btn btn-primary"}"
+    else
+      tertiary_button = "#{link_to I18n.t("global.show"), event, class: "btn btn-primary"}"
+    end
+    if user_is_admin?
+      "#{link_to I18n.t("global.delete"), event, class: "btn btn-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
+      #{link_to I18n.t("global.edit"), edit_event_path(event), class: "btn btn-primary"}
+      #{tertiary_button}".html_safe
+    else
+      "#{tertiary_button}".html_safe
+    end
+  end
+
   ##
   # Toggles attendance of a given user in a group
   # user_id - a user id
@@ -163,7 +241,7 @@ module EventsHelper
   def handle_notify_event(event, is_being_published)
     event.group.users.each do |user|
       membership = GroupMembership.find_by(user_id: user.id, group_id: event.group.id)
-      unless membership.blank?
+      if !membership.blank? && !membership.not_attending?
         if is_being_published
           send_publish_event_notification(event, user, membership)
         else

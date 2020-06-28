@@ -47,7 +47,7 @@ class EventsController < ApplicationController
           format.html { render :new }
           format.json { render json: @event.errors, status: :unprocessable_entity }
         else
-        flash['success'] = t('.success')
+        flash['success'] = t('global.model_created', type: t('global.event').downcase)
         if @event.published
           handle_notify_event(@event, true)
         end
@@ -73,7 +73,7 @@ class EventsController < ApplicationController
           format.html { render :edit }
           format.json { render json: @event.errors, status: :unprocessable_entity }
         end
-        flash['success'] = t(".success")
+        flash['success'] = t('global.model_modified', type: t('global.event').downcase)
         if @event.published
           handle_notify_event(@event, true)
         end
@@ -94,7 +94,7 @@ class EventsController < ApplicationController
     end
     @event.destroy
     respond_to do |format|
-      flash['success'] = t(".success")
+      flash['success'] = t('global.model_deleted', type: t('global.event').downcase)
       format.html { redirect_to events_url }
       format.json { head :no_content }
     end

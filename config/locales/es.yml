@@ -1,0 +1,143 @@
+es:
+  global:
+    organization_name: "The Haven Project"
+    organization_description:
+      "The Haven Project brinda servicio directo a más
+      de 200 jóvenes sin hogar sin hogar de entre 17 y 24 años cada uno
+      año en nuestros centros de acogida, con referencias a otros jóvenes
+      sirviendo a organizaciones para cientos más que no cumplen con la ingesta
+      criterios basados ​​en la edad, la falta de vivienda u otros factores."
+    menu:
+      home: "Hogar"
+      newsletter: "Boletín informativo"
+      sign_up: "Registarse"
+      sign_in: "Iniciar sesión"
+      sign_out: "Cerrar sesión"
+      admin: "Admin"
+      events: "Eventos"
+      groups: "Grupos"
+      users: "Usuarios"
+      my_profile: "Mi perfil"
+      faq: "FAQ"
+      contact: "Contacto"
+    deleted: "Eliminado"
+    updated: "Actualizado"
+    delete: "Eliminar"
+    edit: "Editar"
+    show: "Monstrar"
+    back: "Regrasar"
+    submit: "Enviar"
+    new: "Nuevo"
+    event: "Evento"
+    group: "Grupo"
+    user: "Usuario"
+    non_message: "Sin Mensaje"
+    not_delivered: "No Entregado"
+    delivered: "Entregado"
+    not_responded: "No Responde"
+    not_attending: "No Asistir"
+    attending: "Asistir"
+    subject: "Subjeto"
+    message: "Mensaje"
+    others_count: "%{prefix}%{count} otras %{suffix}"
+    others_prefix: "Tu y "
+    welcome: "Bienvenido a <br> %{organization_name}"
+    model_created: "¡Tu %{type} se creó correctamente!"
+    model_modified: "¡Tu %{type} se modificó correctamente!"
+    model_deleted: "¡Tu %{type} se eliminó correctamente!"
+    not_found: "No se encontró su %{type}. Inténtelo nuevamente y, si esto persiste, comuníquese con el administrador."
+    error_message: "Se ha producido un error al guardar su %{type}. Póngase en contacto con el administrador."
+    invalid_input: "Entrada no válida. Inténtalo de nuevo."
+    invalid_action: "Esta acción no se puede completar. Intente con otra selección o intente nuevamente más tarde."
+    warning: "¡Debe iniciar sesión como %{type} para ver esta página!"
+    missing_input: "No se encontraron %{types}."
+    missing_input_user_prompt: "Actualmente no existe ninguno que sea público o al que esté invitado."
+    missing_input_user_prompt_manual: "Ninguno configurado actualmente."
+    missing_input_admin_prompt: "¡Haz clic en el botón para crear uno nuevo!"
+    missing_input_admin_prompt_manual: "Configure esto en la configuración de la aplicación."
+    are_you_sure: "¿Estás seguro?"
+  static_pages:
+    contact:
+      submit_text: "Enviar texto"
+      submit_email: "Enviar correo electrónico"
+  users:
+    registrations:
+      create_by_admin:
+        type_missing: "Error de creación. Ingrese el correo electrónico, el número de teléfono o ambos."
+        csv_success: "Se han creado usuarios."
+        csv_failures: "Todos los usuarios han fallado. Revise su CSV y vuelva a enviarlo. Las siguientes filas fallaron:<br><br>%{rows}"
+        csv_success_with_failures: "Se han creado usuarios, pero hubo fallas. Revise su CSV y edite las filas fallidas si desea crearlas. Las siguientes filas fallaron:<br><br>%{rows}"
+  texts:
+    confirmation: "¡Bienvenido %{name} a %{organization_name}! Responda Y para confirmar su interés en las notificaciones, N para cancelar."
+    new_event: "Nuevo %{type}:\n%{params}%{prompt}"
+    updated_event: "%{type} actualizado:\n%{params}%{prompt}"
+    deleted_event: "%{type} eliminado:\n%{params}"
+    new_prompt: "Responda %{id}Y para confirmar su asistencia, %{id}N para rechazar."
+    updated_prompt: "Si aún no lo ha hecho, responda %{id}Y para confirmar su asistencia, %{id}N para rechazar."
+    confirmation_success_response: "¡Gracias! ¡Tu cuenta ahora está confirmado!"
+    confirmation_failed_response: "Tu cuenta ya estás confirmado."
+    stop_success_response: "Ya no recibirás notificaciones."
+    stop_failed_response: "Ya no recibe notificaciones. Vuelva a registrarse para recibir notificaciones."
+  events:
+    new:
+      create: "Crear evento"
+      create_prompt: "¡Complete este formulario para crear un evento!"
+    edit:
+      edit: "Editar evento"
+      edit_prompt:  "¡Complete este formulario para modificar y/o publicar el evento!"
+    attending_success_response: "¡Ahora estás confirmado!"
+    attending_failed_response: "Ya estás confirmado."
+    not_attending_success_response: "Ya no estás confirmado."
+    not_attending_failed_response: "Ya no está confirmado."
+    title: "Título"
+    description: "Descripción"
+    when: "Cuando"
+    where: "Donde"
+    location: "Sitio"
+    type: "Tipo"
+    published: "Publicado"
+    event: "Evento"
+    info: "Información"
+    message: "Mensaje"
+  groups:
+    new:
+      create: "Crear grupo"
+      create_prompt: "¡Complete este formulario para crear un grupo!"
+    edit:
+      edit: "Editar grupo"
+      edit_prompt: "¡Complete este formulario para modificar y/o publicar el grupo!"
+    name: "Nombre"
+  devise:
+    registrations:
+      new:
+        sign_up: "Registrarse"
+        sign_up_prompt: "¡Complete este formulario para crear una cuenta!"
+      new_by_admin:
+        form: "Crear usuario mediante formulario"
+        form_prompt: "¡Complete este formulario para crear una cuenta!"
+        csv: "Crear usuario a través de CSV"
+        csv_prompt: "¡Haga clic aquí para obtener una plantilla CSV de usuario!"
+    sessions:
+      new:
+        login: "Iniciar sesión"
+        login_prompt: "Inicie sesión a continuación utilizando su nombre de usuario, correo electrónico o número de teléfono."
+  faq:
+    -
+      question: "¿Qué es The Haven Project?"
+      answer: "The Haven Project brinda servicio directo a más de 200 jóvenes sin hogar sin hogar de entre 17 y 24 años de edad cada año en nuestros centros de acogida, con referencias a otras organizaciones de servicios para jóvenes para cientos más que no cumplen con los criterios de admisión según la edad, la falta de vivienda u otros factores."
+    -
+      question: "¿Qué es The Land of a Thousand Hills?"
+      answer: "En nuestra experiencia, hemos descubierto que la mayoría de los clientes no tienen las habilidades básicas necesarias para mantener un trabajo. No tienen las habilidades de resolución de problemas y comunicación para tratar con éxito con sus compañeros de trabajo debido a una gran cantidad de problemas relacionados a su situación de vivienda inestable. Para abordar esto, en 2016, abrimos nuestra empresa social, The Land of a Thousand Hills - Lynn. Esta empresa social proporciona un lugar para capacitación laboral y fondos operativos para todos nuestros programas. Nuestro café es ¡galardonado, después de haber recibido los prestigiosos BONS (Best of North Shore) para Best Coffee Shop en las categorías de elección de lectores y editores durante los últimos tres años (2017, 2018 y 2019)!"
+    -
+      question: "¿Qué puedo esperar en mi primera visita?"
+      answer: "Se reunirá con uno de nuestros administradores de casos, quien le hará algunas preguntas para tratar de comprender su situación (intente traer todas las identificaciones y documentos que pueda para ayudarnos con este proceso), disfrutar de una comida y algunos refrigerios, obtenga algunos comestibles y suministros de higiene para llevar con usted, establezca algunos objetivos básicos con uno de nuestros administradores de casos, consulte las publicaciones recientes de empleos disponibles y opciones de vivienda en el área, comience a cumplir algunos de los objetivos con la ayuda de uno de nuestros casos gerentes, y obtenga una tarjeta de regalo gratis para comida o café al salir."
+    -
+      question: "¿Qué puedo hacer en esta aplicación?"
+      answer: "¡Puede interactuar con los numerosos servicios de The Haven Project! Regístrese para recibir notificaciones y confirme su asistencia para eventos e información enviados a su método de comunicación preferido, comuníquese directamente con The Haven Project y realice un seguimiento y mantenga su progreso con su puntaje de estabilidad y análisis en su perfil del usuario."
+  contact:
+    email: "office@havenproject.net"
+    phone: "(781) 913-5738"
+    facebook: "Haven.Project57"
+    twitter:
+    instagram: "loth_lynn"
+    website: "https://havenproject.net/"

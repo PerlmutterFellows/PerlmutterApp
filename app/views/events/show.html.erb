@@ -1,64 +1,10 @@
-<p>
-  <strong><%=I18n.t("events.title") %>:</strong>
-  <%= @event.title %> <span class="badge badge-primary ml-1"><%= @event.eventType %></span>
-</p>
-
-<p>
-  <strong><%=I18n.t("events.description") %>:</strong>
-  <%= @event.description %>
-</p>
-
-<p>
-  <strong><%=I18n.t("events.when") %>:</strong>
-  <%= get_when_text(@event) %>
-</p>
-
-<p>
-  <strong><%=I18n.t("events.where") %>:</strong>
-  <%= @event.location %>
-</p>
-
-<p>
-  <strong><%=I18n.t("events.published") %>:</strong>
-  <%= @event.published %>
-</p>
-<% attending = get_attending_counts(@event) %>
-<% if current_user && !current_user.admin && @event.event?%>
-  <% membership = GroupMembership.find_by(user_id: current_user.id, group_id: @event.group.id) %>
-  <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= (membership.attending?) ? "You and #{attending-1}" : "#{attending}" %> others attending</p>
-  <p>
-  <%= link_to (membership.attending? ? unattend_event_path(@event) : attend_event_path(@event)), method: :post do %>
-  <%= check_box_tag "Attending", true, membership.attending?, id: "attendCheck" %>
-  <label class="form-check-label" for="attendCheck">
-    Attending
-  </label>
-  <% end %>
-</p>
-<% elsif current_user && current_user.admin %>
-  <% if @event.event? %>
-    <p class="card-text"><i class='fa fa-user-circle' aria-hidden='true'></i> <%= "#{attending}" %> attending</p>
-  <% end %>
-  <p>
-    <strong>Users:</strong>
-  </p>
-  <% @event.group.users.each do |user| %>
-    <% val_label = [user.first_name, user.last_name].join(' ') %>
-
-    <% unless user.phone_number.blank? %>
-      <% val_label += " <span class='badge'><i class='fa fa-phone-square' aria-hidden='true'></i> #{user.phone_number}</span>" %>
-    <% end %>
-
-    <% unless user.email.blank? %>
-      <% val_label += " <span class='badge'><i class='fa fa-envelope-square' aria-hidden='true'></i> #{user.email}</span>" %>
-    <% end %>
-
-    <% membership = GroupMembership.find_by(user_id: user.id, group_id: @event.group.id) %>
-    <% unless membership.blank? %>
-      <% state_str = ".global."+membership.state %>
-      <% val_label += " " + t(:"#{state_str}") %>
-    <% end %>
-    <p><%= val_label.html_safe %></p>
-  <% end %>
-  <%= link_to 'Edit', edit_event_path(@event), class: "btn btn-primary" %>
-<% end %>
-<%= link_to 'Back', events_path, class: "btn btn-primary" %>
+<div class="d-flex justify-content-center">
+  <div class="row w-75 m-4 d-flex justify-content-center">
+    <%= render 'shared/card',
+             header: get_event_html_header(@event),
+             img: "",
+             title: get_event_html_title(@event),
+             body: get_event_html_body(@event, get_attending_counts(@event), true),
+             footer: get_event_html_buttons(@event, true) %>
+  </div>
+</div>

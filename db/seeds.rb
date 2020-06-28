@@ -20,8 +20,7 @@ Group.delete_by(visible: true)
                startTime: Time.now,
                endTime: Time.now + 1,
                location: Faker::Address.full_address,
-               eventType: Faker::Number.within(range: 0..2),
-               to: 1)
+               eventType: Faker::Number.within(range: 0..2))
 end
 
 50.times do
