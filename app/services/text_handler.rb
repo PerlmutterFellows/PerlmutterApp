@@ -34,9 +34,9 @@ class TextHandler
     if body.length > 1 && !event.blank?
       case attendance_case
       when "Y"
-        ApplicationController.new.toggle_attendance(user.id, event.group.id, true, false)
+        ApplicationController.new.toggle_attendance(user.id, event.id, true, false)
       when "N"
-        ApplicationController.new.toggle_attendance(user.id, event.group.id, false, false)
+        ApplicationController.new.toggle_attendance(user.id, event.id, false, false)
       else
         I18n.t('global.invalid_input')
       end

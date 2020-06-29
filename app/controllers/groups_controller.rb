@@ -1,7 +1,6 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_admin!, only: [:index, :show, :new, :edit, :create, :update, :destroy]
-  before_action :authenticate_visible!, only: [:edit, :show, :destroy]
 
   # GET /groups
   # GET /groups.json
@@ -30,15 +29,17 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        @group.users = maintain_state(get_users_from_select(params['group']['users']), @group)
-        if @group.users.count == 0
+        users = get_users_from_select(params['group']['users'])
+        if users.blank?
           @group.errors.add(:users, "must have users!")
           format.html { render :new }
           format.json { render json: @group.errors, status: :unprocessable_entity }
+        else
+          @group.users = users
+          flash['success'] = t('global.model_created', type: t('global.group').downcase)
+          format.html { redirect_to @group }
+          format.json { render :show, status: :created, location: @group }
         end
-        flash['success'] = t('global.model_created', type: t('global.group').downcase)
-        format.html { redirect_to @group }
-        format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
         format.json { render json: @group.errors, status: :unprocessable_entity }
@@ -49,19 +50,20 @@ class GroupsController < ApplicationController
   # PATCH/PUT /groups/1
   # PATCH/PUT /groups/1.json
   def update
-    @group.users.clear
-    @group.users = maintain_state(get_users_from_select(params['group']['users']), @group)
-
     respond_to do |format|
       if @group.update({name: params['group']['name']})
-        if @group.users.count == 0
+        @group.users.clear
+        users = get_users_from_select(params['group']['users'])
+        if users.blank?
           @group.errors.add(:users, "must have users!")
           format.html { render :edit }
           format.json { render json: @group.errors, status: :unprocessable_entity }
+        else
+          @group.users = users
+          flash['success'] = t('global.model_modified', type: t('global.group').downcase)
+          format.html { redirect_to @group }
+          format.json { render :show, status: :ok, location: @group }
         end
-        flash['success'] = t('global.model_modified', type: t('global.group').downcase)
-        format.html { redirect_to @group }
-        format.json { render :show, status: :ok, location: @group }
       else
         format.html { render :edit }
         format.json { render json: @group.errors, status: :unprocessable_entity }
@@ -77,13 +79,6 @@ class GroupsController < ApplicationController
       flash['success'] = t('global.model_deleted', type: t('global.group').downcase)
       format.html { redirect_to groups_url }
       format.json { head :no_content }
-    end
-  end
-
-  def authenticate_visible!
-    if !@group.blank? && @group.visible == false
-      flash[:error] = t('global.invalid_action')
-      redirect_to root_path
     end
   end
 

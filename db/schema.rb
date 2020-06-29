@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_21_182123) do
+ActiveRecord::Schema.define(version: 2020_06_29_023022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 2020_06_21_182123) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "event_statuses", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
+    t.integer "state", default: 0
+    t.index ["event_id", "user_id"], name: "index_event_statuses_on_event_id_and_user_id", unique: true
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "title", null: false
     t.string "description", null: false
@@ -55,15 +64,13 @@ ActiveRecord::Schema.define(version: 2020_06_21_182123) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", null: false
     t.integer "group_id", null: false
-    t.integer "state", default: 0, null: false
+    t.index ["group_id", "user_id"], name: "index_group_memberships_on_group_id_and_user_id", unique: true
   end
 
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "visible", default: true
-    t.integer "event_id"
   end
 
   create_table "users", force: :cascade do |t|

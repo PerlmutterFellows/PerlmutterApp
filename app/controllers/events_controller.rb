@@ -16,11 +16,11 @@ class EventsController < ApplicationController
   end
 
   def attend
-    redirect_to toggle_attendance(current_user.id, @event.group.id, true, true)
+    redirect_to toggle_attendance(current_user.id, @event.id, true, true)
   end
 
   def unattend
-    redirect_to toggle_attendance(current_user.id, @event.group.id, false, true)
+    redirect_to toggle_attendance(current_user.id, @event.id, false, true)
   end
 
   # GET /events/new
@@ -40,19 +40,19 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        @event.group = Group.new(name: params['event']['title'], visible: false)
-        @event.group.users = maintain_state(get_users_from_select(params['event']['group']), @event.group)
-        if @event.group.users.count == 0
-          @event.errors.add(:group, "must have users!")
+        users = get_users_from_select(params['event']['users'])
+        if users.blank?
+          @event.errors.add(:users, "must have users!")
           format.html { render :new }
           format.json { render json: @event.errors, status: :unprocessable_entity }
         else
-        flash['success'] = t('global.model_created', type: t('global.event').downcase)
-        if @event.published
-          handle_notify_event(@event, true)
-        end
-        format.html { redirect_to @event }
-        format.json { render :show, status: :created, location: @event }
+          @event.users << users
+          flash['success'] = t('global.model_created', type: t('global.event').downcase)
+          if @event.published
+            handle_notify_event(@event, true)
+          end
+          format.html { redirect_to @event }
+          format.json { render :show, status: :created, location: @event }
         end
       else
         format.html { render :new }
@@ -66,19 +66,20 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        @event.group.update(name: params['event']['title'], visible: false)
-        @event.group.users = maintain_state(get_users_from_select(params['event']['group']), @event.group)
-        if @event.group.users.count == 0
-          @event.errors.add(:group, "must have users!")
+        users = get_users_from_select(params['event']['users'])
+        if users.blank?
+          @event.errors.add(:users, "must have users!")
           format.html { render :edit }
           format.json { render json: @event.errors, status: :unprocessable_entity }
+        else
+          update_event_users(users, @event)
+          flash['success'] = t('global.model_modified', type: t('global.event').downcase)
+          if @event.published
+            handle_notify_event(@event, true)
+          end
+          format.html { redirect_to @event}
+          format.json { render :show, status: :ok, location: @event }
         end
-        flash['success'] = t('global.model_modified', type: t('global.event').downcase)
-        if @event.published
-          handle_notify_event(@event, true)
-        end
-        format.html { redirect_to @event}
-        format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
         format.json { render json: @event.errors, status: :unprocessable_entity }

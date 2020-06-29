@@ -20,22 +20,22 @@ module EventsHelper
     attendance_display_html = ""
     users_html = ""
     if !user_is_admin?
-      membership = GroupMembership.find_by(user_id: current_user.id, group_id: event.group.id)
-      if membership.attending?
+      status = EventStatus.find_by(user_id: current_user.id, event_id: event.id)
+      if status.attending?
         attendance_display_html = I18n.t("global.others_count", count: (attending_count - 1).to_s, prefix: I18n.t("global.others_prefix"), suffix: I18n.t("global.attending").downcase)
         confirm_path = unattend_event_path(event)
       else
         attendance_display_html = I18n.t("global.others_count", count: attending_count.to_s, prefix: "", suffix: I18n.t("global.attending").downcase)
         confirm_path = attend_event_path(event)
       end
-      attendance_check_box_html = check_box_tag(I18n.t("global.attending"), true, membership.attending?, id: "attendCheck", class: "mr-2")
+      attendance_check_box_html = check_box_tag(I18n.t("global.attending"), true, status.attending?, id: "attendCheck", class: "mr-2")
       attendance_check_box_html = "<p>#{link_to confirm_path, method: :post do
         "#{attendance_check_box_html}<label class='form-check-label' for='attendCheck'>#{I18n.t('global.attending')}</label>".html_safe
       end }</p>"
     else
       if is_on_show
-        event.group.users.each do |user|
-        users_html += "<p class='card-text pt-2'><strong>#{get_full_name(user)}</strong></p>" + get_user_html_body(user, GroupMembership.find_by(user_id: user.id, group_id: event.group.id))
+        event.users.each do |user|
+        users_html += "<p class='card-text pt-2'><strong>#{get_full_name(user)}</strong></p>" + get_user_html_body(user, EventStatus.find_by(user_id: user.id, event_id: event.id))
         end
       end
       attendance_display_html = "#{attending_count} #{I18n.t("global.attending").downcase}"
@@ -78,25 +78,25 @@ module EventsHelper
   end
 
   ##
-  # Toggles attendance of a given user in a group
+  # Toggles attendance of a given user in an event
   # user_id - a user id
-  # group_id - a group id
+  # event_id - an event id
   # attend - whether to mark the user attending or not attending
   # output_as_flash - whether to output response as a flash or as text to be parsed by Twilio
-  def toggle_attendance(user_id, group_id, attend, output_as_flash)
-    membership = GroupMembership.find_by(user_id: user_id, group_id: group_id)
+  def toggle_attendance(user_id, event_id, attend, output_as_flash)
+    status = EventStatus.find_by(user_id: user_id, event_id: event_id)
     text_output = ""
-    if !membership.blank?
+    if !status.blank?
       if attend
-        if !membership.attending?
-          membership.attending!
+        if !status.attending?
+          status.attending!
           output_as_flash ? flash['success'] = I18n.t('events.attending_success_response') : text_output = I18n.t('events.attending_success_response')
         else
           output_as_flash ? flash['error'] = I18n.t('events.attending_failed_response') : text_output = I18n.t('events.attending_failed_response')
         end
       else
-        if !membership.not_attending?
-          membership.not_attending!
+        if !status.not_attending?
+          status.not_attending!
           output_as_flash ? flash['success'] = I18n.t('events.not_attending_success_response') : text_output = I18n.t('events.not_attending_success_response')
         else
           output_as_flash ? flash['error'] = I18n.t('events.not_attending_failed_response') : text_output = I18n.t('events.not_attending_failed_response')
@@ -113,9 +113,9 @@ module EventsHelper
   # event - an event
   def get_attending_counts(event)
     attending_count = 0
-    event.group.users.each do |user|
-      membership = GroupMembership.find_by(user_id: user.id, group_id: event.group.id)
-      if !membership.blank? && membership.attending?
+    event.users.each do |user|
+      status = EventStatus.find_by(user_id: user.id, event_id: event.id)
+      if !status.blank? && status.attending?
           attending_count += 1
       end
     end
@@ -161,40 +161,40 @@ module EventsHelper
   # Sets delivery/acceptance state of a user given notification success
   # was_successful - whether notifying the user succeeded
   # event - an event
-  # membership - a membership
-  def set_new_state_after_notify(was_successful, event, membership)
+  # status - a status
+  def set_new_state_after_notify(was_successful, event, status)
     if was_successful
       if event.event?
-        membership.not_responded!
+        status.not_responded!
       else
-        membership.delivered!
+        status.delivered!
       end
     else
-      membership.not_delivered!
+      status.not_delivered!
     end
-    membership.save
+    status.save
   end
 
   ##
   # Sends notification of an event to a given user to the proper contact method, updating their state
   # event - an event
   # user - a user
-  # membership - a membership
+  # status - a status
   # uses_email - whether this result will be sent in email or a text
-  def handle_send_publish_event_notification(event, user, membership, uses_email)
+  def handle_send_publish_event_notification(event, user, status, uses_email)
     # If a new contact, send as new event and update their state
-    if membership.non_message? || membership.not_delivered?
+    if status.non_message? || status.not_delivered?
       if uses_email
         begin
           UserMailer.event_create_email(user, event).deliver
-          set_new_state_after_notify(true, event, membership)
+          set_new_state_after_notify(true, event, status)
         rescue StandardError => e
-          set_new_state_after_notify(false, event, membership)
+          set_new_state_after_notify(false, event, status)
         end
       else
         prompt = (event.event? ? t('texts.new_prompt', id: event.id) : "")
         success, error = TwilioHandler.new.send_text(user, t('texts.new_event', params: get_event_text_params(event, false), type: event.eventType, prompt: prompt))
-        set_new_state_after_notify(success, event, membership)
+        set_new_state_after_notify(success, event, status)
       end
       # Otherwise, they aren't new, don't update their state, send as updated event
     else
@@ -211,14 +211,14 @@ module EventsHelper
   # Kicks off the notification of an event to a given user, updating their state
   # event - an event
   # user - a user
-  # membership - a membership
-  def send_publish_event_notification(event, user, membership)
+  # status - a status
+  def send_publish_event_notification(event, user, status)
     if user.confirmed_at.blank?
-      membership.not_delivered!
+      status.not_delivered!
     elsif !user.email.blank?
-      handle_send_publish_event_notification(event, user, membership, true)
+      handle_send_publish_event_notification(event, user, status, true)
     else
-      handle_send_publish_event_notification(event, user, membership, false)
+      handle_send_publish_event_notification(event, user, status, false)
     end
   end
 
@@ -239,11 +239,11 @@ module EventsHelper
   # event - an event
   # is_being_published - whether the event is being published or not
   def handle_notify_event(event, is_being_published)
-    event.group.users.each do |user|
-      membership = GroupMembership.find_by(user_id: user.id, group_id: event.group.id)
-      if !membership.blank? && !membership.not_attending?
+    event.users.each do |user|
+      status = EventStatus.find_by(user_id: user.id, event_id: event.id)
+      if !status.blank? && !status.not_attending?
         if is_being_published
-          send_publish_event_notification(event, user, membership)
+          send_publish_event_notification(event, user, status)
         else
           send_delete_event_notification(event, user)
         end

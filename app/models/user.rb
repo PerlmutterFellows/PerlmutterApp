@@ -5,7 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable
   has_many :group_memberships
   has_many :groups, :through => :group_memberships
-  accepts_nested_attributes_for :group_memberships
+  has_many :event_statuses
+  has_many :events, :through => :event_statuses
   validates_presence_of :first_name
   validates_presence_of :last_name
   validates_confirmation_of :password

@@ -8,10 +8,12 @@
 require 'faker'
 
 Event.delete_all
+EventStatus.delete_all
+Group.delete_all
+GroupMembership.delete_all
 User.delete_by(admin: false)
-Group.delete_by(visible: true)
 
-100.times do
+10.times do
   Event.create(title: Faker::Book.title,
                description: Faker::Quote.matz,
                published: Faker::Boolean.boolean(true_ratio: 0.5),
@@ -27,19 +29,6 @@ end
   pass = Faker::Alphanumeric.alpha(number: 10)
   user = User.new(first_name: Faker::Name.first_name,
                   last_name: Faker::Name.last_name,
-                  email: Faker::Internet.unique.email,
-                  password: pass,
-                  password_confirmation: pass)
-  user.skip_confirmation!
-  if user.valid?
-    user.save
-  end
-end
-
-50.times do
-  pass = Faker::Alphanumeric.alpha(number: 10)
-  user = User.new(first_name: Faker::Name.first_name,
-                  last_name: Faker::Name.last_name,
                   phone_number: Faker::PhoneNumber.cell_phone,
                   password: pass,
                   password_confirmation: pass)
@@ -49,11 +38,17 @@ end
   end
 end
 
-20.times do
-  group = Group.new(name: [Faker::Company.name, Faker::Team.name].sample,
-                    visible: true)
-  if group.valid?
-    group.save
-    group.users = User.all.sample(rand(1..10))
-  end
+100.times do
+  EventStatus.create(event_id: Event.all.sample.id,
+                     user_id: User.all.sample.id,
+                     state: 0)
+end
+
+10.times do
+  Group.create(name: [Faker::Company.name, Faker::Team.name].sample)
+end
+
+100.times do
+  GroupMembership.create(group_id: Group.all.sample.id,
+                         user_id: User.all.sample.id)
 end

@@ -18,57 +18,12 @@
             <% end %>
           </div>
 
-          <% select_group_vals = [] %>
-
-          <% Group.all.select {|group| group.visible == true }.each do |group| %>
-            <% val_label = group.name %>
-
-            <% if !group.blank? && !group.users.blank? %>
-              <% val_label += " <span class='badge'><i class='fa fa-user-circle' aria-hidden='true'></i> #{group.users.count} users</span>" %>
-
-              <% if group.users.count > 0 %>
-                <% select_group_vals.push([val_label, "g" + group.id.to_s]) %>
-              <% end %>
-            <% end %>
-          <% end %>
-
-          <% select_user_vals = [] %>
-          <% id_vals = [] %>
-
-          <% User.all.select {|user| !user.admin}.each do |user| %>
-            <% val_label = get_full_name(user) %>
-
-            <% unless user.phone_number.blank? %>
-              <% val_label += " <span class='badge'><i class='fa fa-phone-square' aria-hidden='true'></i> #{user.phone_number}</span>" %>
-            <% end %>
-
-            <% unless user.email.blank? %>
-              <% val_label += " <span class='badge'><i class='fa fa-envelope-square' aria-hidden='true'></i> #{user.email}</span>" %>
-            <% end %>
-
-            <% select_user_vals.push([val_label, user.id.to_s]) %>
-            <% id_vals.push(user.id.to_s) %>
-          <% end %>
-
-          <% selected_vals = [] %>
-
-          <% unless @event.group.blank? %>
-            <% @event.group.users.each do |user| %>
-
-              <% if id_vals.include? user.id.to_s %>
-                <%  selected_vals.push(user.id.to_s)  %>
-              <% end %>
-            <% end %>
-          <% end %>
+          <% select_vals, selected_vals = get_select_vals(true) %>
 
           <p hidden id="selected_vals"><%= selected_vals %></p>
 
-          <% select_group_vals.sort_by!{ |u| u } %>
-          <% select_user_vals.sort_by!{ |u| u } %>
-          <% select_vals = select_group_vals.concat(select_user_vals) %>
-
           <div class="col-12" data-controller="group">
-            <%= f.select :group, select_vals, {hide_label: true}, {class: "selectpicker", multiple: "", "title": I18n.t("global.menu.users") + "/" + I18n.t("global.menu.groups"), data: {"style": "", "styleBase": "form-control", "width":"200px", "live-search": "true", "show-subtext": "true", "actions-box": "true", target: 'group.dropdown'}} %>
+            <%= f.select :users, select_vals, {hide_label: true}, {class: "selectpicker", multiple: "", "title": I18n.t("global.menu.users") + "/" + I18n.t("global.menu.groups"), data: {"styleBase": "form-control", "width":"200px", "live-search": "true", "show-subtext": "true", "actions-box": "true", target: 'group.dropdown'}} %>
           </div>
 
           <div class="col-12">

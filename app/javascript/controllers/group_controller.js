@@ -5,9 +5,7 @@ export default class extends Controller {
     static targets = [ "dropdown" ]
 
     connect(){
-        console.log($('#selected_vals')[0].textContent)
         var selected_vals = this.parseArrayFromText($('#selected_vals')[0].textContent)
-        console.log(selected_vals)
         $('.selectpicker').selectpicker('val', selected_vals);
         this.setDataContentSelectInputs();
         $('.selectpicker').selectpicker('refresh');

@@ -9,33 +9,7 @@
           <%= f.text_field :name, label: I18n.t('groups.name'), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
         </div>
 
-        <% select_vals = [] %>
-        <% id_vals = [] %>
-
-        <% User.all.select {|user| !user.admin}.each do |user| %>
-          <% val_label = get_full_name(user) %>
-
-          <% unless user.phone_number.blank? %>
-            <% val_label += " <span class='badge'><i class='fa fa-phone-square' aria-hidden='true'></i> #{user.phone_number}</span>" %>
-          <% end %>
-
-          <% unless user.email.blank? %>
-            <% val_label += " <span class='badge'><i class='fa fa-envelope-square' aria-hidden='true'></i> #{user.email}</span>" %>
-          <% end %>
-
-          <% select_vals.push([val_label, user.id]) %>
-          <% select_vals.sort_by!{ |u| u } %>
-          <% id_vals.push(user.id.to_s) %>
-        <% end %>
-
-        <% selected_vals = [] %>
-
-        <% @group.users.each do |user| %>
-
-          <% if id_vals.include? user.id.to_s %>
-            <%  selected_vals.push(user.id.to_s)  %>
-          <% end %>
-        <% end %>
+        <% select_vals, selected_vals = get_select_vals(false) %>
 
         <p hidden id="selected_vals"><%= selected_vals %></p>
 
