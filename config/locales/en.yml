@@ -1,6 +1,14 @@
 en:
   global:
     organization_name: "The Haven Project"
+    organization_description:
+          "The Haven Project provides direct service to more
+          than 200 homeless unaccompanied youth ages 17-24 each
+          year in our Drop-in Centers, with referrals to other youth
+          serving organizations for hundreds more who don't meet intake
+          criteria based on age, homelessness or other factors."
+    logo_path: "media/svgs/logo_no_background.svg"
+    logo_alt_path: "media/svgs/logo_background.svg"
     menu:
       home: "Home"
       newsletter: "Newsletter"
@@ -8,12 +16,52 @@ en:
       sign_in: "Sign In"
       sign_out: "Sign Out"
       admin: "Admin"
+      events: "Events"
+      groups: "Groups"
+      users: "Users"
       my_profile: "My Profile"
+      faq: "FAQ"
+      contact: "Contact"
+    deleted: "Deleted"
+    updated: "Updated"
+    delete: "Delete"
+    edit: "Edit"
+    show: "Show"
+    back: "Back"
+    submit: "Submit"
+    new: "New"
+    event: "Event"
+    group: "Group"
+    user: "User"
+    non_message: "Non-Message"
+    not_delivered: "Not Delivered"
+    delivered: "Delivered"
+    not_responded: "Not Responding"
+    not_attending: "Not Attending"
+    attending: "Attending"
+    subject: "Subject"
+    message: "Message"
+    others_count: "%{prefix}%{count} others %{suffix}"
+    others_prefix: "You and "
     welcome: "Welcome to <br> %{organization_name}"
+    model_created: "Your %{type} was successfully created!"
+    model_modified: "Your %{type} was successfully modified!"
+    model_deleted: "Your %{type} was successfully deleted!"
     not_found: "Your %{type} was not found. Please try again, and if this persists, contact the administrator."
     error_message: "An error has occurred saving your %{type}. Please contact the administrator."
     invalid_input: "Invalid input. Please try again."
+    invalid_action: "This action cannot be completed. Please try another selection or try again later."
     warning: "You must be signed in as a(n) %{type} to view this page!"
+    missing_input: "No %{types} found."
+    missing_input_user_prompt: "None currently exist that are public or you are invited to."
+    missing_input_user_prompt_manual: "None currently configured."
+    missing_input_admin_prompt: "Click the button to create a new one!"
+    missing_input_admin_prompt_manual: "Configure this in the app settings."
+    are_you_sure: "Are you sure?"
+  static_pages:
+    contact:
+      submit_text: "Submit Text"
+      submit_email: "Submit Email"
   users:
     registrations:
       create_by_admin:
@@ -22,9 +70,14 @@ en:
         csv_failures: "Users have all failed. Please review your CSV and resubmit. The following rows failed:<br><br>%{rows}"
         csv_success_with_failures: "Users have been created, but there were failures. Please review your CSV and edit the failed rows should you want to create them. The following rows failed:<br><br>%{rows}"
   texts:
-    confirmation: "Welcome %{name} to %{organization_name}! Respond CONFIRM to confirm your interest in notifications, STOP to cancel."
-    confirmation_success_response: "Thanks! You are now confirmed!"
-    confirmation_failed_response: "You are already confirmed."
+    confirmation: "Welcome %{name} to %{organization_name}! Respond Y to confirm your interest in notifications, N to cancel."
+    new_event: "New %{type}:\n%{params}%{prompt}"
+    updated_event: "%{type} updated:\n%{params}%{prompt}"
+    deleted_event: "%{type} deleted:\n%{params}"
+    new_prompt: "Respond %{id}Y to confirm your attendance, %{id}N to decline."
+    updated_prompt: "If you haven't already, respond %{id}Y to confirm your attendance, %{id}N to decline."
+    confirmation_success_response: "Thanks! Your account is now confirmed!"
+    confirmation_failed_response: "Your account is already confirmed."
     stop_success_response: "You will no longer receive notifications."
     stop_failed_response: "You already do not receive notifications. Please reregister to recieve notifications."
   events:
@@ -34,12 +87,28 @@ en:
     edit:
       edit: "Edit event"
       edit_prompt: "Please fill out this form to modify and/or publish event!"
-    update:
-      success: "Your event was successfully modified!"
-    create:
-      success: "Your event was successfully created!"
-    destroy:
-      success: "Your event was successfully deleted!"
+    attending_success_response: "You are now confirmed!"
+    attending_failed_response: "You are already confirmed."
+    not_attending_success_response: "You are no longer confirmed."
+    not_attending_failed_response: "You are already unconfirmed."
+    title: "Title"
+    description: "Description"
+    when: "When"
+    where: "Where"
+    location: "Location"
+    type: "Type"
+    published: "Published"
+    event: "Event"
+    info: "Info"
+    message: "Message"
+  groups:
+    new:
+      create: "Create group"
+      create_prompt: "Please fill out this form to create an group!"
+    edit:
+      edit: "Edit group"
+      edit_prompt: "Please fill out this form to modify and/or publish group!"
+    name: "Name"
   devise:
     registrations:
       new:
@@ -54,3 +123,23 @@ en:
       new:
         login: "Login"
         login_prompt: "Please login below using your username, email, or phone number."
+  faq:
+    -
+      question: "What is The Haven Project?"
+      answer: "The Haven Project provides direct service to more than 200 homeless unaccompanied youth ages 17-24 each year in our Drop-in Centers, with referrals to other youth serving organizations for hundreds more who don't meet intake criteria based on age, homelessness or other factors."
+    -
+      question: "What is The Land of a Thousand Hills?"
+      answer: "In our experience, we have found that most clients do not have the foundational skills needed to keep a job. They do not have the problem-solving and communication skills to successfully deal with co-workers because of a myriad of issues related to their unstable housing situation. To address this, in 2016, we opened our social enterprise, The Land of a Thousand Hills – Lynn. This social enterprise provides a venue for job-training and operating funds for all of our programs.  Our café is award-winning, having received the prestigious BONS (Best of North Shore) for Best Coffee Shop in the categories of Readers and Editor’s choice for the past three years (2017, 2018, & 2019)!"
+    -
+      question: "What can I expect on my first visit?"
+      answer: "You’ll meet with one of our case managers who will ask you some questions to try to understand your situation (try to bring whatever IDs and documents you can to help us with this process), enjoy a meal and some snacks, get some groceries and hygiene supplies to take with you, set some basic goals with one of our case managers, check out recent postings for available jobs and housing options in the area, begin accomplishing some of the goals with the help of one of our case managers, and get a free gift card for food or coffee on your way out!"
+    -
+      question: "What can I do in this app?"
+      answer: "You can interact with The Haven Project's many services! Sign up for notifications and RSVP for events and information sent to your preferred communication method, contact The Haven Project directly, and track and maintain your progress with your Stability Score and analysis on your user profile."
+  contact:
+    email: "office@havenproject.net"
+    phone: "(781) 913-5738"
+    facebook: "Haven.Project57"
+    twitter:
+    instagram: "loth_lynn"
+    website: "https://havenproject.net/"

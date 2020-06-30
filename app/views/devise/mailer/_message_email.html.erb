@@ -1,0 +1,5 @@
+<p>Hi <%= user.first_name %>, you have a new email from <%= t 'global.organization_name' %>!</p>
+
+<p><%= is_being_updated ? "Updated" : "New" %> Message:</p>
+
+<p><%= get_event_text_params(event, true).html_safe%></p>

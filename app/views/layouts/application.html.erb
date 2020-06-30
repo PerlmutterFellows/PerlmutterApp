@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>PerlmutterSummer2020</title>
+    <title><%= I18n.t("global.organization_name") %></title>
+    <link rel="icon" href="favicon.ico">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +12,7 @@
 </head>
 
   <body>
-    <% unless controller_name == "sessions" || controller_name == "registrations" %>
+    <% unless ["registrations", "sessions"].include?(controller_name) && !["index", "show"].include?(action_name) %>
       <%= render "shared/header" %>
     <% end %>
     <%= toastr_flash %>

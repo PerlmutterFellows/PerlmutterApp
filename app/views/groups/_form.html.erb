@@ -1,0 +1,30 @@
+<div class="full-page d-flex justify-content-center align-items-center sessions-background">
+  <div class="m-4 shadow w-md-75 h-75 row no-gutters justify-content-center align-items-center bg-light">
+    <div class="p-2 w-md-75">
+      <%= bootstrap_form_for(@group) do |f| %>
+        <h3 class="font-weight-light mb-1"><%= title %></h3>
+        <h4 class="font-weight-lighter"><%= prompt %></h4>
+        <hr />
+        <div class="form-group-lg">
+          <%= f.text_field :name, label: I18n.t('groups.name'), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+        </div>
+
+        <% select_vals, selected_vals = get_select_vals(false) %>
+
+        <p hidden id="selected_vals"><%= selected_vals %></p>
+
+        <div class="p-2 w-md-75">
+        <div class="form-group-lg" data-controller="group">
+          <%= f.select :users, select_vals, {hide_label: true}, {class: "selectpicker", multiple: "", "title": I18n.t("global.menu.users"), data: {"style": "", "styleBase": "form-control", "width":"200px", "live-search": "true", "show-subtext": "true", "actions-box": "true", target: 'group.dropdown'}} %>
+        </div>
+        </div>
+
+        <%= f.submit I18n.t("global.submit") %>
+        <% if @group.valid? %>
+          <%= link_to I18n.t("global.show"), @group, class: "btn btn-primary" %>
+        <% end %>
+        <%= link_to I18n.t("global.back"), groups_path, class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>

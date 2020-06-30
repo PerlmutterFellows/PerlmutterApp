@@ -1,0 +1,28 @@
+<div class="d-flex justify-content-center">
+  <div class="row w-75 m-4 d-flex justify-content-center">
+    <div class="col-6 d-flex align-items-center">
+      <h1 class="font-weight-light"><%= I18n.t("global.menu.groups") %></h1>
+    </div>
+    <div class="col-6 d-flex align-items-center justify-content-end">
+      <% if user_is_admin? %>
+        <%= link_to I18n.t("global.new"), new_group_path, class: "btn btn-secondary" %>
+      <% end %>
+    </div>
+    <% @groups.each do |group| %>
+      <div class="col-lg-4 col-md-6 col-sm-12 mt-3 d-flex align-items-stretch justify-content-center">
+        <%= render 'shared/card',
+                   header: get_group_html_header,
+                   img: "",
+                   title: get_group_html_title(group),
+                   body: get_group_html_body(group, false),
+                   footer: get_group_html_buttons(group, false) %>
+      </div>
+    <% end %>
+    <%= render 'shared/empty_notice', condition: @groups.count == 0,
+               if_prompt: I18n.t('global.missing_input', types: t('global.menu.events').downcase),
+               else_prompt: "",
+               sub_condition: user_is_admin?,
+               sub_if_prompt: I18n.t('global.missing_input_admin_prompt'),
+               sub_else_prompt: I18n.t('global.missing_input_user_prompt') %>
+  </div>
+</div>

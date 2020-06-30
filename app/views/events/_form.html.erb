@@ -7,21 +7,27 @@
         <hr />
         <div class="row">
           <div class="col-md-6 col-xs-12">
-            <%= f.text_field :title, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
-            <%= f.text_area :description, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            <%= f.text_field :title, label: I18n.t("events.title"), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            <%= f.text_area :description, label: I18n.t("events.description"), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
           </div>
           <div class="col-md-6 col-xs-12">
-            <%= f.form_group :eventType, label: { text: "Event Type" }, help: "A tag describing the content" do %>
-              <%= f.radio_button :eventType, "event", label: "Event", checked: true %>
-              <%= f.radio_button :eventType, "info", label: "Info" %>
-              <%= f.radio_button :eventType, "message", label: "Message" %>
+            <%= f.form_group :eventType, label: { text: I18n.t("events.type") } do %>
+              <%= f.radio_button :eventType, "event", label: I18n.t("events.event"), checked: true %>
+              <%= f.radio_button :eventType, "info", label: I18n.t("events.info") %>
+              <%= f.radio_button :eventType, "message", label: I18n.t("events.message") %>
             <% end %>
           </div>
-          <div class="col-12">
-            <%= f.text_field :to, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+
+          <% select_vals, selected_vals = get_select_vals(true) %>
+
+          <p hidden id="selected_vals"><%= selected_vals %></p>
+
+          <div class="col-12" data-controller="group">
+            <%= f.select :users, select_vals, {hide_label: true}, {class: "selectpicker", multiple: "", "title": I18n.t("global.menu.users") + "/" + I18n.t("global.menu.groups"), data: {"styleBase": "form-control", "width":"200px", "live-search": "true", "show-subtext": "true", "actions-box": "true", target: 'group.dropdown'}} %>
           </div>
+
           <div class="col-12">
-            <%= f.text_field :location, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            <%= f.text_field :location, label: I18n.t("events.location"), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
           </div>
           <div class="col-md-6 col-xs-12">
             <%= f.date_field :startDate, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
@@ -30,20 +36,20 @@
             <%= f.time_field :startTime, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
           </div>
           <div class="col-md-6 col-xs-12">
-            <%= f.date_field :startDate, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            <%= f.date_field :endDate, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
           </div>
           <div class="col-md-6 col-xs-12">
             <%= f.time_field :endTime, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
           </div>
           <div class="col-12">
-            <%= f.check_box :published, label: "Publish?", autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            <%= f.check_box :published, label: I18n.t("events.published") + "?", autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
           </div>
         </div>
-        <%= f.submit "Submit" %>
+        <%= f.submit I18n.t("global.submit") %>
         <% if @event.valid? %>
-        <%= link_to 'Show', @event, class: "btn btn-primary" %>
+        <%= link_to I18n.t("global.show"), @event, class: "btn btn-primary" %>
         <% end %>
-        <%= link_to 'Back', events_path, class: "btn btn-primary" %>
+        <%= link_to I18n.t("global.back"), events_path, class: "btn btn-primary" %>
     <% end %>
     </div>
   </div>

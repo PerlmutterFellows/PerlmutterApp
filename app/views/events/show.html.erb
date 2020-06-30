@@ -1,55 +1,10 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @event.title %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @event.description %>
-</p>
-
-<p>
-  <strong>Startdate:</strong>
-  <%= @event.startDate %>
-</p>
-
-<p>
-  <strong>Starttime:</strong>
-  <%= @event.startTime %>
-</p>
-
-<p>
-  <strong>Enddate:</strong>
-  <%= @event.endDate %>
-</p>
-
-<p>
-  <strong>Endtime:</strong>
-  <%= @event.endTime %>
-</p>
-
-<p>
-  <strong>Location:</strong>
-  <%= @event.location %>
-</p>
-
-<p>
-  <strong>Eventtype:</strong>
-  <%= @event.eventType %>
-</p>
-
-<p>
-  <strong>Published:</strong>
-  <%= @event.published %>
-</p>
-
-<p>
-  <strong>To:</strong>
-  <%= @event.to %>
-</p>
-<% if current_user && current_user.admin %>
-  <%= link_to 'Edit', edit_event_path(@event), class: "btn btn-primary" %>
-<% end %>
-<%= link_to 'Back', events_path, class: "btn btn-primary" %>
+<div class="d-flex justify-content-center">
+  <div class="row w-75 m-4 d-flex justify-content-center">
+    <%= render 'shared/card',
+             header: get_event_html_header(@event),
+             img: "",
+             title: get_event_html_title(@event),
+             body: get_event_html_body(@event, get_attending_counts(@event), true),
+             footer: get_event_html_buttons(@event, true) %>
+  </div>
+</div>

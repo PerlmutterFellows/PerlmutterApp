@@ -32,7 +32,7 @@ module RegistrationsHelper
     else
       created_user.delete
       flash[:error] = t('global.error_message', type: "user")
-      admin_user_new_path
+      users_new_path
     end
   end
 
