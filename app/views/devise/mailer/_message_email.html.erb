@@ -1,5 +1,5 @@
-<p>Hi <%= user.first_name %>, you have a new email from <%= t 'global.organization_name' %>!</p>
+<p><%= I18n.t('devise.mailer.intro_prompt', name: user.first_name, organization_name: I18n.t('global.organization_name')) %></p>
 
-<p><%= is_being_updated ? "Updated" : "New" %> Message:</p>
+<p><%= is_being_updated ? I18n.t('global.updated') : I18n.t('global.new') %> <%= I18n.t('global.message') %>:</p>
 
 <p><%= get_event_text_params(event, true).html_safe%></p>

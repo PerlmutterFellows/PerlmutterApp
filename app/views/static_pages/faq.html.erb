@@ -7,7 +7,7 @@
                                       if_prompt: I18n.t('global.missing_input',
                                         types: I18n.t('global.menu.faq')),
                                       else_prompt: TextHandler.new.process_faqs,
-                                      sub_condition: user_is_admin?,
+                                      sub_condition: admin_signed_in?(current_user),
                                       sub_if_prompt: I18n.t('global.missing_input_admin_prompt_manual'),
                                       sub_else_prompt: I18n.t('global.missing_input_user_prompt_manual') %>
   </div>

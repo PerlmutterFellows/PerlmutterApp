@@ -21,22 +21,25 @@
       </li>
     </ul>
     <hr />
+    <% fa_user_icon, fa_icon, account_type = get_user_role_info(current_user) %>
     <ul class="nav navbar-nav justify-content-start">
-      <% if user_is_admin? %>
+      <% if moderator_signed_in?(current_user) %>
         <h4 class="nav-item dropdown">
           <a class="nav-link d-flex align-items-center dropdown-toggle font-weight-light" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-cogs d-none d-lg-block mr-2" aria-hidden="true"></i><span><%= (t "global.menu.admin") %></span>
+            <i class="fas <%= fa_icon %> d-none d-lg-block mr-2" aria-hidden="true"></i><span><%= account_type %></span>
           </a>
           <div class="dropdown-menu" aria-labelledby="adminDropdown">
             <p><%= link_to (t "global.menu.events"), events_path, class: "dropdown-item" %></p>
             <p><%= link_to (t "global.menu.groups"), groups_path, class: "dropdown-item" %></p>
-            <p><%= link_to (t "global.menu.users"), users_path, class: "dropdown-item" %></p>
+            <% if current_user.admin? %>
+              <p><%= link_to (t "global.menu.users"), users_path, class: "dropdown-item" %></p>
+            <% end %>
           </div>
         </h4>
       <% end %>
       <h4 class="nav-item dropdown">
         <a class="nav-link d-flex align-items-center dropdown-toggle font-weight-light" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fa fa-user d-none d-lg-block mr-2" aria-hidden="true"></i><span><%= current_user ? current_user.first_name : I18n.t("global.user") %></span>
+          <i class="fa <%= fa_user_icon %> d-none d-lg-block mr-2" aria-hidden="true"></i><span><%= user_signed_in? ? current_user.first_name : I18n.t("global.menu.guest") %></span>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
           <% if current_user %>

@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
+  enum role: %i[user moderator admin]
   has_many :group_memberships
   has_many :groups, :through => :group_memberships
   has_many :event_statuses
@@ -14,6 +15,7 @@ class User < ApplicationRecord
   validate :format_phone_number
   validates_uniqueness_of :phone_number, conditions: -> {where.not(:phone_number => '')}
   after_save :send_phone_confirmation
+  include ApplicationHelper
 
   def email_required?
     false
@@ -23,6 +25,11 @@ class User < ApplicationRecord
     if email.blank? && phone_number.blank?
       errors.add(:email, "must have an email or a phone number!")
     end
+  end
+
+  def get_locale
+    yielded_locale = yield_locale_from_available(self.locale)
+    yielded_locale.blank? ? I18n.locale : yielded_locale
   end
 
   private

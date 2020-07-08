@@ -47,32 +47,36 @@ es:
       unauthenticated: Tienes que iniciar sesión o registrarte para poder continuar.
       unconfirmed: Tienes que confirmar tu cuenta para poder continuar.
     mailer:
+      intro_prompt: "Hola %{name}, ¡tienes un nuevo correo electrónico de %{organization_name}!"
+      intro_prompt_welcome: "¡Bienvenido %{name} a %{organization_name}!"
+      in_progress: "está siendo"
+      complete: "ha sido"
+      more_info: "Más información"
+      update_prefix: "Si aún no lo has hecho, tú"
+      new_prefix: "Usted"
+      attendance: "asistencia"
+      email: "correo electrónico"
+      body: "Su contraseña es %{password}."
+      link_prompt: "puede confirmar su %{state} a través de los siguientes enlaces:"
+      link: "Confirmar mi cuenta"
       confirmation_instructions:
-        action: Confirmar mi cuenta
-        greeting: "¡Bienvenido %{recipient}!"
-        instruction: 'Usted puede confirmar el correo electrónico de su cuenta a través de este enlace:'
-        subject: Instrucciones de confirmación
+        subject: "Instrucciones de confirmación"
       email_changed:
-        greeting: "¡Hola %{recipient}! "
-        message: Estamos contactando contigo para notificarte que tu email ha sido cambiado a %{email}.
-        subject: Email cambiado
+        subject: "Email cambiado"
+        body: "Estamos contactando contigo para notificarte que tu email %{state} cambiado a %{email}."
       password_change:
-        greeting: Hola %{recipient}!
-        message: Le estamos contactando para notificarle que su contraseña ha sido cambiada.
-        subject: Contraseña cambiada
+        subject: "Contraseña cambiada"
+        body: "Le estamos contactando para notificarle que su contraseña ha sido cambiada."
       reset_password_instructions:
-        action: Cambiar mi contraseña
-        greeting: "¡Hola %{recipient}!"
-        instruction: Alguien ha solicitado un enlace para cambiar su contraseña, lo que se puede realizar a través del siguiente enlace.
-        instruction_2: Si usted no lo ha solicitado, por favor ignore este correo electrónico.
-        instruction_3: Su contraseña no será cambiada hasta que usted acceda al enlace y cree una nueva.
-        subject: Instrucciones de recuperación de contraseña
+        subject: "Instrucciones de recuperación de contraseña"
+        body: "Si usted no lo ha solicitado, por favor ignore este correo electrónico. Su contraseña no será cambiada hasta que usted acceda al enlace y cree una nueva."
+        link_prompt: "Alguien ha solicitado un enlace para cambiar su contraseña, lo que se puede realizar a través del siguiente enlace."
+        link: "Cambiar mi contraseña"
       unlock_instructions:
-        action: Desbloquear mi cuenta
-        greeting: "¡Hola %{recipient}!"
-        instruction: 'Haga click en el siguiente enlace para desbloquear su cuenta:'
-        message: Su cuenta ha sido bloqueada debido a una cantidad excesiva de intentos infructuosos para ingresar.
-        subject: Instrucciones para desbloquear
+        subject: "Instrucciones para desbloquear"
+        body: "Su cuenta ha sido bloqueada debido a una cantidad excesiva de intentos infructuosos para ingresar."
+        link_prompt: 'Haga click en el siguiente enlace para desbloquear su cuenta:'
+        link: "Desbloquear mi cuenta"
     omniauth_callbacks:
       failure: No has sido autorizado en la cuenta %{kind} porque "%{reason}".
       success: Has sido autorizado satisfactoriamente en la cuenta %{kind}.

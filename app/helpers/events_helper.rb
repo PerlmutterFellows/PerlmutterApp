@@ -19,7 +19,7 @@ module EventsHelper
     attendance_check_box_html = ""
     attendance_display_html = ""
     users_html = ""
-    if !user_is_admin?
+    if !moderator_signed_in?(current_user)
       status = EventStatus.find_by(user_id: current_user.id, event_id: event.id)
       if status.attending?
         attendance_display_html = I18n.t("global.others_count", count: (attending_count - 1).to_s, prefix: I18n.t("global.others_prefix"), suffix: I18n.t("global.attending").downcase)
@@ -64,17 +64,24 @@ module EventsHelper
 
   def get_event_html_buttons(event, is_on_show)
     if is_on_show
-      tertiary_button = "#{link_to I18n.t("global.back"), events_path, class: "btn btn-primary"}"
+      tertiary_button = "#{link_to I18n.t("global.back"), :back, class: "btn btn-outline-primary"}"
     else
-      tertiary_button = "#{link_to I18n.t("global.show"), event, class: "btn btn-primary"}"
+      tertiary_button = "#{link_to I18n.t("global.show"), event, class: "btn btn-outline-primary"}"
     end
-    if user_is_admin?
-      "#{link_to I18n.t("global.delete"), event, class: "btn btn-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
-      #{link_to I18n.t("global.edit"), edit_event_path(event), class: "btn btn-primary"}
-      #{tertiary_button}".html_safe
+    button_html = "<div class='text-center'>
+                    <div class='btn-group btn-group-md' role='group'>"
+    if moderator_signed_in?(current_user)
+      button_html += "#{link_to I18n.t("global.delete"), event, class: "btn btn-outline-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
+                      #{link_to I18n.t("global.edit"), edit_event_path(event), class: "btn btn-outline-primary"}
+                      #{tertiary_button}
+                    </div>
+                  </div>"
     else
-      "#{tertiary_button}".html_safe
+      button_html += "#{tertiary_button}
+                    </div>
+                  </div>"
     end
+    button_html.html_safe
   end
 
   ##
@@ -240,12 +247,14 @@ module EventsHelper
   # is_being_published - whether the event is being published or not
   def handle_notify_event(event, is_being_published)
     event.users.each do |user|
-      status = EventStatus.find_by(user_id: user.id, event_id: event.id)
-      if !status.blank? && !status.not_attending?
-        if is_being_published
-          send_publish_event_notification(event, user, status)
-        else
-          send_delete_event_notification(event, user)
+      I18n.with_locale(user.get_locale) do
+        status = EventStatus.find_by(user_id: user.id, event_id: event.id)
+        if !status.blank? && !status.not_attending?
+          if is_being_published
+            send_publish_event_notification(event, user, status)
+          else
+            send_delete_event_notification(event, user)
+          end
         end
       end
     end

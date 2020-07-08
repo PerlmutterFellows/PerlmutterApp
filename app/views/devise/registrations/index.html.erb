@@ -4,11 +4,11 @@
       <h1 class="font-weight-light"><%= I18n.t("global.menu.users") %></h1>
     </div>
     <div class="col-6 d-flex align-items-center justify-content-end">
-      <% if user_is_admin? %>
+      <% if admin_signed_in?(current_user) %>
         <%= link_to I18n.t("global.new"), users_new_path, class: "btn btn-secondary" %>
       <% end %>
     </div>
-    <% User.all.order(:admin).reverse.each do |user| %>
+    <% User.all.order(:role).reverse.each do |user| %>
       <div class="col-lg-4 col-md-6 col-sm-12 mt-3 d-flex justify-content-center align-items-stretch">
         <%= render 'shared/card',
                    header: get_user_html_header(user),
@@ -21,7 +21,7 @@
     <%= render 'shared/empty_notice', condition: User.all.count == 0,
                if_prompt: I18n.t('global.missing_input', types: t('global.menu.users').downcase),
                else_prompt: "",
-               sub_condition: user_is_admin?,
+               sub_condition: admin_signed_in?(current_user),
                sub_if_prompt: I18n.t('global.missing_input_admin_prompt'),
                sub_else_prompt: I18n.t('global.missing_input_user_prompt') %>
   </div>
