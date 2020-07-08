@@ -12,7 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def show
-    if (user_signed_in? && @user.id == current_user.id) || admin_signed_in?
+    if (user_signed_in? && @user.id == current_user.id) || admin_signed_in?(current_user)
       render :template => 'devise/registrations/show'
     else
       authenticate_admin!
@@ -90,7 +90,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :phone_number])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :phone_number, :locale, :role])
   end
 
   # If you have extra params to permit, append them to the sanitizer.

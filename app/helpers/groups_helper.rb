@@ -10,7 +10,7 @@ module GroupsHelper
 
   def get_group_html_body(group, is_on_show)
     users_html = ""
-    if user_is_admin?
+    if moderator_signed_in?(current_user)
       if is_on_show
         group.users.each do |user|
           users_html += "<p class='card-text pt-2'><strong>#{get_full_name(user)}</strong></p>" + get_user_html_body(user, nil)
@@ -23,17 +23,24 @@ module GroupsHelper
 
   def get_group_html_buttons(group, is_on_show)
     if is_on_show
-      tertiary_button = "#{link_to I18n.t("global.back"), groups_path, class: "btn btn-primary"}"
+      tertiary_button = "#{link_to I18n.t("global.back"), :back, class: "btn btn-outline-primary"}"
     else
-      tertiary_button = "#{link_to I18n.t("global.show"), group, class: "btn btn-primary"}"
+      tertiary_button = "#{link_to I18n.t("global.show"), group, class: "btn btn-outline-primary"}"
     end
-    if user_is_admin?
-      "#{link_to I18n.t("global.delete"), group, class: "btn btn-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
-      #{link_to I18n.t("global.edit"), edit_group_path(group), class: "btn btn-primary"}
-      #{tertiary_button}".html_safe
+    button_html = "<div class='text-center'>
+                    <div class='btn-group btn-group-md' role='group'>"
+    if moderator_signed_in?(current_user)
+      button_html += "#{link_to I18n.t("global.delete"), group, class: "btn btn-outline-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
+                      #{link_to I18n.t("global.edit"), edit_group_path(group), class: "btn btn-outline-primary"}
+                      #{tertiary_button}
+                    </div>
+                  </div>"
     else
-      "#{tertiary_button}".html_safe
+      button_html += "#{tertiary_button}
+                    </div>
+                  </div>"
     end
+    button_html.html_safe
   end
 
   ##
@@ -89,7 +96,7 @@ module GroupsHelper
     select_user_vals = []
     id_vals = []
 
-    User.all.select {|user| !user.admin}.each do |user|
+    User.all.select {|user| !moderator_signed_in?(user)}.each do |user|
       val_label = get_full_name(user)
 
       unless user.phone_number.blank?

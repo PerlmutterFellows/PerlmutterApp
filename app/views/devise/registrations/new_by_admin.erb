@@ -23,11 +23,17 @@
             <div class="col-md-6 col-xs-12">
               <%= f.text_field :last_name, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
             </div>
-            <div class="col-12">
+            <div class="col-md-6 col-xs-12">
               <%= f.email_field :email, autofocus: true, autocomplete: "email", label_as_placeholder: true, input_group_class: 'input-group-lg' %>
             </div>
-            <div class="col-12">
+            <div class="col-md-6 col-xs-12">
               <%= f.text_field :phone_number, autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <%= f.form_group :role, label: { text: I18n.t("users.role") } do %>
+                <%= f.radio_button :role, "user", label: I18n.t("global.user"), checked: true %>
+                <%= f.radio_button :role, "moderator", label: I18n.t("global.menu.moderator") %>
+              <% end %>
             </div>
           </div>
           <%= f.submit "Submit Form" %>

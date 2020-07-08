@@ -1,8 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :attend, :unattend, :edit, :update, :destroy]
-  before_action :authenticate_admin!, only: [:edit, :update, :destroy]
+  before_action :authenticate_moderator!, only: [:edit, :update, :destroy]
   before_action :authenticate_user!, only: [:index, :new, :show, :attend, :unattend]
-  before_action :authenticate_event_type!, only: [:show]
 
   # GET /events
   # GET /events.json
@@ -42,7 +41,7 @@ class EventsController < ApplicationController
       if @event.save
         users = get_users_from_select(params['event']['users'])
         if users.blank?
-          @event.errors.add(:users, "must have users!")
+          @event.errors.add(:users, I18n.t('global.error_users'))
           format.html { render :new }
           format.json { render json: @event.errors, status: :unprocessable_entity }
         else
@@ -68,7 +67,7 @@ class EventsController < ApplicationController
       if @event.update(event_params)
         users = get_users_from_select(params['event']['users'])
         if users.blank?
-          @event.errors.add(:users, "must have users!")
+          @event.errors.add(:users, I18n.t('global.error_users'))
           format.html { render :edit }
           format.json { render json: @event.errors, status: :unprocessable_entity }
         else
@@ -98,13 +97,6 @@ class EventsController < ApplicationController
       flash['success'] = t('global.model_deleted', type: t('global.event').downcase)
       format.html { redirect_to events_url }
       format.json { head :no_content }
-    end
-  end
-
-  def authenticate_event_type!
-    if !@event.blank? && !current_user.admin && @event.message?
-      flash[:error] = t('global.invalid_action')
-      redirect_to root_path
     end
   end
 

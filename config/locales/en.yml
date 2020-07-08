@@ -2,11 +2,11 @@ en:
   global:
     organization_name: "The Haven Project"
     organization_description:
-          "The Haven Project provides direct service to more
-          than 200 homeless unaccompanied youth ages 17-24 each
-          year in our Drop-in Centers, with referrals to other youth
-          serving organizations for hundreds more who don't meet intake
-          criteria based on age, homelessness or other factors."
+      "The Haven Project provides direct service to more
+      than 200 homeless unaccompanied youth ages 17-24 each
+      year in our Drop-in Centers, with referrals to other youth
+      serving organizations for hundreds more who don't meet intake
+      criteria based on age, homelessness or other factors."
     logo_path: "media/svgs/logo_no_background.svg"
     logo_alt_path: "media/svgs/logo_background.svg"
     menu:
@@ -16,12 +16,15 @@ en:
       sign_in: "Sign In"
       sign_out: "Sign Out"
       admin: "Admin"
+      moderator: "Moderator"
+      guest: "Guest"
       events: "Events"
       groups: "Groups"
       users: "Users"
       my_profile: "My Profile"
       faq: "FAQ"
       contact: "Contact"
+    locale: "Locale"
     deleted: "Deleted"
     updated: "Updated"
     delete: "Delete"
@@ -49,6 +52,7 @@ en:
     model_deleted: "Your %{type} was successfully deleted!"
     not_found: "Your %{type} was not found. Please try again, and if this persists, contact the administrator."
     error_message: "An error has occurred saving your %{type}. Please contact the administrator."
+    error_users: "must have users!"
     invalid_input: "Invalid input. Please try again."
     invalid_action: "This action cannot be completed. Please try another selection or try again later."
     warning: "You must be signed in as a(n) %{type} to view this page!"
@@ -63,6 +67,7 @@ en:
       submit_text: "Submit Text"
       submit_email: "Submit Email"
   users:
+    role: "Role"
     registrations:
       create_by_admin:
         type_missing: "Creation failed. Please input either email, phone number, or both."
