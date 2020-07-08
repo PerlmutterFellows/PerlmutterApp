@@ -15,7 +15,7 @@ valid_admin:
   last_name: Smith
   email: jsmith@gmail.com
   phone_number: 0123456789
-  admin: true
+  role: "admin"
 
 valid_only_email:
   first_name: Jane
