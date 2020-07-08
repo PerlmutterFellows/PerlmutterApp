@@ -11,7 +11,7 @@ Event.delete_all
 EventStatus.delete_all
 Group.delete_all
 GroupMembership.delete_all
-User.delete_by(admin: false)
+User.not_admin.delete_all
 
 10.times do
   Event.create(title: Faker::Book.title,
