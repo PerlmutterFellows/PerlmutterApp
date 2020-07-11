@@ -4,7 +4,7 @@
         <%= simple_format t 'global.welcome', organization_name: t('global.organization_name') %>
       </h1>
       <div class="p-2 w-md-75">
-        <%= bootstrap_form_for resource, as: resource_name, url: registration_path(resource_name) do |f| %>
+        <%= bootstrap_form_for resource, as: resource_name, url: user_registration_path do |f| %>
           <h3 class="font-weight-light mb-1"><%= t '.sign_up' %></h3>
           <h4 class="font-weight-lighter"><%= t '.sign_up_prompt' %></h4>
           <hr />
@@ -26,6 +26,13 @@
             </div>
             <div class="col-12">
               <%= f.password_field :password_confirmation, autocomplete: "new-password", label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+            </div>
+            <div class="col-12">
+              <%= f.form_group label: { text: I18n.t("users.contact_preferences") } do %>
+                <%= f.check_box :use_email, label: I18n.t("global.email") %>
+                <%= f.check_box :use_text, label: I18n.t("global.text") %>
+                <%= f.check_box :use_call, label: I18n.t("global.call") %>
+              <% end %>
             </div>
           </div>
           <%= f.submit "Sign up" %>

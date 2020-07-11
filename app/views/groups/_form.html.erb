@@ -13,10 +13,10 @@
 
         <p hidden id="selected_vals"><%= selected_vals %></p>
 
-        <div class="p-2 w-md-75">
-        <div class="form-group-lg" data-controller="group">
-          <%= f.select :users, select_vals, {hide_label: true}, {class: "selectpicker", multiple: "", "title": I18n.t("global.menu.users"), data: {"style": "", "styleBase": "form-control", "width":"200px", "live-search": "true", "show-subtext": "true", "actions-box": "true", target: 'group.dropdown'}} %>
-        </div>
+        <div class="p-2">
+          <div class="form-group-lg" data-controller="group" data-action="resize@window->group#setSelectPickerFilterWidth">
+            <%= f.select :users, select_vals, {hide_label: true}, {class: "selectpicker", multiple: "", "title": I18n.t("global.menu.users"), data: {"style": "", "styleBase": "form-control", "width":"200px", "live-search": "true", "show-subtext": "true", "actions-box": "true", target: 'group.dropdown'}} %>
+          </div>
         </div>
 
         <%= f.submit I18n.t("global.submit") %>

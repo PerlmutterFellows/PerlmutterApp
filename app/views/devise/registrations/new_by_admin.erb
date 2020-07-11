@@ -35,6 +35,14 @@
                 <%= f.radio_button :role, "moderator", label: I18n.t("global.menu.moderator") %>
               <% end %>
             </div>
+
+            <div class="col-md-6 col-xs-12">
+              <%= f.form_group label: { text: I18n.t("users.contact_preferences") } do %>
+                <%= f.check_box :use_email, label: I18n.t("global.email") %>
+                <%= f.check_box :use_text, label: I18n.t("global.text") %>
+                <%= f.check_box :use_call, label: I18n.t("global.call") %>
+              <% end %>
+            </div>
           </div>
           <%= f.submit "Submit Form" %>
           <%= link_to 'Back', users_path, class: "btn btn-primary" %>

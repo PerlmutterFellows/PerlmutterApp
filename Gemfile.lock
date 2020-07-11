@@ -89,6 +89,7 @@ GEM
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
+    equatable (0.6.1)
     erubi (1.9.0)
     faker (2.12.0)
       i18n (>= 1.6, < 2)
@@ -137,6 +138,9 @@ GEM
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
+    pastel (0.7.4)
+      equatable (~> 0.6)
+      tty-color (~> 0.5)
     pg (1.2.3)
     public_suffix (4.0.5)
     puma (4.3.3)
@@ -210,9 +214,20 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    strings (0.1.8)
+      strings-ansi (~> 0.1)
+      unicode-display_width (~> 1.5)
+      unicode_utils (~> 1.4)
+    strings-ansi (0.1.0)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
+    tty-box (0.4.1)
+      pastel (~> 0.7.2)
+      strings (~> 0.1.6)
+      tty-cursor (~> 0.7)
+    tty-color (0.5.1)
+    tty-cursor (0.7.1)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -222,6 +237,8 @@ GEM
       nokogiri (>= 1.6, < 2.0)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
+    unicode-display_width (1.7.0)
+    unicode_utils (1.4.0)
     warden (1.2.8)
       rack (>= 2.0.6)
     web-console (4.0.1)
@@ -270,6 +287,7 @@ DEPENDENCIES
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
+  tty-box
   turbolinks (~> 5)
   twilio-ruby (~> 5.35.0)
   tzinfo-data
@@ -281,4 +299,4 @@ RUBY VERSION
    ruby 2.7.0p0
 
 BUNDLED WITH
-   2.1.2
+   2.1.4

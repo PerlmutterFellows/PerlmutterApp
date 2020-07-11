@@ -13,8 +13,7 @@ class TwilioHandler
     )
 
     incoming_phone_number = client.incoming_phone_numbers(ENV['sid']).fetch
-    puts("Callback URL (text): #{incoming_phone_number.sms_url}")
-    puts("Callback URL (voice): #{incoming_phone_number.voice_url}")
+    [incoming_phone_number.sms_url, incoming_phone_number.voice_url]
   end
 
   def get_valid_phone_number(inputted_number)
@@ -39,6 +38,7 @@ class TwilioHandler
         from: ENV['phone_number'],
         body: message
     )
+    user.text_confirmation_sent_at = DateTime.now
     rescue StandardError => e
       success = false
       error = e.message.squish
@@ -65,8 +65,13 @@ class TwilioHandler
     client.calls.create(
           to: user.phone_number,
           from: ENV['phone_number'],
-          twiml: "<Response><Say>#{message}</Say></Response>"
+          twiml: "<Response>
+                    <Say>#{message}</Say>
+                    <Gather finishOnKey='#' timeout='15' action='#{Rails.application.routes.url_helpers.url_for(action: 'receive_call', controller: 'twilio', only_path: false)}' method='POST'></Gather>
+                    <Say>#{I18n.t('texts.dialer_failed')}</Say>
+                  </Response>"
       )
+    user.call_confirmation_sent_at = DateTime.now
     rescue StandardError => e
       success = false
       error = e.message.squish
@@ -74,11 +79,20 @@ class TwilioHandler
     [success, error]
   end
 
-  def send_respond_call(message)
+  def send_respond_call(user, message)
     voice_response = nil
     begin
       voice_response = Twilio::TwiML::VoiceResponse.new do |r|
-        response.say(message: message)
+        r.say(message: message)
+        r.gather(action: Rails.application.routes.url_helpers.url_for(action: 'receive_call', controller: 'twilio', only_path: false), method: 'POST') do |gather|
+          gather.say(message: I18n.t('texts.confirmation',
+                                name: user.first_name,
+                                organization_name: I18n.t('global.organization_name'),
+                                prompt: I18n.t('texts.dialer_prompt',
+                                          yes: I18n.t('texts.call_yes'),
+                                          no: I18n.t('texts.call_no'))))
+        end
+        r.say(message: I18n.t('texts.dialer_failed'))
       end
     rescue StandardError => e
       puts("Twilio Send Response Error: #{e.message.squish}")

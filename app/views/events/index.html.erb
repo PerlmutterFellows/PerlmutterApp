@@ -8,7 +8,7 @@
         <%= link_to I18n.t("global.new"), new_event_path, class: "btn btn-secondary" %>
         <% visible_events = @events %>
       <% else %>
-        <% visible_events = @events.select {|event| event.users.exists?(current_user.id) && event.published && !event.message?} %>
+        <% visible_events = @events.select {|event| event.users.exists?(current_user.id) && event.published? && event.use_app?} %>
       <% end %>
     </div>
     <% visible_events.each do |event| %>

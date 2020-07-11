@@ -1,5 +1,15 @@
 module ApplicationHelper
 
+  def get_host_url
+    require 'ngrok/tunnel'
+    url = ""
+    url_options = Rails.configuration.action_mailer.default_url_options
+    unless url_options.blank?
+      url = url_options.values.compact.join(":")
+    end
+    url
+  end
+
   def moderator_signed_in?(user)
     user_signed_in? && !user.blank? && (user.moderator? || user.admin?)
   end

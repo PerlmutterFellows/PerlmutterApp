@@ -1,8 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :confirmable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable
   enum role: %i[user moderator admin]
   has_many :group_memberships
   has_many :groups, :through => :group_memberships
@@ -22,14 +21,33 @@ class User < ApplicationRecord
   end
 
   def check_if_email_or_phone_entered?
-    if email.blank? && phone_number.blank?
+    if self.email.blank? && self.phone_number.blank?
       errors.add(:email, "must have an email or a phone number!")
+    end
+    if !self.use_email? && !self.use_call? && !self.use_text?
+      errors.add(:use_email, "must select contact preferences!")
+      errors.add(:use_text, "must select contact preferences!")
+      errors.add(:use_call, "must select contact preferences!")
+    end
+    if self.email.blank? && self.use_email?
+      errors.add(:email, "must have an email!")
+    end
+    if self.phone_number.blank? && (self.use_call? || self.use_text?)
+      errors.add(:phone_number, "must have a phone number!")
     end
   end
 
   def get_locale
     yielded_locale = yield_locale_from_available(self.locale)
     yielded_locale.blank? ? I18n.locale : yielded_locale
+  end
+
+  def confirmed_text?
+    !self.text_confirmation_sent_at.blank? && !self.text_confirmed_at.blank?
+  end
+
+  def confirmed_call?
+    !self.call_confirmation_sent_at.blank? && !self.call_confirmed_at.blank?
   end
 
   private
@@ -48,7 +66,12 @@ class User < ApplicationRecord
   end
 
   def send_phone_confirmation
-    ApplicationController.helpers.send_confirmation_text(self)
+    if use_text? && self.text_confirmation_sent_at.blank?
+      ApplicationController.helpers.send_confirmation_phone(self, true)
+    end
+    if use_call? && self.call_confirmation_sent_at.blank?
+      ApplicationController.helpers.send_confirmation_phone(self, false)
+    end
   end
 
 end

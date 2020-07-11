@@ -28,18 +28,14 @@ class GroupsController < ApplicationController
     @group = Group.new({name: params['group']['name']})
 
     respond_to do |format|
+      users = get_users_from_select(params['group']['users'])
+      unless users.blank?
+        @group.users = users
+      end
       if @group.save
-        users = get_users_from_select(params['group']['users'])
-        if users.blank?
-          @group.errors.add(:users, I18n.t('global.error_users'))
-          format.html { render :new }
-          format.json { render json: @group.errors, status: :unprocessable_entity }
-        else
-          @group.users = users
-          flash['success'] = t('global.model_created', type: t('global.group').downcase)
-          format.html { redirect_to @group }
-          format.json { render :show, status: :created, location: @group }
-        end
+        flash['success'] = t('global.model_created', type: t('global.group').downcase)
+        format.html { redirect_to @group }
+        format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
         format.json { render json: @group.errors, status: :unprocessable_entity }
@@ -51,19 +47,15 @@ class GroupsController < ApplicationController
   # PATCH/PUT /groups/1.json
   def update
     respond_to do |format|
+      @group.users.clear
+      users = get_users_from_select(params['group']['users'])
+      unless users.blank?
+        @group.users = users
+      end
       if @group.update({name: params['group']['name']})
-        @group.users.clear
-        users = get_users_from_select(params['group']['users'])
-        if users.blank?
-          @group.errors.add(:users, I18n.t('global.error_users'))
-          format.html { render :edit }
-          format.json { render json: @group.errors, status: :unprocessable_entity }
-        else
-          @group.users = users
           flash['success'] = t('global.model_modified', type: t('global.group').downcase)
           format.html { redirect_to @group }
           format.json { render :show, status: :ok, location: @group }
-        end
       else
         format.html { render :edit }
         format.json { render json: @group.errors, status: :unprocessable_entity }
@@ -90,6 +82,6 @@ class GroupsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def group_params
-      params.require(:group).permit(:name)
+      params.require(:group).permit(:name, :users)
     end
 end
