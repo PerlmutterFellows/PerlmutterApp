@@ -1,7 +1,6 @@
 class TextHandler
 
   def process_input(user, input, is_text)
-    puts("running plz")
     yes = is_text ? I18n.t('texts.text_yes') : I18n.t('texts.call_yes')
     no = is_text ? I18n.t('texts.text_no') : I18n.t('texts.call_no')
     is_confirmed = is_text ? user.confirmed_text? : user.confirmed_call?
