@@ -50,6 +50,22 @@ class User < ApplicationRecord
     !self.call_confirmation_sent_at.blank? && !self.call_confirmed_at.blank?
   end
 
+  def skip_confirmation_text!
+    self.text_confirmation_sent_at = DateTime.now
+    self.text_confirmed_at = DateTime.now
+  end
+
+  def skip_confirmation_call!
+    self.call_confirmation_sent_at = DateTime.now
+    self.call_confirmed_at = DateTime.now
+  end
+
+  def skip_confirmation_all!
+    self.skip_confirmation!
+    self.skip_confirmation_text!
+    self.skip_confirmation_call!
+  end
+
   private
 
   def format_phone_number

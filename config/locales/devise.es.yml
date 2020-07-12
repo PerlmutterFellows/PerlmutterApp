@@ -61,7 +61,7 @@ es:
       email: "correo electrónico"
       body: "Su contraseña es %{password}."
       link_prompt: "puede confirmar su %{state} a través de los siguientes enlaces:"
-      link: "Confirmar mi cuenta"
+      link: "Confirmar mi %{state}"
       confirmation_instructions:
         subject: "Instrucciones de confirmación"
       email_changed:

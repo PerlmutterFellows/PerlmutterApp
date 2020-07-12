@@ -1,28 +1,40 @@
 class TextHandler
 
   def process_input(user, input, is_text)
-    yes = is_text ? I18n.t('texts.text_yes') : I18n.t('texts.call_yes')
-    no = is_text ? I18n.t('texts.text_no') : I18n.t('texts.call_no')
-    is_confirmed = is_text ? user.confirmed_text? : user.confirmed_call?
-    case input
-    when yes
-      if !is_confirmed
-        is_text ? user.text_confirmed_at = DateTime.now : user.call_confirmed_at = DateTime.now
-        user.save
-        I18n.t('texts.confirmation_success_response')
-      else
-        I18n.t('texts.confirmation_failed_response')
-      end
-    when no
-      if !is_confirmed
-        I18n.t('texts.stop_failed_response')
-      else
-        is_text ? user.text_confirmed_at = nil : user.call_confirmed_at = nil
-        user.save
-        I18n.t('texts.stop_success_response')
-      end
+    if user.blank?
+      I18n.t('texts.input_user_failed')
     else
-      process_rsvp(user, input, yes, no)
+      if is_text
+        yes = I18n.t('texts.text_yes')
+        no = I18n.t('texts.text_no')
+        is_confirmed = user.confirmed_text?
+        contact_method = I18n.t("global.text").downcase
+      else
+        yes = I18n.t('texts.call_yes')
+        no = I18n.t('texts.call_no')
+        is_confirmed = user.confirmed_call?
+        contact_method = I18n.t("global.call").downcase
+      end
+      case input
+      when yes
+        if !is_confirmed
+          is_text ? user.text_confirmed_at = DateTime.now : user.call_confirmed_at = DateTime.now
+          user.save
+          I18n.t('texts.confirmation_success_response', method: contact_method)
+        else
+          I18n.t('texts.confirmation_failed_response', method: contact_method)
+        end
+      when no
+        if !is_confirmed
+          I18n.t('texts.stop_failed_response', method: contact_method)
+        else
+          is_text ? user.text_confirmed_at = nil : user.call_confirmed_at = nil
+          user.save
+          I18n.t('texts.stop_success_response', method: contact_method)
+        end
+      else
+        process_rsvp(user, input, yes, no)
+      end
     end
   end
 

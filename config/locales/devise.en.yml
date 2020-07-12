@@ -27,7 +27,7 @@ en:
       email: "email"
       body: "Your password is %{password}."
       link_prompt: "can confirm your %{state} through the links below:"
-      link: "Confirm my account"
+      link: "Confirm my %{state}"
       confirmation_instructions:
         subject: "Confirmation instructions"
       reset_password_instructions:

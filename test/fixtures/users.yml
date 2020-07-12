@@ -9,6 +9,9 @@ valid:
   last_name: Smith
   email: jsmith@gmail.com
   phone_number: 0123456789
+  use_email: true
+  use_text: true
+  use_call: true
 
 valid_admin:
   first_name: John
@@ -16,16 +19,21 @@ valid_admin:
   email: jsmith@gmail.com
   phone_number: 0123456789
   role: "admin"
+  use_email: true
+  use_text: true
+  use_call: true
 
 valid_only_email:
   first_name: Jane
   last_name: Doe
   email: jdoe@gmail.com
+  use_email: true
 
 valid_only_phone:
   first_name: Bobby
   last_name: Smith
   email: bsmith@gmail.com
+  use_email: true
 
 invalid_no_email_or_phone:
   first_name: ForgotMy
@@ -34,9 +42,13 @@ invalid_no_email_or_phone:
 invalid_no_first_name:
   last_name: Fernandez
   phone_number: 1234567890
+  use_text: true
+  use_call: true
 
 invalid_no_last_name:
   first_name: Billy
   phone_number: 0321456789
+  use_text: true
+  use_call: true
 
 

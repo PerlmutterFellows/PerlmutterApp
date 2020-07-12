@@ -4,4 +4,4 @@
 
 <p><%= I18n.t('devise.mailer.new_prefix') %> <%= I18n.t('devise.mailer.link_prompt', state: I18n.t('devise.mailer.email')) %></p>
 
-<p><%= link_to I18n.t('devise.mailer.link'), confirmation_url(@resource, confirmation_token: @token) %></p>
+<p><%= link_to I18n.t('devise.mailer.link', state: I18n.t('devise.mailer.email')), confirmation_url(@resource, confirmation_token: @token) %></p>

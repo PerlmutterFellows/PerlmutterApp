@@ -61,14 +61,21 @@ class TwilioHandler
   def send_call(user, message)
     success = true
     error = nil
+    callback = Rails.application.routes.url_helpers.url_for(action: 'receive_call', controller: 'twilio', only_path: false)
+    if !user.blank?
+      voice = user.get_locale == :en ? 'Polly.Matthew-Neural' : 'Polly.Lupe-Neural'
+    else
+      voice = 'Polly.Matthew-Neural'
+    end
     begin
     client.calls.create(
           to: user.phone_number,
           from: ENV['phone_number'],
           twiml: "<Response>
-                    <Say>#{message}</Say>
-                    <Gather finishOnKey='#' timeout='15' action='#{Rails.application.routes.url_helpers.url_for(action: 'receive_call', controller: 'twilio', only_path: false)}' method='POST'></Gather>
-                    <Say>#{I18n.t('texts.dialer_failed')}</Say>
+                      <Gather finishOnKey='#' timeout='15' action='#{callback}' method='POST'>
+                        <Say voice='#{voice}'>#{message}</Say>
+                      </Gather>
+                    <Say voice='#{voice}'>#{I18n.t('texts.dialer_failed')}</Say>
                   </Response>"
       )
     user.call_confirmation_sent_at = DateTime.now
@@ -81,18 +88,26 @@ class TwilioHandler
 
   def send_respond_call(user, message)
     voice_response = nil
+    callback = Rails.application.routes.url_helpers.url_for(action: 'receive_call', controller: 'twilio', only_path: false)
+    if !user.blank?
+      voice = user.get_locale == :en ? 'Polly.Matthew-Neural' : 'Polly.Lupe-Neural'
+      name = user.first_name
+    else
+      voice = 'Polly.Matthew-Neural'
+      name = ""
+    end
     begin
       voice_response = Twilio::TwiML::VoiceResponse.new do |r|
-        r.say(message: message)
-        r.gather(action: Rails.application.routes.url_helpers.url_for(action: 'receive_call', controller: 'twilio', only_path: false), method: 'POST') do |gather|
-          gather.say(message: I18n.t('texts.confirmation',
-                                name: user.first_name,
+        r.gather(finish_on_key: '#', timeout: 15, action: callback, method: 'POST') do |gather|
+          gather.say(voice: voice, message: message)
+          gather.say(voice: voice, message: I18n.t('texts.confirmation',
+                                name: name,
                                 organization_name: I18n.t('global.organization_name'),
                                 prompt: I18n.t('texts.dialer_prompt',
                                           yes: I18n.t('texts.call_yes'),
                                           no: I18n.t('texts.call_no'))))
         end
-        r.say(message: I18n.t('texts.dialer_failed'))
+        r.say(voice: voice, message: I18n.t('texts.dialer_failed'))
       end
     rescue StandardError => e
       puts("Twilio Send Response Error: #{e.message.squish}")
