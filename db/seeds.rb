@@ -13,8 +13,23 @@ Group.delete_all
 GroupMembership.delete_all
 User.not_admin.delete_all
 
+def generate_user
+  pass = Faker::Alphanumeric.alpha(number: 10)
+  user = User.new(first_name: Faker::Name.first_name,
+                  last_name: Faker::Name.last_name,
+                  email: Faker::Internet.email,
+                  password: pass,
+                  password_confirmation: pass,
+                  role: Faker::Number.within(range: 0..1),
+                  locale: "en",
+                  use_email: true)
+  user.skip_confirmation!
+  user.save
+  user
+end
+
 10.times do
-  Event.create(title: Faker::Book.title,
+  event = Event.new(title: Faker::Book.title,
                description: Faker::Quote.matz,
                published: Faker::Boolean.boolean(true_ratio: 0.5),
                startDate: Faker::Date.between(from: 2.days.ago, to: Date.today),
@@ -22,20 +37,17 @@ User.not_admin.delete_all
                startTime: Time.now,
                endTime: Time.now + 1,
                location: Faker::Address.full_address,
-               eventType: Faker::Number.within(range: 0..2))
+               eventType: Faker::Number.within(range: 0..2),
+               use_email: Faker::Boolean.boolean(true_ratio: 0.5),
+               use_text: Faker::Boolean.boolean(true_ratio: 0.5),
+               use_call: Faker::Boolean.boolean(true_ratio: 0.5),
+               use_app: Faker::Boolean.boolean(true_ratio: 0.5))
+  event.users << generate_user
+  event.save
 end
 
-50.times do
-  pass = Faker::Alphanumeric.alpha(number: 10)
-  user = User.new(first_name: Faker::Name.first_name,
-                  last_name: Faker::Name.last_name,
-                  phone_number: Faker::PhoneNumber.cell_phone,
-                  password: pass,
-                  password_confirmation: pass)
-  user.skip_confirmation!
-  if user.valid?
-    user.save
-  end
+30.times do
+  generate_user
 end
 
 100.times do
@@ -45,7 +57,9 @@ end
 end
 
 10.times do
-  Group.create(name: [Faker::Company.name, Faker::Team.name].sample)
+  group = Group.new(name: [Faker::Company.name, Faker::Team.name].sample)
+  group.users << generate_user
+  group.save
 end
 
 100.times do

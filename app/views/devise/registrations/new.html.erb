@@ -4,10 +4,11 @@
         <%= simple_format t 'global.welcome', organization_name: t('global.organization_name') %>
       </h1>
       <div class="p-2 w-md-75">
-        <%= bootstrap_form_for resource, as: resource_name, url: registration_path(resource_name) do |f| %>
+        <%= bootstrap_form_for resource, as: resource_name, url: user_registration_path do |f| %>
           <h3 class="font-weight-light mb-1"><%= t '.sign_up' %></h3>
           <h4 class="font-weight-lighter"><%= t '.sign_up_prompt' %></h4>
           <hr />
+          <%= f.text_field :locale, value: I18n.locale, hidden: true, hide_label: true %>
           <div class="row">
             <div class="col-md-6 col-xs-12">
               <%= f.text_field :first_name, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
@@ -27,9 +28,21 @@
             <div class="col-12">
               <%= f.password_field :password_confirmation, autocomplete: "new-password", label_as_placeholder: true, input_group_class: 'input-group-lg' %>
             </div>
+            <div class="col-12">
+              <%= f.form_group label: { text: I18n.t("users.contact_preferences") } do %>
+                <%= f.check_box :use_email, label: I18n.t("global.email") %>
+                <%= f.check_box :use_text, label: I18n.t("global.text") %>
+                <%= f.check_box :use_call, label: I18n.t("global.call") %>
+                <% unless resource.errors[:use_email].empty? %>
+                  <p class="invalid-feedback d-block mt-1"><%= resource.errors[:use_email].first %></p>
+                <% end %>
+              <% end %>
+            </div>
           </div>
-          <%= f.submit "Sign up" %>
-          <%= link_to 'Back', root_path, class: "btn btn-primary" %>
+          <div class='btn-group mb-1' role='group'>
+            <%= f.submit I18n.t("devise.registrations.new.sign_up") %>
+            <%= link_to I18n.t("devise.shared.links.back"), root_path, class: "btn btn-primary" %>
+          </div>
       <% end %>
         <%= render "devise/shared/links" %>
       </div>

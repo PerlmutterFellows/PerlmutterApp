@@ -4,9 +4,12 @@ module EventsHelper
     if event.event?
       fa_icon = 'fa fa-calendar-alt'
       type = I18n.t("events.event")
-    else
+    elsif event.info?
       fa_icon = 'fa fa-info-circle'
       type = I18n.t("events.info")
+    else
+      fa_icon = 'fa fa-comments'
+      type = I18n.t("events.message")
     end
     TextHandler.new.process_fa(fa_icon, nil, "<span>#{type}</span>", nil).html_safe
   end
@@ -28,10 +31,13 @@ module EventsHelper
         attendance_display_html = I18n.t("global.others_count", count: attending_count.to_s, prefix: "", suffix: I18n.t("global.attending").downcase)
         confirm_path = attend_event_path(event)
       end
-      attendance_check_box_html = check_box_tag(I18n.t("global.attending"), true, status.attending?, id: "attendCheck", class: "mr-2")
-      attendance_check_box_html = "<p>#{link_to confirm_path, method: :post do
-        "#{attendance_check_box_html}<label class='form-check-label' for='attendCheck'>#{I18n.t('global.attending')}</label>".html_safe
-      end }</p>"
+
+      if event.event?
+        attendance_check_box_html = check_box_tag(I18n.t("global.attending"), true, status.attending?, id: "attendCheck", class: "mr-2")
+        attendance_check_box_html = "<p>#{link_to confirm_path, method: :post do
+          "#{attendance_check_box_html}<label class='form-check-label' for='attendCheck'>#{I18n.t('global.attending')}</label>".html_safe
+        end }</p>"
+      end
     else
       if is_on_show
         event.users.each do |user|
@@ -187,11 +193,11 @@ module EventsHelper
   # event - an event
   # user - a user
   # status - a status
-  # uses_email - whether this result will be sent in email or a text
-  def handle_send_publish_event_notification(event, user, status, uses_email)
+  # contact - a contact type
+  def handle_send_publish_event_notification(event, user, status, contact)
     # If a new contact, send as new event and update their state
     if status.non_message? || status.not_delivered?
-      if uses_email
+      if contact == "email"
         begin
           UserMailer.event_create_email(user, event).deliver
           set_new_state_after_notify(true, event, status)
@@ -199,17 +205,27 @@ module EventsHelper
           set_new_state_after_notify(false, event, status)
         end
       else
-        prompt = (event.event? ? t('texts.new_prompt', id: event.id) : "")
-        success, error = TwilioHandler.new.send_text(user, t('texts.new_event', params: get_event_text_params(event, false), type: event.eventType, prompt: prompt))
+        if contact == "text"
+          prompt = (event.event? ? t('texts.new_prompt', id: event.id, yes: t('texts.text_yes'), no: t('texts.text_no')) : "")
+          success, error = TwilioHandler.new.send_text(user, t('texts.new_event', params: get_event_text_params(event, false), type: event.eventType, prompt: prompt))
+        else
+          prompt = (event.event? ? t('texts.new_prompt', id: event.id, yes: t('texts.call_yes'), no: t('texts.call_no')) : "")
+          success, error = TwilioHandler.new.send_call(user, t('texts.new_event', params: get_event_text_params(event, false), type: event.eventType, prompt: prompt))
+        end
         set_new_state_after_notify(success, event, status)
       end
       # Otherwise, they aren't new, don't update their state, send as updated event
     else
-      if uses_email
+      if contact == "email"
         UserMailer.event_update_email(user, event).deliver rescue user
       else
-        prompt = (event.event? ? t('texts.updated_prompt', id: event.id) : "")
-        success, error = TwilioHandler.new.send_text(user, t('texts.updated_event', params: get_event_text_params(event, false), type: event.eventType.capitalize, prompt: prompt))
+        if contact == "text"
+          prompt = (event.event? ? t('texts.updated_prompt', id: event.id, yes: t('texts.text_yes'), no: t('texts.text_no')) : "")
+          TwilioHandler.new.send_text(user, t('texts.updated_event', params: get_event_text_params(event, false), type: event.eventType.capitalize, prompt: prompt))
+        else
+          prompt = (event.event? ? t('texts.updated_prompt', id: event.id, yes: t('texts.call_yes'), no: t('texts.call_no')) : "")
+          TwilioHandler.new.send_call(user, t('texts.updated_event', params: get_event_text_params(event, false), type: event.eventType.capitalize, prompt: prompt))
+        end
       end
     end
   end
@@ -220,12 +236,18 @@ module EventsHelper
   # user - a user
   # status - a status
   def send_publish_event_notification(event, user, status)
-    if user.confirmed_at.blank?
+    if !user.confirmed? && !user.confirmed_text? && !user.confirmed_call?
       status.not_delivered!
-    elsif !user.email.blank?
-      handle_send_publish_event_notification(event, user, status, true)
     else
-      handle_send_publish_event_notification(event, user, status, false)
+      if user.use_email? && user.confirmed? && event.use_email?
+        handle_send_publish_event_notification(event, user, status, "email")
+      end
+      if user.use_text? && user.confirmed_text? && event.use_text?
+        handle_send_publish_event_notification(event, user, status, "text")
+      end
+      if user.use_call? && user.confirmed_call? && event.use_call?
+        handle_send_publish_event_notification(event, user, status, "call")
+      end
     end
   end
 
@@ -234,10 +256,14 @@ module EventsHelper
   # event - an event
   # user - a user
   def send_delete_event_notification(event, user)
-    if !user.email.blank? && !user.confirmed_at.blank?
+    if user.use_email? && user.confirmed? && event.use_email?
       UserMailer.event_delete_email(user, event).deliver rescue user
-    elsif !user.phone_number.blank? && !user.confirmed_at.blank?
+    end
+    if user.use_text? && user.confirmed_text? && event.use_text?
       success, error = TwilioHandler.new.send_text(user, t('texts.deleted_event', params: get_event_text_params(event, false), type: event.eventType.capitalize))
+    end
+    if user.use_call? && user.confirmed_call? && event.use_call?
+      success, error = TwilioHandler.new.send_call(user, t('texts.deleted_event', params: get_event_text_params(event, false), type: event.eventType.capitalize))
     end
   end
 

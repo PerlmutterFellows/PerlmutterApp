@@ -16,6 +16,10 @@ h1, h2, h3, h4, h5, h6, p {
   border-color: red!important;
 }
 
+.form-check-input.is-invalid ~ .form-check-label {
+  color: red!important;
+}
+
 .invalid-feedback {
   color: red!important;
 }

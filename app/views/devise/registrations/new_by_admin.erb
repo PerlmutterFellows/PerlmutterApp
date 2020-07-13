@@ -16,6 +16,7 @@
           <h3 class="font-weight-light mb-1"><%= t '.form' %></h3>
           <h4 class="font-weight-lighter"><%= t '.form_prompt' %></h4>
           <hr />
+          <%= f.text_field :locale, value: I18n.locale, hidden: true, hide_label: true %>
           <div class="row">
             <div class="col-md-6 col-xs-12">
               <%= f.text_field :first_name, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
@@ -35,9 +36,22 @@
                 <%= f.radio_button :role, "moderator", label: I18n.t("global.menu.moderator") %>
               <% end %>
             </div>
+
+            <div class="col-md-6 col-xs-12">
+              <%= f.form_group label: { text: I18n.t("users.contact_preferences") } do %>
+                <%= f.check_box :use_email, label: I18n.t("global.email") %>
+                <%= f.check_box :use_text, label: I18n.t("global.text") %>
+                <%= f.check_box :use_call, label: I18n.t("global.call") %>
+                <% unless user.errors[:use_email].empty? %>
+                  <p class="invalid-feedback d-block mt-1"><%= user.errors[:use_email].first %></p>
+                <% end %>
+              <% end %>
+            </div>
           </div>
-          <%= f.submit "Submit Form" %>
-          <%= link_to 'Back', users_path, class: "btn btn-primary" %>
+          <div class='btn-group mb-1' role='group'>
+            <%= f.submit "Submit Form" %>
+            <%= link_to 'Back', users_path, class: "btn btn-primary" %>
+          </div>
         <% end %>
       </div>
       <div class="tab" data-target="tabs.panel">
@@ -48,8 +62,10 @@
           <div data-controller="upload">
           <%= f.file_field :file, data: {target: 'upload.file', action: 'change->upload#update'}, accept: '.csv'%>
           </div>
-          <%= f.submit "Submit CSV" %>
-          <%= link_to 'Back', users_path, class: "btn btn-primary" %>
+          <div class='btn-group mb-1' role='group'>
+            <%= f.submit "Submit CSV" %>
+            <%= link_to 'Back', users_path, class: "btn btn-primary" %>
+          </div>
         <% end %>
       </div>
     </div>

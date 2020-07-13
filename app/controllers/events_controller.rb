@@ -36,23 +36,18 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(event_params)
-
     respond_to do |format|
+      users = get_users_from_select(params['event']['users'])
+      unless users.blank?
+        @event.users << users
+      end
       if @event.save
-        users = get_users_from_select(params['event']['users'])
-        if users.blank?
-          @event.errors.add(:users, I18n.t('global.error_users'))
-          format.html { render :new }
-          format.json { render json: @event.errors, status: :unprocessable_entity }
-        else
-          @event.users << users
-          flash['success'] = t('global.model_created', type: t('global.event').downcase)
-          if @event.published
-            handle_notify_event(@event, true)
-          end
-          format.html { redirect_to @event }
-          format.json { render :show, status: :created, location: @event }
+        flash['success'] = t('global.model_created', type: t('global.event').downcase)
+        if @event.published
+          handle_notify_event(@event, true)
         end
+        format.html { redirect_to @event }
+        format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }
@@ -64,21 +59,17 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     respond_to do |format|
+      users = get_users_from_select(params['event']['users'])
+      unless users.blank?
+        update_event_users(users, @event)
+      end
       if @event.update(event_params)
-        users = get_users_from_select(params['event']['users'])
-        if users.blank?
-          @event.errors.add(:users, I18n.t('global.error_users'))
-          format.html { render :edit }
-          format.json { render json: @event.errors, status: :unprocessable_entity }
-        else
-          update_event_users(users, @event)
-          flash['success'] = t('global.model_modified', type: t('global.event').downcase)
-          if @event.published
-            handle_notify_event(@event, true)
-          end
-          format.html { redirect_to @event}
-          format.json { render :show, status: :ok, location: @event }
+        flash['success'] = t('global.model_modified', type: t('global.event').downcase)
+        if @event.published
+          handle_notify_event(@event, true)
         end
+        format.html { redirect_to @event}
+        format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
         format.json { render json: @event.errors, status: :unprocessable_entity }
@@ -108,6 +99,6 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:title, :description, :startDate, :startTime, :endDate, :endTime, :location, :eventType, :published)
+      params.require(:event).permit(:title, :description, :startDate, :startTime, :endDate, :endTime, :location, :eventType, :published, :users, :use_email, :use_call, :use_text, :use_app)
     end
 end

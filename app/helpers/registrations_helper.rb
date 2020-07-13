@@ -15,12 +15,25 @@ module RegistrationsHelper
     end
   end
 
-  def send_confirmation_text(user)
-    if !user.phone_number.blank? && user.email.blank? && user.confirmed_at.blank?
-      success, error = TwilioHandler.new.send_text(user, t('texts.confirmation', name: user.first_name, organization_name: t('global.organization_name')))
-      unless success
-        user.delete
-        flash[:error] = t('global.error_message', type: "user")
+  def send_confirmation_phone(user, is_text)
+    confirmed = is_text ? user.confirmed_text? : user.confirmed_call?
+    message_text = I18n.t('texts.confirmation',
+                     name: user.first_name,
+                     organization_name: I18n.t('global.organization_name'),
+                     prompt: I18n.t('texts.user_confirmation_prompt',
+                               yes: I18n.t('texts.text_yes'),
+                               no: I18n.t('texts.text_no')))
+    message_call = I18n.t('texts.confirmation',
+                     name: user.first_name,
+                     organization_name: I18n.t('global.organization_name'),
+                     prompt: I18n.t('texts.dialer_prompt',
+                               yes: I18n.t('texts.call_yes'),
+                               no: I18n.t('texts.call_no')))
+    unless confirmed
+      success, error = is_text ? TwilioHandler.new.send_text(user, message_text) : TwilioHandler.new.send_call(user, message_call)
+      if success
+        is_text ? user.text_confirmation_sent_at = DateTime.now : user.call_confirmation_sent_at = DateTime.now
+        user.save
       end
     end
   end

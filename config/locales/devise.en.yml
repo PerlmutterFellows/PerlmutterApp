@@ -27,7 +27,7 @@ en:
       email: "email"
       body: "Your password is %{password}."
       link_prompt: "can confirm your %{state} through the links below:"
-      link: "Confirm my account"
+      link: "Confirm my %{state}"
       confirmation_instructions:
         subject: "Confirmation instructions"
       reset_password_instructions:
@@ -68,6 +68,13 @@ en:
       signed_in: "Signed in successfully."
       signed_out: "Signed out successfully."
       already_signed_out: "Signed out successfully."
+    shared:
+      links:
+        back: Back
+        didn_t_receive_confirmation_instructions: "Didn't receive confirmation instructions?"
+        didn_t_receive_unlock_instructions: "Didn't receive unlock instructions?"
+        forgot_your_password: "Forgot your password?"
+        sign_in_with_provider: "Sign in with %{provider}"
     unlocks:
       send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."

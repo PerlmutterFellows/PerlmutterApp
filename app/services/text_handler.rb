@@ -1,48 +1,62 @@
 class TextHandler
+  include EventsHelper
 
-  def process_input(user, params)
-    body = params[:Body].upcase
-
-    case body
-    when "Y"
-      if user.confirmed_at.blank?
-        user.confirmed_at = DateTime.now
-        user.confirmation_sent_at = DateTime.now
-        user.save
-        I18n.t('texts.confirmation_success_response')
-      else
-        I18n.t('texts.confirmation_failed_response')
-      end
-    when "N"
-      if user.confirmed_at.blank?
-        I18n.t('texts.stop_failed_response')
-      else
-        user.confirmed_at = nil
-        user.confirmation_sent_at = nil
-        user.save
-        I18n.t('texts.stop_success_response')
-      end
+  def process_input(user, input, is_text)
+    if user.blank?
+      I18n.t('texts.input_user_failed')
     else
-      process_rsvp(user, body)
+      if is_text
+        yes = I18n.t('texts.text_yes')
+        no = I18n.t('texts.text_no')
+        is_confirmed = user.confirmed_text?
+        contact_method = I18n.t("global.text").downcase
+      else
+        yes = I18n.t('texts.call_yes')
+        no = I18n.t('texts.call_no')
+        is_confirmed = user.confirmed_call?
+        contact_method = I18n.t("global.call").downcase
+      end
+      case input
+      when yes
+        if !is_confirmed
+          is_text ? user.text_confirmed_at = DateTime.now : user.call_confirmed_at = DateTime.now
+          user.save
+          I18n.t('texts.confirmation_success_response', method: contact_method)
+        else
+          I18n.t('texts.confirmation_failed_response', method: contact_method)
+        end
+      when no
+        if !is_confirmed
+          I18n.t('texts.stop_failed_response', method: contact_method)
+        else
+          is_text ? user.text_confirmed_at = nil : user.call_confirmed_at = nil
+          user.save
+          I18n.t('texts.stop_success_response', method: contact_method)
+        end
+      else
+        process_rsvp(user, input, yes, no)
+      end
     end
   end
 
-  def process_rsvp(user, body)
-    event_id = body[0...-1] # Gets all but the last character, which is the attendance_case
-    attendance_case = body[-1] # Gets the last character, the attendance_case
-    event = Event.find_by_id(event_id)
-    if body.length > 1 && !event.blank?
-      case attendance_case
-      when "Y"
-        ApplicationController.new.toggle_attendance(user.id, event.id, true, false)
-      when "N"
-        ApplicationController.new.toggle_attendance(user.id, event.id, false, false)
-      else
-        I18n.t('global.invalid_input')
+  def process_rsvp(user, input, yes, no)
+    output = I18n.t('global.invalid_input')
+    if input.length > 1
+      event_id = input[0...-1] # Gets all but the last character, which is the attendance_case
+      attendance_case = input[-1] # Gets the last character, the attendance_case
+      event = Event.find_by_id(event_id)
+      unless event.blank?
+        case attendance_case
+        when yes
+          output = toggle_attendance(user.id, event.id, true, false)
+        when no
+          output = toggle_attendance(user.id, event.id, false, false)
+        else
+          output = I18n.t('global.invalid_input')
+        end
       end
-    else
-      I18n.t('global.invalid_input')
     end
+    output
   end
 
   def process_fa(icon, body, post_body, url)

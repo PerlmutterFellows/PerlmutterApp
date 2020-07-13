@@ -1,3 +1,4 @@
+![Perlmutter App](https://raw.githubusercontent.com/mdodell/PerlmutterSummer2020/staging/app/assets/images/perlmutterapp.gif)
 # Perlmutter App
 An application developed to help not for profits maintain communication with constituents in the post-pandemic environment.
 
