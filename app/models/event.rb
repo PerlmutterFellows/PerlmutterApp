@@ -17,10 +17,10 @@ class Event < ApplicationRecord
 
   def check_preferences
     if !self.use_email? && !self.use_call? && !self.use_text?  && !self.use_app?
-      errors.add(:use_email, "must select contact preferences!")
-      errors.add(:use_text, "must select contact preferences!")
-      errors.add(:use_call, "must select contact preferences!")
-      errors.add(:use_app, "must select contact preferences!")
+      errors.add(:use_email, I18n.t("global.error_preferences"))
+      errors.add(:use_call, I18n.t("global.error_preferences"))
+      errors.add(:use_text, I18n.t("global.error_preferences"))
+      errors.add(:use_app, I18n.t("global.error_preferences"))
     end
   end
 end

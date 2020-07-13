@@ -15,6 +15,7 @@ class User < ApplicationRecord
   validates_uniqueness_of :phone_number, conditions: -> {where.not(:phone_number => '')}
   after_save :send_phone_confirmation
   include ApplicationHelper
+  include RegistrationsHelper
 
   def email_required?
     false
@@ -22,18 +23,19 @@ class User < ApplicationRecord
 
   def check_if_email_or_phone_entered?
     if self.email.blank? && self.phone_number.blank?
-      errors.add(:email, "must have an email or a phone number!")
+      errors.add(:email, I18n.t("global.error_email_or_phone"))
+      errors.add(:phone_number, I18n.t("global.error_email_or_phone"))
     end
     if !self.use_email? && !self.use_call? && !self.use_text?
-      errors.add(:use_email, "must select contact preferences!")
-      errors.add(:use_text, "must select contact preferences!")
-      errors.add(:use_call, "must select contact preferences!")
+      errors.add(:use_email, I18n.t("global.error_preferences"))
+      errors.add(:use_call, I18n.t("global.error_preferences"))
+      errors.add(:use_text, I18n.t("global.error_preferences"))
     end
     if self.email.blank? && self.use_email?
-      errors.add(:email, "must have an email!")
+      errors.add(:email, I18n.t("global.error_email"))
     end
     if self.phone_number.blank? && (self.use_call? || self.use_text?)
-      errors.add(:phone_number, "must have a phone number!")
+      errors.add(:phone_number, I18n.t("global.error_phone"))
     end
   end
 
@@ -83,10 +85,10 @@ class User < ApplicationRecord
 
   def send_phone_confirmation
     if use_text? && self.text_confirmation_sent_at.blank?
-      ApplicationController.helpers.send_confirmation_phone(self, true)
+      send_confirmation_phone(self, true)
     end
     if use_call? && self.call_confirmation_sent_at.blank?
-      ApplicationController.helpers.send_confirmation_phone(self, false)
+      send_confirmation_phone(self, false)
     end
   end
 

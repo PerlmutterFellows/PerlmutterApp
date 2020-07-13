@@ -16,8 +16,10 @@
               <%= f.check_box :remember_me, custom: :switch, control_class: "text-secondary"%>
             </div>
           <% end %>
-          <%= f.submit I18n.t("devise.sessions.new.login") %>
-          <%= link_to I18n.t("devise.shared.links.back"), root_path, class: "btn btn-primary" %>
+          <div class='btn-group mb-1' role='group'>
+            <%= f.submit I18n.t("devise.sessions.new.login") %>
+            <%= link_to I18n.t("devise.shared.links.back"), root_path, class: "btn btn-primary" %>
+          </div>
         <% end %>
 
         <%= render "devise/shared/links" %>

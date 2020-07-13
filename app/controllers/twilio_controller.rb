@@ -2,16 +2,16 @@ class TwilioController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def receive_text
-    recieve_phone(true, params)
+    receive_phone(true, params)
   end
 
   def receive_call
-    recieve_phone(false, params)
+    receive_phone(false, params)
   end
 
   private
 
-  def recieve_phone(is_text, params)
+  def receive_phone(is_text, params)
     if is_text
       phone = params[:From].to_s
       input = params[:Body]

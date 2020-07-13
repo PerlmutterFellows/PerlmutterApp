@@ -19,11 +19,13 @@
           </div>
         </div>
 
-        <%= f.submit I18n.t("global.submit") %>
-        <% if @group.valid? %>
-          <%= link_to I18n.t("global.show"), @group, class: "btn btn-primary" %>
-        <% end %>
-        <%= link_to I18n.t("global.back"), groups_path, class: "btn btn-primary" %>
+        <div class='btn-group mb-1' role='group'>
+          <%= f.submit I18n.t("global.submit") %>
+          <% if @group.valid? %>
+            <%= link_to I18n.t("global.show"), @group, class: "btn btn-primary" %>
+          <% end %>
+          <%= link_to I18n.t("global.back"), groups_path, class: "btn btn-primary" %>
+        </div>
       <% end %>
     </div>
   </div>

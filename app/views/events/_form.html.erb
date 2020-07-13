@@ -6,16 +6,26 @@
         <h4 class="font-weight-lighter"><%= prompt %></h4>
         <hr />
         <div class="row">
-          <div class="col-md-6 col-xs-12">
+          <div class="col-12">
             <%= f.text_field :title, label: I18n.t("events.title"), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
-          </div>
-
-          <div class="col-md-6 col-xs-12">
-            <%= f.text_field :location, label: I18n.t("events.location"), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
           </div>
 
           <div class="col-12">
             <%= f.text_area :description, label: I18n.t("events.description"), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+          </div>
+
+          <div class="col-12">
+            <%= f.text_field :location, label: I18n.t("events.location"), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+          </div>
+
+          <div class="col-12">
+            <% select_vals, selected_vals = get_select_vals(true) %>
+
+            <p hidden id="selected_vals"><%= selected_vals %></p>
+
+            <div data-controller="group" data-action="resize@window->group#setSelectPickerFilterWidth">
+              <%= f.select :users, select_vals, {hide_label: true}, {class: "selectpicker", multiple: "", "title": I18n.t("global.menu.users") + "/" + I18n.t("global.menu.groups"), data: {"styleBase": "form-control", "width":"100%", "live-search": "true", "show-subtext": "true", "actions-box": "true", target: 'group.dropdown'}} %>
+            </div>
           </div>
 
           <div class="col-md-6 col-xs-12">
@@ -33,9 +43,6 @@
               <%= f.radio_button :eventType, "info", label: I18n.t("events.info") %>
               <%= f.radio_button :eventType, "message", label: I18n.t("events.message") %>
             <% end %>
-            <%= f.form_group label: { text: I18n.t("events.published") } do %>
-              <%= f.check_box :published, hide_label: true, autofocus: true, input_group_class: 'input-group-lg' %>
-            <% end %>
           </div>
 
           <div class="col-md-6 col-xs-12">
@@ -44,23 +51,26 @@
               <%= f.check_box :use_text, label: I18n.t("global.text") %>
               <%= f.check_box :use_call, label: I18n.t("global.call") %>
               <%= f.check_box :use_app, label: I18n.t("global.inapp") %>
+              <% unless @event.errors[:use_email].empty? %>
+                <p class="invalid-feedback d-block mt-1"><%= @event.errors[:use_email].first %></p>
+              <% end %>
             <% end %>
+          </div>
 
-            <% select_vals, selected_vals = get_select_vals(true) %>
-
-            <p hidden id="selected_vals"><%= selected_vals %></p>
-
-            <div data-controller="group" data-action="resize@window->group#setSelectPickerFilterWidth">
-              <%= f.select :users, select_vals, {hide_label: true}, {class: "selectpicker", multiple: "", "title": I18n.t("global.menu.users") + "/" + I18n.t("global.menu.groups"), data: {"styleBase": "form-control", "width":"200px", "live-search": "true", "show-subtext": "true", "actions-box": "true", target: 'group.dropdown'}} %>
-            </div>
+          <div class="col-12">
+            <%= f.form_group do %>
+              <%= f.check_box :published, custom: :switch, control_class: "text-secondary" %>
+            <% end %>
           </div>
 
         </div>
-        <%= f.submit I18n.t("global.submit") %>
-        <% if @event.valid? %>
-        <%= link_to I18n.t("global.show"), @event, class: "btn btn-primary" %>
-        <% end %>
-        <%= link_to I18n.t("global.back"), events_path, class: "btn btn-primary" %>
+        <div class='btn-group mb-1' role='group'>
+          <%= f.submit I18n.t("global.submit") %>
+          <% if @event.valid? %>
+          <%= link_to I18n.t("global.show"), @event, class: "btn btn-primary" %>
+          <% end %>
+          <%= link_to I18n.t("global.back"), events_path, class: "btn btn-primary" %>
+        </div>
     <% end %>
     </div>
   </div>

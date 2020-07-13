@@ -33,11 +33,16 @@
                 <%= f.check_box :use_email, label: I18n.t("global.email") %>
                 <%= f.check_box :use_text, label: I18n.t("global.text") %>
                 <%= f.check_box :use_call, label: I18n.t("global.call") %>
+                <% unless resource.errors[:use_email].empty? %>
+                  <p class="invalid-feedback d-block mt-1"><%= resource.errors[:use_email].first %></p>
+                <% end %>
               <% end %>
             </div>
           </div>
-          <%= f.submit I18n.t("devise.registrations.new.sign_up") %>
-          <%= link_to I18n.t("devise.shared.links.back"), root_path, class: "btn btn-primary" %>
+          <div class='btn-group mb-1' role='group'>
+            <%= f.submit I18n.t("devise.registrations.new.sign_up") %>
+            <%= link_to I18n.t("devise.shared.links.back"), root_path, class: "btn btn-primary" %>
+          </div>
       <% end %>
         <%= render "devise/shared/links" %>
       </div>

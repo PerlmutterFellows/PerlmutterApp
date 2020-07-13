@@ -42,11 +42,16 @@
                 <%= f.check_box :use_email, label: I18n.t("global.email") %>
                 <%= f.check_box :use_text, label: I18n.t("global.text") %>
                 <%= f.check_box :use_call, label: I18n.t("global.call") %>
+                <% unless user.errors[:use_email].empty? %>
+                  <p class="invalid-feedback d-block mt-1"><%= user.errors[:use_email].first %></p>
+                <% end %>
               <% end %>
             </div>
           </div>
-          <%= f.submit "Submit Form" %>
-          <%= link_to 'Back', users_path, class: "btn btn-primary" %>
+          <div class='btn-group mb-1' role='group'>
+            <%= f.submit "Submit Form" %>
+            <%= link_to 'Back', users_path, class: "btn btn-primary" %>
+          </div>
         <% end %>
       </div>
       <div class="tab" data-target="tabs.panel">
@@ -57,8 +62,10 @@
           <div data-controller="upload">
           <%= f.file_field :file, data: {target: 'upload.file', action: 'change->upload#update'}, accept: '.csv'%>
           </div>
-          <%= f.submit "Submit CSV" %>
-          <%= link_to 'Back', users_path, class: "btn btn-primary" %>
+          <div class='btn-group mb-1' role='group'>
+            <%= f.submit "Submit CSV" %>
+            <%= link_to 'Back', users_path, class: "btn btn-primary" %>
+          </div>
         <% end %>
       </div>
     </div>

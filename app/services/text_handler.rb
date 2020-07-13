@@ -1,4 +1,5 @@
 class TextHandler
+  include EventsHelper
 
   def process_input(user, input, is_text)
     if user.blank?
@@ -47,9 +48,9 @@ class TextHandler
       unless event.blank?
         case attendance_case
         when yes
-          output = ApplicationController.new.toggle_attendance(user.id, event.id, true, false)
+          output = toggle_attendance(user.id, event.id, true, false)
         when no
-          output = ApplicationController.new.toggle_attendance(user.id, event.id, false, false)
+          output = toggle_attendance(user.id, event.id, false, false)
         else
           output = I18n.t('global.invalid_input')
         end

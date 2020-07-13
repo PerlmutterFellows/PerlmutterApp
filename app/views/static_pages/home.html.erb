@@ -12,15 +12,10 @@
       </div>
     </div>
     <div class="row justify-content-center align-items-center mt-2">
-      <div class="col-md-6 col-xs-12">
-        <div class="d-flex justify-content-md-center justify-content-lg-end">
-          <%= link_to t('global.menu.sign_up'), new_user_registration_path, class: 'w-xs-100 mt-2 btn btn-lg btn-secondary w-sm-50 w-md-50 w-lg-25'  %>
-
-        </div>
-      </div>
-      <div class="col-md-6 col-xs-12">
-        <div class="d-flex justify-content-md-center justify-content-lg-start">
-          <%= link_to t('global.menu.sign_in'), new_user_session_path, class: 'w-xs-100 mt-2 btn btn-lg btn-primary w-sm-50 w-md-50 w-lg-25'%>
+      <div class="align-content-center">
+        <div class='btn-group btn-group-lg mt-4' role='group'>
+          <%= link_to t('global.menu.sign_up'), new_user_registration_path, class: 'btn btn-lg btn-secondary d-flex align-items-center' %>
+          <%= link_to t('global.menu.sign_in'), new_user_session_path, class: 'btn btn-lg btn-primary d-flex align-items-center' %>
         </div>
       </div>
     </div>
