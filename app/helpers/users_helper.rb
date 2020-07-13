@@ -1,5 +1,9 @@
 module UsersHelper
 
+  def list_users_groups(user)
+    user.groups.map{|group| group.name}.join(", ")
+  end
+
   def get_full_name(user)
     [user.first_name, user.last_name].join(' ')
   end

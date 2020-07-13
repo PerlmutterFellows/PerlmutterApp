@@ -19,8 +19,49 @@ class User < ApplicationRecord
   include ApplicationHelper
   include RegistrationsHelper
 
+  def sanitize_query(query)
+    sanitize_sql_like(query).downcase
+  end
+
+  scope :search_by_name, ->(query) {
+    if query.present?
+      query = sanitize_sql_like(query).downcase
+      where(arel_table[:first_name].matches("%#{query}%"))
+          .or(where(arel_table[:last_name].matches("%#{query}%")))
+    end
+  }
+
+  scope :search_by_group, -> (query) {
+    if query.present?
+      query = sanitize_sql_like(query).downcase
+      joins(:groups).where("lower(groups.name) LIKE ?", "%#{query}%")
+    end
+  }
+
+  scope :search_by_email, -> (query) {
+    if query.present?
+      query = sanitize_sql_like(query).downcase
+      where(arel_table[:email].matches("%#{query}%"))
+    end
+  }
+
+  scope :search_by_phone_number, -> (query) {
+    if query.present?
+      query = sanitize_sql_like(query).downcase
+      where(arel_table[:phone_number].matches("%#{query}%"))
+    end
+  }
+
   def email_required?
     false
+  end
+
+  def full_name
+    self.first_name + " " + self.last_name
+  end
+
+  def self.filter(name_query, group_query, phone_query, email_query)
+   search_by_name(name_query).search_by_group(group_query).search_by_email(email_query).search_by_phone_number(phone_query)
   end
 
   def check_if_email_or_phone_entered?

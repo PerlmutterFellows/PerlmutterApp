@@ -23,6 +23,8 @@ gem 'jbuilder', '~> 2.7'
 gem 'devise'
 # DotENV is used to keep track of environmental variables locally for development/test. Heroku config variables are used for production and staging.
 gem 'dotenv-rails'
+# Kaminari is for pagination
+gem 'kaminari'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
@@ -74,3 +76,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "stimulus_reflex", "~> 3.2"

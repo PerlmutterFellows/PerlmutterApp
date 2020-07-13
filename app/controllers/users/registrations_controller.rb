@@ -1,13 +1,16 @@
 # frozen_string_literal: true
-
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :set_user, only: [:show, :edit, :delete]
+  before_action :redirect_if_not_admin, only: [:index]
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
   def index
-    unless authenticate_admin!
-      render :template => 'devise/registrations/index'
+    # Check if any of the search parameters exist, and if they do, filter them. Otherwise, select all users.
+    if user_query_present?
+      @users = User.filter(session[:name_query], session[:group_query], session[:phone_number_query], session[:email_query])
+    else
+      @users = User.all
     end
   end
 
@@ -109,6 +112,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
   #
   private
+
+  def user_query_present?
+    queries = [:name_query, :email_query, :phone_number_query, :group_query]
+    queries.each do |query|
+      if session[query].present?
+        return true
+      end
+    end
+    return false
+  end
+
+  def redirect_if_not_admin
+    redirect_to events_path if !current_user.admin?
+  end
+
   def set_user
     @user = User.find(params[:id])
   end
