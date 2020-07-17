@@ -36,4 +36,10 @@ class StaticPagesController < ApplicationController
       format.js { render js: "window.top.open('#{url}', '_blank');" }
     end
   end
+
+  def form
+  end
+
+  def results
+  end
 end

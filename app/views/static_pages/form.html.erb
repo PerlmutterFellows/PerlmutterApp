@@ -1,0 +1,33 @@
+<div class="d-flex justify-content-center">
+  <div class="row w-75 mt-4 d-flex">
+    <div class="col-12 d-flex align-items-center pb-3">
+      <h1 class="font-weight-light"><%= I18n.t("global.menu.form") %></h1>
+    </div>
+    <% form = FormService.new %>
+    <% if form.valid? %>
+      <%= bootstrap_form_tag(url: form_results_path) do |f| %>
+        <% form.get_form.each_with_index do |question, index| %>
+          <% question_class = question[:trigger] ? 'd-none' : '' %>
+          <% case question[:type] %>
+          <% when "mcq" %>
+            <%= f.form_group index, label: { text: form.get_numbered_question_string(index) }, class: question_class, data: { trigger: question[:trigger] } do %>
+              <% question[:answers].each_with_index do |answer, answer_index| %>
+                <%= f.radio_button index, answer_index, label: answer[:text], data: { trigger: answer[:trigger], name: index } %>
+              <% end %>
+            <% end %>
+          <% when "conditional" %>
+            <div data-controller="form">
+              <%= f.form_group index, label: { text: form.get_numbered_question_string(index) }, class: question_class, data: { trigger: question[:trigger] } do %>
+                <% question[:answers].each_with_index do |answer, answer_index| %>
+                  <%= f.radio_button index, answer_index, label: answer[:text], data: { target: "form.radio", action: "click->form#toggle", trigger: answer[:trigger], name: index } %>
+                <% end %>
+              <% end %>
+            </div>
+          <% else %>
+          <% end %>
+        <% end %>
+        <%= f.submit I18n.t("global.submit") %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

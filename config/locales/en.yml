@@ -24,6 +24,7 @@ en:
       my_profile: "My Profile"
       faq: "FAQ"
       contact: "Contact"
+      form: "Stability Score"
     locale: "Locale"
     deleted: "Deleted"
     updated: "Updated"
@@ -165,3 +166,401 @@ en:
     twitter:
     instagram: "loth_lynn"
     website: "https://havenproject.net/"
+  form:
+    - question: "What statement best describes your life regarding food?"
+      answers:
+        - text: "I do not know where I will get my next few meals."
+          value: 7.14
+        - text: "I recently applied for food stamps, and I know about food pantries."
+          value: 10
+        - text: "I have food stamps, and I know where to get food when I run low."
+          value: 13
+        - text: "I currently have enough food."
+          value: 16
+        - text: "I have had enough food for the past 3 months."
+          value: 17.43
+        - text: "I have a good shopping schedule and I try to eat healthy."
+          value: 18.86
+        - text: "I always have plenty to eat and am constantly exploring new healthy food options."
+          value: 20.28
+      type: "mcq"
+      max_value: 20.28
+      subscores:
+        - "needs"
+    - question: "What statement best describes your life regarding clothing?"
+      answers:
+        - text: "I have a limited amount of clothes and no way to clean them."
+          value: 7.14
+        - text: "I found a place to do laundry."
+          value: 11.5
+        - text: "I have been able to clean my clothes regularly for about 3 months."
+          value: 16
+        - text: "I am able to get more clothes if needed and I consistently do my laundry."
+          value: 18.14
+        - text: "I have proper attire for work and a consistent laundry plan."
+          value: 20.28
+      type: "mcq"
+      max_value: 20.28
+      subscores:
+        - "needs"
+    - question: "What statement best describes your life regarding hygiene?"
+      answers:
+        - text: "I have nowhere to shower or take care of my hygiene."
+          value: 7.14
+        - text: "I’m getting hygiene supplies for free and can use a shower."
+          value: 11.5
+        - text: "I have had my own hygiene supplies and a place to shower for about 3 months."
+          value: 16
+        - text: "I purchase my own hygiene products and shower consistently — no problems there!"
+          value: 20.28
+      type: "mcq"
+      max_value: 20.28
+      subscores:
+        - "needs"
+    - question: "What statement best describes your life regarding personal IDs? Examples of IDs include social security card, state ID card, learner’s permit, driver’s license, Employment Authorization card, birth certificate, green card, and passport."
+      answers:
+        - text: "I’m in need of personal ID documents."
+          value: 7.14
+        - text: "I have applied for 1 or more IDs."
+          value: 11.5
+        - text: "I have my birth certificate, social security card and 1 photo ID with me."
+          value: 16
+        - text: "I have a safe place to keep my important IDs."
+          value: 18.14
+        - text: "I have a birth certificate, social security card and 1 photo ID with me, and I am working to get any additional ID’s that I need"
+          value: 20.28
+      type: "mcq"
+      max_value: 20.28
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding transportation?"
+      answers:
+        - text: "I cannot get to where I need to be."
+          value: 7.14
+        - text: "I am able to get where I need to sometimes."
+          value: 10
+        - text: "I am able to get where I need to go most of the time."
+          value: 13
+        - text: "I currently have enough transportation options to be dependable."
+          value: 16
+        - text: "Transportation issues have NOT held me back from any opportunities for over 3 months."
+          value: 17
+        - text: "I am working on getting my learner’s permit/ driver’s license."
+          value: 18.86
+        - text: "I have my own means of transportation and can always get to where I need to be."
+          value: 20.28
+      type: "mcq"
+      max_value: 20.28
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding a phone?"
+      answers:
+        - text: "I don’t have a cellphone."
+          value: 7.14
+        - text: "I have applied for a government-assisted phone plan."
+          value: 10
+        - text: "I have an Obama phone."
+          value: 13
+        - text: "I have consistently had cell service for 3 months."
+          value: 16
+        - text: "I have had my own cell phone and phone plan for over 6 months."
+          value: 17.43
+        - text: "I have had my own cell phone and phone plan for over 1 year."
+          value: 18.86
+      type: "mcq"
+      max_value: 18.86
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding an address?"
+      answers:
+        - text: "I do not have a mailing address I can use."
+          value: 7.14
+        - text: "I have a mailing address that is somewhat reliable."
+          value: 10
+        - text: "I basically have a reliable mailing address."
+          value: 13
+        - text: "I have my own mailing address and have been receiving mail there for 1-3 months."
+          value: 16
+        - text: "I have my own mailing address and have been receiving mail there for over 3 months."
+          value: 17.43
+        - text: "I have my own mailing address and have been receiving mail there for over 6 months."
+          value: 18.86
+      type: "mcq"
+      max_value: 18.86
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding a job?"
+      answers:
+        - text: "I don’t have a job."
+          value: 25
+        - text: "I am searching for and have applied to more than 3 jobs."
+          value: 35.28
+        - text: "I am starting a job in the next 2 weeks."
+          value: 45.56
+        - text: "I have had the same job for 1-3 months."
+          value: 55.85
+        - text: "I have had the same job for over 3 months."
+          value: 60.9
+        - text: "I have had the same job for over 6 months."
+          value: 65.95
+        - text: "I have had the same job for over 1 year."
+          value: 71
+      type: "mcq"
+      max_value: 71
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding having debt?"
+      answers:
+        - text: "I owe a lot of money to multiple places/people."
+          value: 8.3
+        - text: "I owe some money, but I’m not sure how much."
+          value: 11.73
+        - text: "I know who I owe money to and am trying to pay off this debt."
+          value: 15.16
+        - text: "I have started to pay back some of my debt."
+          value: 18.6
+        - text: "I am making regular payments to pay back my debt."
+          value: 20.3
+        - text: "I have made regular payments to pay back my debt for over 6 months."
+          value: 21.9
+        - text: "I have no debt."
+          value: 23.6
+      type: "mcq"
+      max_value: 23.6
+      subscores:
+        - "needs"
+    - question: "What statement best describes your life regarding banking?"
+      answers:
+        - text: "I have debt with a bank, and am unable to open another account."
+          value: 8.3
+        - text: "I’ve never had a bank account."
+          value: 10.87
+        - text: "I closed my previous bank accounts, and I don’t owe them anything."
+          value: 13.44
+        - text: "I opened a bank account."
+          value: 17.6
+        - text: "I have a savings and checking account."
+          value: 18.6
+        - text: "I use my bank accounts to manage my finances and achieve financial goals."
+          value: 23.6
+      type: "mcq"
+      max_value: 23.6
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding budgeting?"
+      answers:
+        - text: "I have never used a budget."
+          value: 8.3
+        - text: "I have learned about budgeting."
+          value: 11.73
+        - text: "I have made a budget/savings plan."
+          value: 15.16
+        - text: "I have kept a budget/savings plan for 1 month."
+          value: 18.6
+        - text: "I have kept a budget/savings plan for over 3 months."
+          value: 20.2
+        - text: "I have kept a budget/savings plan for over 6 months."
+          value: 21.8
+        - text: "I have a detailed and long-term budget/savings plan."
+          value: 23.6
+      type: "mcq"
+      max_value: 23.6
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding housing?"
+      answers:
+        - text: "Last night I slept: outside OR somewhere that’s not totally safe."
+          value: 50
+        - text: "I am sleeping in a shelter OR I don’t know where I’ll be sleeping next month."
+          value: 70.5
+        - text: "I have a safe and stable place to stay for 1-3 months."
+          value: 91
+        - text: "I have had a safe and stable place to stay for over 4 months."
+          value: 111.7
+        - text: "I have my own place that I will live in for over 9 months."
+          value: 121.8
+        - text: "I have my own place that I will live in for over 18 months."
+          value: 131.9
+        - text: "I am on a lease and have my own space that I will live in for over 18 months."
+          value: 142
+      type: "mcq"
+      max_value: 142
+      subscores:
+        - "needs"
+    - question: "What statement best describes your life regarding education?"
+      answers:
+        - text: "I dropped out or unenrolled from school."
+          value: 50
+        - text: "I want to get my GED or go back to school."
+          value: 70.5
+        - text: "I am in high school or pursuing my GE."
+          value: 91
+        - text: "I have graduated from high school or have my GE."
+          value: 111.7
+        - text: "I want to continue my education post-high school."
+          value: 121.8
+        - text: "I am pursuing higher education. (i.e. am enrolled in community college or a university, trade school, certificate program, etc.)"
+          value: 131.9
+        - text: "I have completed at least one higher education program."
+          value: 142
+      type: "mcq"
+      max_value: 142
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding your health insurance (e.g. MassHealth, Harvard Pilgrim, BlueCross Blue Shield)?"
+      answers:
+        - text: "I don’t have health insurance."
+          value: 12.5
+        - text: "I think I have health insurance..."
+          value: 20.2
+        - text: "I have health insurance under a parent OR I applied for my own insurance recently."
+          value: 27.9
+        - text: "I have and use my own health insurance."
+          value: 35.5
+      type: "mcq"
+      max_value: 35.5
+      subscores:
+        - "needs"
+        - "progress"
+    - question: "What statement best describes your life regarding your physical health?"
+      answers:
+        - text: "I have an untreated medical condition."
+          value: 12.5
+        - text: "I am getting treatment for my medical condition OR I think I’m fine."
+          value: 20.2
+        - text: "I have gone to recent doctor’s appointments and am taking medications if prescribed."
+          value: 27.9
+        - text: "I attend regular checkups from my doctor and dentist at least 1x/year."
+          value: 31.7
+        - text: "I got my physical health covered! I know to how make and cancel appointments and advocate for myself."
+          value: 35.5
+      type: "mcq"
+      max_value: 35.5
+      subscores:
+        - "needs"
+    - question: "What statement best describes your life regarding your mental & emotional health?"
+      answers:
+        - text: "I don’t want to go see a mental health provider."
+          value: 12.5
+        - text: "I am considering seeing a mental health therapist."
+          value: 17.63
+        - text: "I have started seeing a mental health provider."
+          value: 22.76
+        - text: "I have been going to therapy for 1 – 2 months and taking all my meds if needed."
+          value: 27.9
+        - text: "I have been going to therapy for over 3 months and taking all my meds if needed."
+          value: 30.43
+        - text: "I have been going to therapy for over 6 months and taking all my meds if needed."
+          value: 32.96
+        - text: "Even in difficult moments, I feel supported mentally and emotionally and know how to advocate for myself."
+          value: 35.5
+      type: "mcq"
+      max_value: 35.5
+      subscores:
+        - "needs"
+    - question: "What statement best describes your life regarding alcohol & drug use?"
+      answers:
+        - text: "I have a history of substance use issues, but I don’t need help with this."
+          value: 12.5
+        - text: "I have a history of substance use issues, and I could use help with staying sober."
+          value: 20.2
+        - text: "I am starting a recovery plan to get sober."
+          value: 27.9
+        - text: "I am on a recovery plan and have been sober for more than 4 months."
+          value: 30.43
+        - text: "I’ve been in recovery for more than 6 months and have a support system to help me."
+          value: 32.96
+        - text: "I do not take illegal drugs and know to how to drink alcohol responsibly."
+          value: 35.5
+      type: "mcq"
+      max_value: 35.5
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding civic engagement?"
+      answers:
+        - text: "I am in legal trouble."
+          value: 16.7
+        - text: "I am looking for a lawyer to help me with my legal troubles."
+          value: 23.53
+        - text: "I am working on sorting out my legal troubles with a lawyer."
+          value: 30.36
+        - text: "I am not in trouble with the courts at all."
+          value: 37.2
+        - text: "I am now advocating for myself and my peers."
+          value: 40.56
+        - text: "I am on the Haven Project Client Advisory Board."
+          value: 43.92
+        - text: "I am engaged in all my civic privileges."
+          value: 47.3
+      type: "mcq"
+      max_value: 47.3
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding your support systems?"
+      answers:
+        - text: "I am in an unhealthy/abusive relationship."
+          value: 16.7
+        - text: "I know what a healthy relationship looks like and am working towards that."
+          value: 23.53
+        - text: "I am trying to set boundaries, and trying to network."
+          value: 30.36
+        - text: "I have a small support system and at least one positive relationship with a safe, caring, older adult."
+          value: 37.2
+        - text: "I am building my support system."
+          value: 42.25
+        - text: "I have had a strong, ever-growing support system in place for several years."
+          value: 47.3
+      type: "mcq"
+      max_value: 47.3
+      subscores:
+        - "progress"
+    - question: "Are you learning English?"
+      answers:
+        - text: "No, I speak English fluently."
+          trigger: "community"
+        - text: "Yes, I am still learning English."
+          trigger: "learning"
+      type: "conditional"
+      max_value: 0
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding community connection (local sports teams, social clubs, faith communities, community based services, networking groups, etc.)?"
+      answers:
+        - text: "I do not really have any community connections."
+          value: 16.7
+        - text: "I am learning about different ways to connect with my community."
+          value: 26.95
+        - text: "I engage in some community connections."
+          value: 37.2
+        - text: "I am trying new things in my community."
+          value: 40.56
+        - text: "I am actively participating in different and new community connections."
+          value: 43.92
+        - text: "I know about the different connections available and am participating in some of them regularly."
+          value: 47.3
+      type: "mcq"
+      max_value: 47.3
+      trigger: "community"
+      subscores:
+        - "progress"
+    - question: "What statement best describes your life regarding English language learning?"
+      answers:
+        - text: "I do not speak any English."
+          value: 16.7
+        - text: "I am enrolling in ESL classes."
+          value: 23.53
+        - text: "I have started ESL classes."
+          value: 30.36
+        - text: "I can have basic conversations in English."
+          value: 37.2
+        - text: "I don’t have trouble speaking English and saying what I want to say."
+          value: 40.56
+        - text: "I can speak English well enough to navigate any entry level job."
+          value: 43.92
+        - text: "I can speak English well enough to engage in a career level job."
+          value: 47.3
+      type: "mcq"
+      max_value: 47.3
+      trigger: "learning"
+      subscores:
+        - "progress"
