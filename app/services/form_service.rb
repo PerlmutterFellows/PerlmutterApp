@@ -83,7 +83,7 @@ class FormService
     else
       score = @subscores[key]
     end
-    "#{key.upcase_first}: #{score[0].round(2)}/#{score[1].round(2)}"
+    ["#{key.upcase_first}:", "#{score[0].round(2)}/#{score[1].round(2)}"]
   end
 
   def get_score_string

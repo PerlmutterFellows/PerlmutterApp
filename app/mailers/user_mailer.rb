@@ -11,6 +11,13 @@ class UserMailer < Devise::Mailer
     mail(to: user.email, subject: subject)
   end
 
+  def form_create_email(user, form, answered_questions)
+    @user = user
+    @form = form
+    @answered_questions = answered_questions
+    mail(to: user.email, subject: "#{I18n.t("global.new")} #{I18n.t("global.menu.form")}")
+  end
+
   def event_create_email(user, event)
     base_mail(user, event, "#{I18n.t("global.new")} #{event.eventType}: #{event.title}")
   end

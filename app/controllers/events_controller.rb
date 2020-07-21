@@ -42,7 +42,7 @@ class EventsController < ApplicationController
         @event.users << users
       end
       if @event.save
-        flash['success'] = t('global.model_created', type: t('global.event').downcase)
+        flash.now.notice = t('global.model_created', type: t('global.event').downcase)
         if @event.published
           handle_notify_event(@event, true)
         end
@@ -64,7 +64,7 @@ class EventsController < ApplicationController
         update_event_users(users, @event)
       end
       if @event.update(event_params)
-        flash['success'] = t('global.model_modified', type: t('global.event').downcase)
+        flash.now.notice = t('global.model_modified', type: t('global.event').downcase)
         if @event.published
           handle_notify_event(@event, true)
         end
@@ -85,7 +85,7 @@ class EventsController < ApplicationController
     end
     @event.destroy
     respond_to do |format|
-      flash['success'] = t('global.model_deleted', type: t('global.event').downcase)
+      flash.now.notice = t('global.model_deleted', type: t('global.event').downcase)
       format.html { redirect_to events_url }
       format.json { head :no_content }
     end

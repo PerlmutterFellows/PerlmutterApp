@@ -147,17 +147,13 @@ en:
         login: "Login"
         login_prompt: "Please login below using your username, email, or phone number."
   faq:
-    -
-      question: "What is The Haven Project?"
+    - question: "What is The Haven Project?"
       answer: "The Haven Project provides direct service to more than 200 homeless unaccompanied youth ages 17-24 each year in our Drop-in Centers, with referrals to other youth serving organizations for hundreds more who don't meet intake criteria based on age, homelessness or other factors."
-    -
-      question: "What is The Land of a Thousand Hills?"
+    - question: "What is The Land of a Thousand Hills?"
       answer: "In our experience, we have found that most clients do not have the foundational skills needed to keep a job. They do not have the problem-solving and communication skills to successfully deal with co-workers because of a myriad of issues related to their unstable housing situation. To address this, in 2016, we opened our social enterprise, The Land of a Thousand Hills – Lynn. This social enterprise provides a venue for job-training and operating funds for all of our programs.  Our café is award-winning, having received the prestigious BONS (Best of North Shore) for Best Coffee Shop in the categories of Readers and Editor’s choice for the past three years (2017, 2018, & 2019)!"
-    -
-      question: "What can I expect on my first visit?"
+    - question: "What can I expect on my first visit?"
       answer: "You’ll meet with one of our case managers who will ask you some questions to try to understand your situation (try to bring whatever IDs and documents you can to help us with this process), enjoy a meal and some snacks, get some groceries and hygiene supplies to take with you, set some basic goals with one of our case managers, check out recent postings for available jobs and housing options in the area, begin accomplishing some of the goals with the help of one of our case managers, and get a free gift card for food or coffee on your way out!"
-    -
-      question: "What can I do in this app?"
+    - question: "What can I do in this app?"
       answer: "You can interact with The Haven Project's many services! Sign up for notifications and RSVP for events and information sent to your preferred communication method, contact The Haven Project directly, and track and maintain your progress with your Stability Score and analysis on your user profile."
   contact:
     email: "office@havenproject.net"
@@ -183,7 +179,6 @@ en:
           value: 18.86
         - text: "I always have plenty to eat and am constantly exploring new healthy food options."
           value: 20.28
-      type: "mcq"
       max_value: 20.28
       subscores:
         - "needs"
@@ -199,7 +194,6 @@ en:
           value: 18.14
         - text: "I have proper attire for work and a consistent laundry plan."
           value: 20.28
-      type: "mcq"
       max_value: 20.28
       subscores:
         - "needs"
@@ -213,7 +207,6 @@ en:
           value: 16
         - text: "I purchase my own hygiene products and shower consistently — no problems there!"
           value: 20.28
-      type: "mcq"
       max_value: 20.28
       subscores:
         - "needs"
@@ -229,7 +222,6 @@ en:
           value: 18.14
         - text: "I have a birth certificate, social security card and 1 photo ID with me, and I am working to get any additional ID’s that I need"
           value: 20.28
-      type: "mcq"
       max_value: 20.28
       subscores:
         - "progress"
@@ -249,7 +241,6 @@ en:
           value: 18.86
         - text: "I have my own means of transportation and can always get to where I need to be."
           value: 20.28
-      type: "mcq"
       max_value: 20.28
       subscores:
         - "progress"
@@ -267,7 +258,6 @@ en:
           value: 17.43
         - text: "I have had my own cell phone and phone plan for over 1 year."
           value: 18.86
-      type: "mcq"
       max_value: 18.86
       subscores:
         - "progress"
@@ -285,7 +275,6 @@ en:
           value: 17.43
         - text: "I have my own mailing address and have been receiving mail there for over 6 months."
           value: 18.86
-      type: "mcq"
       max_value: 18.86
       subscores:
         - "progress"
@@ -305,7 +294,6 @@ en:
           value: 65.95
         - text: "I have had the same job for over 1 year."
           value: 71
-      type: "mcq"
       max_value: 71
       subscores:
         - "progress"
@@ -325,7 +313,6 @@ en:
           value: 21.9
         - text: "I have no debt."
           value: 23.6
-      type: "mcq"
       max_value: 23.6
       subscores:
         - "needs"
@@ -343,7 +330,6 @@ en:
           value: 18.6
         - text: "I use my bank accounts to manage my finances and achieve financial goals."
           value: 23.6
-      type: "mcq"
       max_value: 23.6
       subscores:
         - "progress"
@@ -363,7 +349,6 @@ en:
           value: 21.8
         - text: "I have a detailed and long-term budget/savings plan."
           value: 23.6
-      type: "mcq"
       max_value: 23.6
       subscores:
         - "progress"
@@ -383,7 +368,6 @@ en:
           value: 131.9
         - text: "I am on a lease and have my own space that I will live in for over 18 months."
           value: 142
-      type: "mcq"
       max_value: 142
       subscores:
         - "needs"
@@ -403,7 +387,6 @@ en:
           value: 131.9
         - text: "I have completed at least one higher education program."
           value: 142
-      type: "mcq"
       max_value: 142
       subscores:
         - "progress"
@@ -417,7 +400,6 @@ en:
           value: 27.9
         - text: "I have and use my own health insurance."
           value: 35.5
-      type: "mcq"
       max_value: 35.5
       subscores:
         - "needs"
@@ -434,7 +416,6 @@ en:
           value: 31.7
         - text: "I got my physical health covered! I know to how make and cancel appointments and advocate for myself."
           value: 35.5
-      type: "mcq"
       max_value: 35.5
       subscores:
         - "needs"
@@ -454,7 +435,6 @@ en:
           value: 32.96
         - text: "Even in difficult moments, I feel supported mentally and emotionally and know how to advocate for myself."
           value: 35.5
-      type: "mcq"
       max_value: 35.5
       subscores:
         - "needs"
@@ -472,7 +452,6 @@ en:
           value: 32.96
         - text: "I do not take illegal drugs and know to how to drink alcohol responsibly."
           value: 35.5
-      type: "mcq"
       max_value: 35.5
       subscores:
         - "progress"
@@ -492,7 +471,6 @@ en:
           value: 43.92
         - text: "I am engaged in all my civic privileges."
           value: 47.3
-      type: "mcq"
       max_value: 47.3
       subscores:
         - "progress"
@@ -510,7 +488,6 @@ en:
           value: 42.25
         - text: "I have had a strong, ever-growing support system in place for several years."
           value: 47.3
-      type: "mcq"
       max_value: 47.3
       subscores:
         - "progress"
@@ -520,7 +497,6 @@ en:
           trigger: "community"
         - text: "Yes, I am still learning English."
           trigger: "learning"
-      type: "conditional"
       max_value: 0
       subscores:
         - "progress"
@@ -538,7 +514,6 @@ en:
           value: 43.92
         - text: "I know about the different connections available and am participating in some of them regularly."
           value: 47.3
-      type: "mcq"
       max_value: 47.3
       trigger: "community"
       subscores:
@@ -559,7 +534,6 @@ en:
           value: 43.92
         - text: "I can speak English well enough to engage in a career level job."
           value: 47.3
-      type: "mcq"
       max_value: 47.3
       trigger: "learning"
       subscores:

@@ -3,31 +3,17 @@
     <div class="col-12 d-flex align-items-center pb-3">
       <h1 class="font-weight-light"><%= I18n.t("global.menu.form") %></h1>
     </div>
-    <% form = FormService.new %>
-    <% if form.valid? %>
-      <%= bootstrap_form_tag(url: form_results_path) do |f| %>
-        <% form.get_form.each_with_index do |question, index| %>
-          <% question_class = question[:trigger] ? 'd-none' : '' %>
-          <% case question[:type] %>
-          <% when "mcq" %>
-            <%= f.form_group index, label: { text: form.get_numbered_question_string(index) }, class: question_class, data: { trigger: question[:trigger] } do %>
-              <% question[:answers].each_with_index do |answer, answer_index| %>
-                <%= f.radio_button index, answer_index, label: answer[:text], data: { trigger: answer[:trigger], name: index } %>
-              <% end %>
-            <% end %>
-          <% when "conditional" %>
-            <div data-controller="form">
-              <%= f.form_group index, label: { text: form.get_numbered_question_string(index) }, class: question_class, data: { trigger: question[:trigger] } do %>
-                <% question[:answers].each_with_index do |answer, answer_index| %>
-                  <%= f.radio_button index, answer_index, label: answer[:text], data: { target: "form.radio", action: "click->form#toggle", trigger: answer[:trigger], name: index } %>
-                <% end %>
-              <% end %>
-            </div>
-          <% else %>
-          <% end %>
-        <% end %>
-        <%= f.submit I18n.t("global.submit") %>
-      <% end %>
-    <% end %>
+  </div>
+</div>
+<div class="ml-4 mr-4 d-flex justify-content-center">
+  <div class="d-flex justify-content-center">
+    <%= render 'shared/empty_notice', condition: !I18n.t('form').kind_of?(Array),
+               if_prompt: I18n.t('global.missing_input',
+                                 types: I18n.t('global.menu.form').downcase),
+               else_prompt: "#{render 'score_form',
+                                      form: @form}".html_safe,
+               sub_condition: admin_signed_in?(current_user),
+               sub_if_prompt: I18n.t('global.missing_input_admin_prompt_manual'),
+               sub_else_prompt: I18n.t('global.missing_input_user_prompt_manual') %>
   </div>
 </div>

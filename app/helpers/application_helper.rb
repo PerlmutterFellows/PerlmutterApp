@@ -20,7 +20,7 @@ module ApplicationHelper
 
   def authenticate!(condition, role)
     unless condition
-      flash[:error] = t('global.warning', type: role)
+      flash.now.alert = t('global.warning', type: role)
       redirect_to root_path
     end
   end

@@ -10,15 +10,24 @@
       </li>
       <% if current_user %>
         <li class="nav-item">
-          <h4 class="font-weight-light"><%= link_to (t "global.menu.newsletter"), events_path, class: "nav-link" %></h4>
+          <h4 class="font-weight-light"><%= link_to (t "global.menu.events"), events_path, class: "nav-link" %></h4>
         </li>
       <% end %>
-      <li class="nav-item">
-        <h4 class="font-weight-light"><%= link_to (t "global.menu.faq"), faq_path, class: "nav-link" %></h4>
-      </li>
-      <li class="nav-item">
-        <h4 class="font-weight-light"><%= link_to (t "global.menu.contact"), contact_path, class: "nav-link" %></h4>
-      </li>
+      <% if I18n.t('faq').kind_of?(Array) %>
+        <li class="nav-item">
+          <h4 class="font-weight-light"><%= link_to (t "global.menu.faq"), faq_path, class: "nav-link" %></h4>
+        </li>
+      <% end %>
+      <% if I18n.t('contact').kind_of?(Hash) %>
+        <li class="nav-item">
+          <h4 class="font-weight-light"><%= link_to (t "global.menu.contact"), contact_path, class: "nav-link" %></h4>
+        </li>
+      <% end %>
+      <% if I18n.t('form').kind_of?(Array) %>
+        <li class="nav-item">
+          <h4 class="font-weight-light"><%= link_to (t "global.menu.form"), form_path, class: "nav-link" %></h4>
+        </li>
+      <% end %>
     </ul>
     <hr />
     <% fa_user_icon, fa_icon, account_type = get_user_role_info(current_user) %>
