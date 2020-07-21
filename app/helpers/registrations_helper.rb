@@ -40,11 +40,11 @@ module RegistrationsHelper
 
   def handle_user_creation(created_user)
     if created_user.save
-      flash.now.notice = t('devise.registrations.signed_up_but_unconfirmed')
+      flash.notice = t('devise.registrations.signed_up_but_unconfirmed')
       root_path
     else
       created_user.delete
-      flash.now.alert = t('global.error_message', type: "user")
+      flash.alert = t('global.error_message', type: "user")
       users_new_path
     end
   end
@@ -82,11 +82,11 @@ module RegistrationsHelper
     end
 
     if failed_rows.length == 0
-      flash.now.notice = t('.csv_success')
+      flash.notice = t('.csv_success')
     elsif success_rows.length == 0
-      flash.now.alert = t('.csv_failures', rows: failed_rows.join('<br>'))
+      flash.alert = t('.csv_failures', rows: failed_rows.join('<br>'))
     else
-      flash.now.alert = t('.csv_success_with_failures', rows: failed_rows.join('<br>'))
+      flash.alert = t('.csv_success_with_failures', rows: failed_rows.join('<br>'))
     end
     root_path
   end

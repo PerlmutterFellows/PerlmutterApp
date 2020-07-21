@@ -65,7 +65,12 @@ class StaticPagesController < ApplicationController
         user_score.save
         @user.user_scores << user_score
         @user.save
-        UserMailer.form_create_email(@user, @form, @answered_questions).deliver
+        emails = []
+        if @user.use_email? && @user.confirmed?
+          emails.push(@user.email)
+        end
+        emails.push(ENV['GMAIL_USERNAME'])
+        UserMailer.form_create_email(@user, @form, @answered_questions, emails).deliver
         flash.now.notice = I18n.t("global.model_created", type: I18n.t("global.menu.form"))
       rescue StandardError => e
         puts(e)

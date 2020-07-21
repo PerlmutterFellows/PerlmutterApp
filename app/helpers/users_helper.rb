@@ -62,7 +62,7 @@ module UsersHelper
   def destroy_user(user, redirect_path)
     respond_to do |format|
       user.destroy
-      flash.now.notice = t('global.model_deleted', type: t('global.user').downcase)
+      flash.notice = t('global.model_deleted', type: t('global.user').downcase)
       format.html { redirect_to redirect_path }
     end
   end
