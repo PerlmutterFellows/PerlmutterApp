@@ -1,16 +1,53 @@
 # frozen_string_literal: true
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :set_user, only: [:show, :edit, :delete]
-  before_action :redirect_if_not_admin, only: [:index]
+  before_action :authenticate_user!
+  before_action :authenticate_moderator!, only: [:index]
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
   def index
     # Check if any of the search parameters exist, and if they do, filter them. Otherwise, select all users.
     if user_query_present?
-      @users = User.filter(session[:name_query], session[:group_query], session[:phone_number_query], session[:email_query])
+      @users = User.filter(session[:name_query], session[:group_query], session[:phone_number_query], session[:email_query], session[:date_query]).user
     else
-      @users = User.all
+      @users = User.user
+    end
+  end
+
+  def moderators
+    # Check if any of the search parameters exist, and if they do, filter them. Otherwise, select all users.
+    if user_query_present?
+      @users = User.filter(session[:name_query], session[:group_query], session[:phone_number_query], session[:email_query], session[:date_query]).moderator
+    else
+      @users = User.moderator
+    end
+  end
+
+  def promote_to_moderator
+    user_to_promote = User.find(params[:id])
+    if current_user.admin? && user_to_promote.user?
+      user_to_promote.moderator!
+      user_to_promote.save
+    end
+    redirect_to users_path
+  end
+
+  def demote_to_user
+    user_to_demote = User.find(params[:id])
+    if current_user.admin? && user_to_demote.moderator?
+      user_to_demote.user!
+      user_to_demote.save
+    end
+    redirect_to moderators_path
+  end
+
+  def clear_user_search
+    reset_filters
+    if URI(request.referer).path.include?("users")
+      redirect_to moderators_path
+    else
+      redirect_to users_path
     end
   end
 
@@ -114,17 +151,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def user_query_present?
-    queries = [:name_query, :email_query, :phone_number_query, :group_query]
+    queries = [:name_query, :email_query, :phone_number_query, :group_query, :date_query]
     queries.each do |query|
       if session[query].present?
         return true
       end
     end
     return false
-  end
-
-  def redirect_if_not_admin
-    redirect_to events_path if !current_user.admin?
   end
 
   def set_user

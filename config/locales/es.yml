@@ -17,6 +17,7 @@ es:
       sign_out: "Cerrar sesión"
       admin: "Admin"
       moderator: "Moderador"
+      moderators: "Moderadores y Moderadores"
       guest: "Invitado"
       events: "Eventos"
       groups: "Grupos"
@@ -142,6 +143,44 @@ es:
         form_prompt: "¡Complete este formulario para crear una cuenta!"
         csv: "Crear usuario a través de CSV"
         csv_prompt: "¡Haga clic aquí para obtener una plantilla CSV de usuario!"
+      users_table:
+        headers:
+          name: "Nombre"
+          email: "Correo Electrónico"
+          phone_number: "Número de teléfono"
+          groups: "Grupos"
+          birthday: "Cumpleaños"
+          actions: "Comportamiento"
+        filters:
+          search_by_name:
+            label: "Buscar por nombre:"
+            placeholder: "Juan Pérez"
+          search_by_group:
+            label: "Buscar por grupo:"
+            placeholder: "Nombre del grupo"
+          search_by_phone_number:
+            label: "Buscar por número de teléfono:"
+          search_by_email:
+            label: "Buscar por correo electrónico:"
+            placeholder: "juanpérez@gmail.com"
+          search_by_birthday: "Buscar por cumpleaños:"
+          birthday_filter_options:
+            any_day: "Cualquier día"
+            today: "Hoy"
+            tomorrow: "Mañana"
+            next_week: "La próxima semana"
+            next_month: "Próximo mes"
+          reset_filters:
+            label: "Restablecer filtros"
+            button: "Rese"
+        birthday:
+          zero: "Hoy"
+          one: "Mañana"
+          other: "%{count} días"
+        promote_user: "Promover usuario"
+        demote_moderator: "Moderador de degradación"
+        view_user: "Ver usuario"
+        delete_user: "Borrar usuario"
     sessions:
       new:
         login: "Iniciar sesión"

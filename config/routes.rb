@@ -14,11 +14,15 @@ Rails.application.routes.draw do
     get 'home/index'
     devise_scope :user do
       get 'users', action: 'index', controller: 'users/registrations'
-      get 'users/new', action: 'new_by_admin', controller: 'users/registrations'
+      get 'moderators', action: 'moderators', controller: 'users/registrations'
+      get 'users/new', action: 'new_by_admin', controller: 'users/registrations', as: 'user_new'
       get 'users/create', action: 'new_by_admin', controller: 'users/registrations'
+      get 'users/clear_user_search', action: 'clear_user_search', controller: 'users/registrations', as: 'clear_user_search'
       post 'users/create', action: 'create_by_admin', controller: 'users/registrations'
-      delete 'users/delete/:id', action: 'delete', controller: 'users/registrations', as: 'users_delete'
-      get 'users/:id', action: 'show', controller: 'users/registrations', as: 'users_show'
+      post 'users/promote/:id', action: 'promote_to_moderator', controller: 'users/registrations', as: 'promote_to_moderator'
+      post 'users/demote/:id', action: 'demote_to_user', controller: 'users/registrations', as: 'demote_to_user'
+      delete 'users/delete/:id', action: 'delete', controller: 'users/registrations', as: 'user_delete'
+      get 'users/:id', action: 'show', controller: 'users/registrations', as: 'user'
     end
     devise_for :users, controllers: {
         sessions: 'users/sessions'

@@ -52,7 +52,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
           <% if current_user %>
-            <p><%= link_to (t "global.menu.my_profile"), users_show_path(current_user), class: "dropdown-item" %></p>
+            <p><%= link_to (t "global.menu.my_profile"), user_path(current_user), class: "dropdown-item" %></p>
             <p><%= link_to (t "global.menu.sign_out"), destroy_user_session_path, method: :delete, class: "dropdown-item" %></p>
           <% else %>
             <p><%= link_to (t "global.menu.sign_up"), new_user_registration_path, class: "dropdown-item" %></p>

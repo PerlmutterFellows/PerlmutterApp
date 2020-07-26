@@ -56,11 +56,28 @@ module UsersHelper
     end
     "<div class='text-center'>
       <div class='btn-group btn-group-md' role='group'>
-        #{link_to I18n.t("global.delete"), users_delete_path(user), class: "btn btn-outline-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
+        #{link_to I18n.t("global.delete"), user_delete_path(user), class: "btn btn-outline-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
         #{link_to I18n.t("global.edit"), "#", class: "btn btn-outline-primary"}
         #{tertiary_button}
       </div>
     </div>".html_safe
+  end
+
+  def promote_to_moderator(user)
+    if current_user.moderator? || current_user.admin?
+      user.moderator!
+    end
+  end
+
+  def calculate_days_until_users_birthday(user)
+    birthday = Date.new(Date.today.year, user.birthday.month, user.birthday.day)
+    birthday += 1.year if Date.today > birthday
+    (birthday - Date.today).to_i
+  end
+
+  def reset_filters
+    queries = [:name_query, :group_query, :email_query, :phone_number_query, :date_query]
+    queries.each { |query| session[query] = nil }
   end
 
   def destroy_user(user, redirect_path)

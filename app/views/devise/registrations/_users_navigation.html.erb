@@ -1,0 +1,8 @@
+<ul class="nav nav-tabs">
+  <%= content_tag :li, class: "nav-item" do %>
+    <%= link_to I18n.t('global.menu.users'), clear_user_search_path, class: "nav-link #{'active' if current_page == :users}" %>
+  <% end %>
+  <%= content_tag :li, class: "nav-item" do %>
+    <%= link_to I18n.t('global.menu.moderators'), clear_user_search_path, class: "nav-link #{'active' if current_page == :moderators}" %>
+  <% end %>
+</ul>

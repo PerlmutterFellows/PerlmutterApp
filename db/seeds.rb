@@ -20,6 +20,7 @@ def generate_user
                   email: Faker::Internet.email,
                   password: pass,
                   password_confirmation: pass,
+                  birthday: Faker::Date.between(from: '1990-07-23', to: '1990-09-24'),
                   role: Faker::Number.within(range: 0..1),
                   locale: "en",
                   use_email: true)

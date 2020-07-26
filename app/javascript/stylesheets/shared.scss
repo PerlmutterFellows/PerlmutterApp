@@ -38,3 +38,9 @@
 .object-fit-cover {
   object-fit: cover;
 }
+
+// Hover helpers
+.is-hoverable:hover {
+  color: $info;
+  cursor: pointer;
+}

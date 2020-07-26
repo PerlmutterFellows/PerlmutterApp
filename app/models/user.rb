@@ -52,6 +52,30 @@ class User < ApplicationRecord
     end
   }
 
+  scope :search_by_date, -> (query){
+    begin
+      if query.present?
+        date = query.to_date
+        case date
+        when Date.today
+          where('EXTRACT(month FROM birthday) = ? AND EXTRACT(day FROM birthday) = ?', Date.today.month, Date.today.day)
+        when Date.tomorrow
+          where('EXTRACT(month FROM birthday) = ? AND EXTRACT(day FROM birthday) = ?', Date.tomorrow.month, Date.tomorrow.day)
+        when Date.today + 1.week
+          if Date.today.month != (Date.today + 1.week).month # If the birthday is next month
+            where('EXTRACT(month FROM birthday) = ? AND EXTRACT(day FROM birthday) < ?', 7.days.from_now.month, 7.days.from_now.day)
+          else # If the birthday is this month
+            where('EXTRACT(month FROM birthday) = ? AND EXTRACT(day FROM birthday) < ? AND EXTRACT(day FROM birthday) > ?', 7.days.from_now.month, 7.days.from_now.day, Date.today.day)
+          end
+        when Date.today + 1.month
+          next_month = (Date.today + 1.month).month
+          where("EXTRACT(MONTH FROM birthday) = ?", next_month)
+        end
+      end
+    rescue
+      nil
+    end
+  }
   def email_required?
     false
   end
@@ -60,8 +84,9 @@ class User < ApplicationRecord
     self.first_name + " " + self.last_name
   end
 
-  def self.filter(name_query, group_query, phone_query, email_query)
-   search_by_name(name_query).search_by_group(group_query).search_by_email(email_query).search_by_phone_number(phone_query)
+  def self.filter(name_query, group_query, phone_query, email_query, date_query)
+    puts date_query
+   search_by_name(name_query).search_by_group(group_query).search_by_email(email_query).search_by_phone_number(phone_query).search_by_date(date_query)
   end
 
   def check_if_email_or_phone_entered?
