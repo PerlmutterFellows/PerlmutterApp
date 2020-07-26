@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :groups, :through => :group_memberships
   has_many :event_statuses
   has_many :events, :through => :event_statuses
+  has_many :user_scores
+  has_many :subscores, :through => :user_scores
   validates_presence_of :first_name
   validates_presence_of :last_name
   validates_confirmation_of :password

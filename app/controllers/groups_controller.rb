@@ -33,7 +33,7 @@ class GroupsController < ApplicationController
         @group.users = users
       end
       if @group.save
-        flash['success'] = t('global.model_created', type: t('global.group').downcase)
+        flash.notice = t('global.model_created', type: t('global.group').downcase)
         format.html { redirect_to @group }
         format.json { render :show, status: :created, location: @group }
       else
@@ -53,7 +53,7 @@ class GroupsController < ApplicationController
         @group.users = users
       end
       if @group.update({name: params['group']['name']})
-          flash['success'] = t('global.model_modified', type: t('global.group').downcase)
+          flash.notice = t('global.model_modified', type: t('global.group').downcase)
           format.html { redirect_to @group }
           format.json { render :show, status: :ok, location: @group }
       else
@@ -68,7 +68,7 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     respond_to do |format|
-      flash['success'] = t('global.model_deleted', type: t('global.group').downcase)
+      flash.notice = t('global.model_deleted', type: t('global.group').downcase)
       format.html { redirect_to groups_url }
       format.json { head :no_content }
     end

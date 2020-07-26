@@ -1,0 +1,19 @@
+<div class="d-flex justify-content-center">
+  <div class="row w-75 mt-4 d-flex">
+    <div class="col-12 d-flex align-items-center pb-3">
+      <h1 class="font-weight-light"><%= I18n.t("global.menu.form") %></h1>
+    </div>
+  </div>
+</div>
+<div class="ml-4 mr-4 d-flex justify-content-center">
+  <div class="d-flex justify-content-center">
+    <%= render 'shared/empty_notice', condition: !I18n.t('form').kind_of?(Array),
+               if_prompt: I18n.t('global.missing_input',
+                                 types: I18n.t('global.menu.form').downcase),
+               else_prompt: "#{render 'score_form',
+                                      form: @form}".html_safe,
+               sub_condition: admin_signed_in?(current_user),
+               sub_if_prompt: I18n.t('global.missing_input_admin_prompt_manual'),
+               sub_else_prompt: I18n.t('global.missing_input_user_prompt_manual') %>
+  </div>
+</div>

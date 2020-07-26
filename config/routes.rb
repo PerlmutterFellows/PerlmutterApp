@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     }, path: '', path_names: { sign_in: 'login', sign_up: 'registration', sign_out: 'logout', confirmation: 'verification'}
     post 'receive_call', to: 'twilio#receive_call'
     post 'receive_text', to: 'twilio#receive_text'
+    get 'form', action: 'form', controller: 'static_pages'
+    post 'form', action: 'results', controller: 'static_pages', as: 'form_results'
     get 'faq', action: 'faq', controller: 'static_pages'
     get 'contact', action: 'contact', controller: 'static_pages'
     post 'contact', action: 'contact_send', controller: 'static_pages'

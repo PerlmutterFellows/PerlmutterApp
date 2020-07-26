@@ -66,3 +66,14 @@ end
   GroupMembership.create(group_id: Group.all.sample.id,
                          user_id: User.all.sample.id)
 end
+
+50.times do
+  UserScore.create(user_id: User.all.sample.id)
+end
+
+50.times do
+  Subscore.create(user_score_id: UserScore.all.sample.id,
+                  name: [Faker::Company.name, Faker::Team.name].sample,
+                  score: Faker::Number.within(range: 0..10),
+                  max_score: Faker::Number.within(range: 0..100))
+end

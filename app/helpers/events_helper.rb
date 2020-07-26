@@ -103,20 +103,20 @@ module EventsHelper
       if attend
         if !status.attending?
           status.attending!
-          output_as_flash ? flash['success'] = I18n.t('events.attending_success_response') : text_output = I18n.t('events.attending_success_response')
+          output_as_flash ? flash.notice = I18n.t('events.attending_success_response') : text_output = I18n.t('events.attending_success_response')
         else
-          output_as_flash ? flash['error'] = I18n.t('events.attending_failed_response') : text_output = I18n.t('events.attending_failed_response')
+          output_as_flash ? flash.alert = I18n.t('events.attending_failed_response') : text_output = I18n.t('events.attending_failed_response')
         end
       else
         if !status.not_attending?
           status.not_attending!
-          output_as_flash ? flash['success'] = I18n.t('events.not_attending_success_response') : text_output = I18n.t('events.not_attending_success_response')
+          output_as_flash ? flash.notice = I18n.t('events.not_attending_success_response') : text_output = I18n.t('events.not_attending_success_response')
         else
-          output_as_flash ? flash['error'] = I18n.t('events.not_attending_failed_response') : text_output = I18n.t('events.not_attending_failed_response')
+          output_as_flash ? flash.alert = I18n.t('events.not_attending_failed_response') : text_output = I18n.t('events.not_attending_failed_response')
         end
       end
     else
-      output_as_flash ? flash['error'] = I18n.t('global.invalid_input') : text_output = I18n.t('global.invalid_input')
+      output_as_flash ? flash.alert = I18n.t('global.invalid_input') : text_output = I18n.t('global.invalid_input')
     end
     output_as_flash ? events_path : text_output
   end

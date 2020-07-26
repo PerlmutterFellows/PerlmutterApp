@@ -3,6 +3,10 @@
     <div class="col-12 d-flex align-items-center pb-3">
       <h1 class="font-weight-light"><%= I18n.t("global.menu.faq") %></h1>
     </div>
+  </div>
+</div>
+<div class="ml-4 mr-4 d-flex justify-content-center">
+  <div class="d-flex justify-content-center">
     <%= render 'shared/empty_notice', condition: !I18n.t('faq').kind_of?(Array),
                                       if_prompt: I18n.t('global.missing_input',
                                         types: I18n.t('global.menu.faq')),
