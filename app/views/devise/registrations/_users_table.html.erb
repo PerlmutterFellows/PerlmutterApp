@@ -16,7 +16,11 @@
       <td class="col-2 text-break text-center border-right"><%= user.email %></td>
       <td class="col-2 text-break text-center border-right"><%= user.phone_number %></td>
       <td class="col-2 text-break text-left border-right"><%= list_users_groups(user) %></td>
-      <td class="col-1 text-break text-center border-right"><%= I18n.t('devise.registrations.users_table.birthday', count: calculate_days_until_users_birthday(user)) %></td>
+      <% unless user.birthday.blank? %>
+        <td class="col-1 text-break text-center border-right"><%= I18n.t('devise.registrations.users_table.birthday', count: calculate_days_until_users_birthday(user)) %></td>
+      <% else %>
+        <td class="col-1 text-break text-center border-right">N.A.</td>
+    <% end %>
       <td class="col-4 text-break border-right d-flex justify-content-around align-items-center">
         <% if user.user? %>
           <%= link_to I18n.t('devise.registrations.users_table.view_user'), user_path(user), class: 'btn btn-info' %>

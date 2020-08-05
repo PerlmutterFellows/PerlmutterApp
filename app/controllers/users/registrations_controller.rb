@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :set_user, only: [:show, :edit, :delete]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:update]
   before_action :authenticate_moderator!, only: [:index]
   # before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
+  before_action :configure_account_update_params, only: [:update]
 
   def index
     # Check if any of the search parameters exist, and if they do, filter them. Otherwise, select all users.
@@ -93,15 +93,29 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def update_user
+    user = User.find(params[:id])
+    if user.update_attributes(user_params)
+      flash.notice = "success"
+      redirect_to user_path(user)
+    else
+      errors = user.errors.full_messages
+      errors.each do |message|
+        flash.alert = message
+      end
+      redirect_to user_path(user)
+    end
+  end
+
   # GET /resource/edit
   # def edit
   #   super
   # end
 
-  # PUT /resource
-  # def update
-  #   super
-  # end
+   #PUT /resource
+   #def update
+   #  super
+   #end
 
   # DELETE /resource
   # def destroy
@@ -133,10 +147,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :phone_number, :locale, :role, :use_email, :use_call, :use_text])
   end
 
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_account_update_params
-  #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
-  # end
+   #If you have extra params to permit, append them to the sanitizer.
+   def configure_account_update_params
+     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :email, :phone_number, :locale, :role, :use_email, :use_call, :use_text])
+   end
 
   # The path used after sign up.
   # def after_sign_up_path_for(resource)
@@ -149,6 +163,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
   #
   private
+
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :birthday, :phone_number, :email, :use_email, :use_call, :use_text)
+  end
 
   def user_query_present?
     queries = [:name_query, :email_query, :phone_number_query, :group_query, :date_query]

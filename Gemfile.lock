@@ -78,6 +78,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
+    chartkick (3.3.2)
     childprocess (3.0.0)
     concurrent-ruby (1.1.6)
     crass (1.0.6)
@@ -98,9 +99,14 @@ GEM
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.12.2)
+    font-awesome-sass (5.13.0)
+      sassc (>= 1.11)
     gemoji (3.0.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    gravatar_image_tag (1.2.0)
+    groupdate (5.0.0)
+      activesupport (>= 5)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     inline_svg (1.7.1)
@@ -228,16 +234,16 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    strings (0.1.8)
-      strings-ansi (~> 0.1)
-      unicode-display_width (~> 1.5)
-      unicode_utils (~> 1.4)
-    strings-ansi (0.1.0)
     stimulus_reflex (3.2.3)
       cable_ready (>= 4.1.2)
       nokogiri
       rack
       rails (>= 5.2)
+    strings (0.1.8)
+      strings-ansi (~> 0.1)
+      unicode-display_width (~> 1.5)
+      unicode_utils (~> 1.4)
+    strings-ansi (0.1.0)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -288,10 +294,14 @@ DEPENDENCIES
   bootstrap_form (~> 4.0)
   byebug
   capybara (>= 2.15)
+  chartkick
   devise
   dotenv-rails
   faker
+  font-awesome-sass (~> 5.13.0)
   gemoji
+  gravatar_image_tag
+  groupdate
   inline_svg
   jbuilder (~> 2.7)
   kaminari
@@ -307,8 +317,8 @@ DEPENDENCIES
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
-  tty-box
   stimulus_reflex (~> 3.2)
+  tty-box
   turbolinks (~> 5)
   twilio-ruby (~> 5.35.0)
   tzinfo-data

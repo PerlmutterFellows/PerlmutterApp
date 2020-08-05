@@ -43,6 +43,11 @@ module GroupsHelper
     button_html.html_safe
   end
 
+  def reset_filters
+    queries = [:user_name_query, :group_name_query]
+    queries.each { |query| session[query] = nil }
+  end
+
   ##
   # Returns unique selected users from select array containing group and user ids
   # select - an array containing user ids (no extra prefix), and group ids (prefixed with 'g' to distinguish)

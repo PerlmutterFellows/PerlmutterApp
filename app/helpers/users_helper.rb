@@ -87,4 +87,17 @@ module UsersHelper
       format.html { redirect_to redirect_path }
     end
   end
+
+  def map_user_scores(user)
+    user.user_scores.map do |score|
+      [Date.new(score.created_at.year, score.created_at.month, score.created_at.day), score.get_total_score[:score].round()]
+    end
+  end
+
+  def map_user_subscores(user)
+    user.subscores.pluck(:name).uniq.map do |name| {name: name.capitalize, data:
+        Subscore.where(name: name).map {|score| [Date.new(score.created_at.year, score.created_at.month, score.created_at.day), score['score'].round()]}
+    }
+    end
+  end
 end

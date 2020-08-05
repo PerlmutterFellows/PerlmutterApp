@@ -85,7 +85,6 @@ class User < ApplicationRecord
   end
 
   def self.filter(name_query, group_query, phone_query, email_query, date_query)
-    puts date_query
    search_by_name(name_query).search_by_group(group_query).search_by_email(email_query).search_by_phone_number(phone_query).search_by_date(date_query)
   end
 

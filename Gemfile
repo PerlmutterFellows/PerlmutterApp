@@ -37,6 +37,14 @@ gem "bootstrap_form", "~> 4.0"
 gem 'inline_svg'
 # For adding emoji support
 gem 'gemoji'
+# For icons
+gem 'font-awesome-sass', '~> 5.13.0'
+# For profile photos
+gem 'gravatar_image_tag'
+# For graphing
+gem 'chartkick'
+# For grouping models by time
+gem 'groupdate'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 # Use Faker for seeded records

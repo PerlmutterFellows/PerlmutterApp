@@ -5,7 +5,11 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
+    if group_query_present?
+      @groups = Group.filter(session[:group_name_query], session[:user_name_query])
+    else
+      @groups = Group.all
+    end
   end
 
   # GET /groups/1
@@ -75,6 +79,16 @@ class GroupsController < ApplicationController
   end
 
   private
+
+    def group_query_present?
+      queries = [:group_name_query, :user_name_query]
+      queries.each do |query|
+        if session[query].present?
+          return true
+        end
+      end
+      return false
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_group
       @group = Group.find(params[:id])

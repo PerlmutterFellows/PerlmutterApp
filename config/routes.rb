@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       post 'users/demote/:id', action: 'demote_to_user', controller: 'users/registrations', as: 'demote_to_user'
       delete 'users/delete/:id', action: 'delete', controller: 'users/registrations', as: 'user_delete'
       get 'users/:id', action: 'show', controller: 'users/registrations', as: 'user'
+      patch 'users/:id', action: 'update_user', controller: 'users/registrations', as: 'user_edit'
     end
     devise_for :users, controllers: {
         sessions: 'users/sessions'

@@ -1,3 +1,4 @@
+<!--
 <div class="d-flex justify-content-center">
   <div class="row w-75 m-4 d-flex justify-content-center">
     <div class="col-6 d-flex align-items-center">
@@ -26,3 +27,21 @@
                sub_else_prompt: I18n.t('global.missing_input_user_prompt') %>
   </div>
 </div>
+-->
+<div class="container mt-2 mb-2">
+  <%= render 'shared/page_header', path: new_group_path, page_title: I18n.t("global.menu.groups") %>
+  <%= render 'groups/group_filters' %>
+  <div class="row">
+    <% @groups.each do |group| %>
+      <div class="col-lg-4 col-md-6 col-sm-12 mt-3 d-flex align-items-stretch justify-content-center">
+        <%= render 'shared/card',
+                   header: get_group_html_header,
+                   img: "",
+                   title: get_group_html_title(group),
+                   body: get_group_html_body(group, false),
+                   footer: get_group_html_buttons(group, false) %>
+      </div>
+    <% end %>
+  </div>
+</div>
+

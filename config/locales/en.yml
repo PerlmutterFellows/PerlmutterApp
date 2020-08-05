@@ -1,4 +1,14 @@
 en:
+  activerecord:
+    models:
+      user: "User"
+    attributes:
+      user:
+        first_name: "First Name"
+        last_name: "Last Name"
+        birthday: "Birthday"
+        phone_number: "Phone Number"
+        email: "Email"
   global:
     organization_name: "The Haven Project"
     organization_description:
@@ -23,6 +33,7 @@ en:
       groups: "Groups"
       users: "Users"
       my_profile: "My Profile"
+      profile: "Profile"
       faq: "FAQ"
       contact: "Contact"
       form: "Stability Score"
@@ -85,6 +96,15 @@ en:
         csv_success: "Users have been created."
         csv_failures: "Users have all failed. Please review your CSV and resubmit. The following rows failed:<br><br>%{rows}"
         csv_success_with_failures: "Users have been created, but there were failures. Please review your CSV and edit the failed rows should you want to create them. The following rows failed:<br><br>%{rows}"
+      show:
+        toggle_view: "Toggle View"
+        new_form: "New %{form}"
+        outreach_methods: "Outreach Methods"
+        most_recent_score: "Most Recent Score:"
+        update_modal:
+          update_user_profile: "Update User Profile"
+          close: "Close"
+          save_changes: "Save Changes"
   texts:
     call_yes: "1"
     call_no: "2"
@@ -125,6 +145,8 @@ en:
     event: "Event"
     info: "Info"
     message: "Message"
+  user_score:
+    creation_failed_response: "You may only fill out this form once every 24 hours!"
   groups:
     new:
       create: "Create group"
@@ -133,6 +155,17 @@ en:
       edit: "Edit group"
       edit_prompt: "Please fill out this form to modify and/or publish group!"
     name: "Name"
+    index:
+      filters:
+        search_by_name:
+          label: "Search by name:"
+          placeholder: "Group name"
+        search_by_user:
+          label: "Search by user:"
+          placeholder: "John Doe"
+        reset:
+          label: "Reset Filters"
+          button: "Reset"
   devise:
     registrations:
       new:

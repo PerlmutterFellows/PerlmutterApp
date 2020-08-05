@@ -1,19 +1,144 @@
 <div class="container mt-5">
-  <h1 class="font-weight-light">Profile</h1>
+  <h1 class="font-weight-light d-none d-sm-block"><%= I18n.t('global.menu.profile') %></h1>
   <div class="row no-gutters mt-4">
     <div class="col-12 col-lg-6">
       <div class="row no-gutters align-items-center">
         <div class="col col-sm-4 col-md-6">
-          <h3 class="font-weight-lighter"><%= @user.full_name %></h3>
+          <h1 class="font-weight-light d-block d-sm-none">Profile</h1>
+          <h3 class="font-weight-lighter d-none d-sm-block"><%= @user.full_name %></h3>
         </div>
         <div class="col col-sm-4 col-md-6 d-flex justify-content-end align-items-center">
-          <i class="far fa-2x text-info fa-edit"></i>
-          <i class="far fa-2x text-danger ml-2 fa-trash-alt"></i>
+          <a role="button"><i class="far fa-2x text-info fa-edit" data-toggle="modal" data-target="#updateUserModal"></i></a>
+          <%= link_to user_delete_path, method: :delete, data: {confirm: I18n.t('global.are_you_sure')} do %>
+            <i class="far fa-2x text-danger ml-2 fa-trash-alt m-0 mr-sm-4"></i>
+          <% end %>
+        </div>
+      </div>
+      <div class="row no-gutters justify-content-center justify-content-sm-start mt-4">
+        <div class="col-12 d-flex justify-content-sm-start justify-content-center">
+          <%= gravatar_image_tag(@user.email, gravatar: {default: :mp, size: 200}, alt: @user.full_name, class: "rounded-circle") %>
+        </div>
+        <div class="col-12 d-flex justify-content-center mt-1 d-block d-sm-none">
+          <h3 class="font-weight-bolder"><%= @user.full_name %></h3>
+        </div>
+      </div>
+      <h3 class="font-weight-light mt-4"><%= I18n.t('users.registrations.show.outreach_methods') %></h3>
+      <% if @user.use_email %>
+        <div class="row no-gutters mt-2">
+          <p class="font-weight-lighter"><%= @user.email %></p>
+          <div class="badge badge-primary d-flex align-items-center ml-2"><%= I18n.t('global.email') %></div>
+        </div>
+      <% end %>
+      <% if @user.use_text || @user.use_call %>
+        <div class="row no-gutters mt-2">
+          <p class="font-weight-lighter"><%= @user.phone_number %></p>
+          <% if @user.use_text %>
+            <div class="badge badge-primary d-flex align-items-center ml-2"><%= I18n.t('global.text') %></div>
+          <% end %>
+          <% if @user.use_call %>
+            <div class="badge badge-primary d-flex align-items-center ml-2"><%= I18n.t('global.call') %></div>
+          <% end %>
+        </div>
+      <% end %>
+      <% unless @user.groups.count == 0 %>
+        <h3 class="font-weight-lighter mt-4">Groups</h3>
+        <div class="m-0 mr-sm-5">
+          <% @user.groups.each do |group| %>
+            <span class="badge badge-primary"><%= group.name %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-12 col-lg-6 row no-gutters align-items-start justify-content-center" data-controller="graph">
+      <div class="row no-gutters w-100 mt-3 mt-sm-0">
+        <div class="col-12 col-sm-6 ">
+          <h3 class="font-weight-bold"><%= I18n.t('global.menu.form') %></h3>
+        </div>
+        <div class="col-12 col-sm-6 d-flex justify-content-start justify-content-sm-end mt-2 mt-sm-0">
+          <% unless @user.user_scores.length == 0 %>
+            <%= button_tag I18n.t('users.registrations.show.toggle_view'), class: "btn btn-secondary", data: {action: "click->graph#toggleGraphs"}%>
+          <% else %>
+            <%= link_to I18n.t('users.registrations.show.new_form', form: I18n.t('global.menu.form')), form_path, class: "btn btn-secondary" %>
+          <% end %>
+        </div>
+        <div class="col-12">
+          <% unless @user.user_scores.length == 0  %>
+            <p class="font-weight-lighter"><%= I18n.t('users.registrations.show.most_recent_score') %> <%= @user.user_scores.last.get_total_score[:score].round() %></p>
+          <% else  %>
+            <%= render 'shared/empty_notice', condition: @user.user_scores.length,
+                       if_prompt: I18n.t('global.missing_input', types: t('global.menu.form').pluralize.downcase),
+                       else_prompt: "",
+                       sub_condition: (user_signed_in? && @user.id == current_user.id) || admin_signed_in?(current_user),
+                       sub_if_prompt: I18n.t('global.missing_input_admin_prompt'),
+                       sub_else_prompt: I18n.t('global.missing_input') %>
+          <% end %>
+          <% unless @user.user_scores.length == 0 %>
+            <% if @user.user_scores.length == 1 %>
+              <div id="user_scores_graph">
+                <%= column_chart map_user_scores(@user) %>
+              </div>
+              <div id="subscores_graph" style="display: none">
+                <%= column_chart map_user_subscores(@user) %>
+              </div>
+            <% else %>
+              <div id="user_scores_graph">
+                <%= line_chart map_user_scores(@user) %>
+              </div>
+              <div id="subscores_graph" style="display: none">
+                <%= line_chart map_user_subscores(@user) %>
+              </div>
+            <% end  %>
+          <% end %>
         </div>
       </div>
     </div>
-    <div class="col-12 col-lg-6">
-      <div class="bg-dark" style="width: 100px; height: 100px"></div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateUserModalLabel"><%= I18n.t('users.registrations.show.update_modal.update_user_profile') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <%= bootstrap_form_for @user, url: user_edit_path(@user) do |f| %>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-6">
+              <%= f.text_field :first_name, input_group_class: 'input-group-lg' %>
+            </div>
+            <div class="col-6">
+              <%= f.text_field :last_name, input_group_class: 'input-group-lg' %>
+            </div>
+            <div class="col-12">
+              <%= f.text_field :email, input_group_class: 'input-group-lg' %>
+            </div>
+            <div class="col-12">
+              <%= f.text_field :phone_number, input_group_class: 'input-group-lg' %>
+            </div>
+            <div class="col-12">
+              <%= f.date_field :birthday %>
+            </div>
+            <div class="col-12">
+              <%= f.form_group label: { text: I18n.t("users.contact_preferences") } do %>
+                <%= f.check_box :use_email, label: I18n.t("global.email") %>
+                <%= f.check_box :use_text, label: I18n.t("global.text") %>
+                <%= f.check_box :use_call, label: I18n.t("global.call") %>
+                <% unless @user.errors[:use_email].empty? %>
+                  <p class="invalid-feedback d-block mt-1"><%= @user.errors[:use_email].first %></p>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= I18n.t('users.registrations.show.update_modal.close') %></button>
+          <%= f.submit I18n.t('users.registrations.show.update_modal.save_changes'), class: "btn btn-primary" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

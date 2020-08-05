@@ -7,7 +7,7 @@
       <div class="col-md-6 col-xs-12">
         <% form.get_score(answered_questions) %>
         <div class="form-group w-100 mb-2">
-          <h4><strong><%= I18n.t("global.user") %>:</strong> <%= link_to(user.first_name, users_show_url(id: user.id)) %></h4>
+          <h4><strong><%= I18n.t("global.user") %>:</strong> <%= link_to(user.first_name, user_url(id: user.id)) %></h4>
         </div>
         <div class="form-group w-100 mb-2">
           <h4><strong><%= I18n.t("activerecord.attributes.user.created_at") %>:</strong> <%= DateService.new.convert_to_readable_date_time(DateTime.now, DateTime.now) %></h4>

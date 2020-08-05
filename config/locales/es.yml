@@ -1,4 +1,14 @@
 es:
+  activerecord:
+    models:
+      user: "User"
+    attributes:
+      user:
+        first_name: "Nombre de pila"
+        last_name: "Apellido"
+        birthday: "Cumpleaños"
+        phone_number: "Número de teléfono"
+        email: "Email"
   global:
     organization_name: "The Haven Project"
     organization_description:
@@ -23,6 +33,7 @@ es:
       groups: "Grupos"
       users: "Usuarios"
       my_profile: "Mi perfil"
+      profile: "Perfil"
       faq: "FAQ"
       contact: "Contacto"
       form: "Puntaje de Estabilidad"
@@ -85,6 +96,15 @@ es:
         csv_success: "Se han creado usuarios."
         csv_failures: "Todos los usuarios han fallado. Revise su CSV y vuelva a enviarlo. Las siguientes filas fallaron:<br><br>%{rows}"
         csv_success_with_failures: "Se han creado usuarios, pero hubo fallas. Revise su CSV y edite las filas fallidas si desea crearlas. Las siguientes filas fallaron:<br><br>%{rows}"
+      show:
+        toggle_view: "Cambiar vista"
+        new_form: "Nuevo %{form}"
+        outreach_methods: "Métodos de Alcance"
+        most_recent_score: "Puntaje más reciente:"
+        update_modal:
+          update_user_profile: "Actualizar perfil de usuario"
+          close: "Cerca"
+          save_changes: "Guardar cambios"
   texts:
     call_yes: "1"
     call_no: "2"
@@ -125,6 +145,8 @@ es:
     event: "Evento"
     info: "Información"
     message: "Mensaje"
+  user_score:
+    creation_failed_response: "¡Solo puede completar este formulario una vez cada 24 horas!"
   groups:
     new:
       create: "Crear grupo"
@@ -133,6 +155,17 @@ es:
       edit: "Editar grupo"
       edit_prompt: "¡Complete este formulario para modificar y/o publicar el grupo!"
     name: "Nombre"
+    index:
+      filters:
+        search_by_name:
+          label: "Buscar por nombre:"
+          placeholder: "Nombre del grupo"
+        search_by_user:
+          label: "Buscar por usuario:"
+          placeholder: "Juan Pérez"
+        reset:
+          label: "Restablecer filtros"
+          button: "Rese"
   devise:
     registrations:
       new:
