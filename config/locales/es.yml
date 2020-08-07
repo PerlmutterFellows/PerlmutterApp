@@ -8,7 +8,7 @@ es:
         last_name: "Apellido"
         birthday: "Cumpleaños"
         phone_number: "Número de teléfono"
-        email: "Email"
+        email: "Correo electrónico"
   global:
     organization_name: "The Haven Project"
     organization_description:
@@ -87,6 +87,9 @@ es:
     contact:
       submit_text: "Enviar texto"
       submit_email: "Enviar correo electrónico"
+    faq:
+      page_title: "Preguntas más frecuentes"
+      page_description: "Como podemos ayudarte?"
   users:
     role: "Rol"
     contact_preferences: "Preferencias de Contacto"
@@ -218,6 +221,12 @@ es:
       new:
         login: "Iniciar sesión"
         login_prompt: "Inicie sesión a continuación utilizando su nombre de usuario, correo electrónico o número de teléfono."
+    passwords:
+      title: "¿Olvidaste tu contraseña?"
+      button: "Reenviarme las instrucciones para restablecer la contraseña"
+    confirmations:
+      title: "Reenviar instrucciones de confirmación"
+      button: "Reenviar instrucciones de confirmación"
   faq:
     -
       question: "¿Qué es The Haven Project?"

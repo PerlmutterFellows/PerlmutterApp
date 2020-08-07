@@ -34,12 +34,20 @@
   <div class="row">
     <% @groups.each do |group| %>
       <div class="col-lg-4 col-md-6 col-sm-12 mt-3 d-flex align-items-stretch justify-content-center">
-        <%= render 'shared/card',
-                   header: get_group_html_header,
-                   img: "",
-                   title: get_group_html_title(group),
-                   body: get_group_html_body(group, false),
-                   footer: get_group_html_buttons(group, false) %>
+        <div class="card w-100">
+            <div class="card-header">
+              <%= get_group_html_header %>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title"><strong><%= get_group_html_title(group) %></strong></h5>
+              <%= get_group_html_body(group, false) %>
+            </div>
+
+            <div class="card-footer">
+              <%= get_group_html_buttons(group, false) %>
+            </div>
+        </div>
       </div>
     <% end %>
   </div>

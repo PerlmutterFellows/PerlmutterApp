@@ -1,59 +1,27 @@
 <div class="d-flex justify-content-center">
   <div class="row w-75 mt-4 d-flex">
-    <div class="col-12 d-flex align-items-center pb-3">
-      <h1 class="font-weight-light"><%= I18n.t("global.menu.faq") %></h1>
+    <div class="col-12 text-center pb-3">
+      <h1 class="font-weight-bold"><%= I18n.t("static_pages.faq.page_title") %></h1>
+      <h3 class="font-weight-lighter"><%= I18n.t("static_pages.faq.page_description") %></h3>
     </div>
-  </div>
-</div>
-<div class="ml-4 mr-4 d-flex justify-content-center">
-  <div class="accordion w-100" id="accordionExample">
-    <% I18n.t('faq').each_with_index do |q, index| %>
-      <div class="card">
-        <div class="card-header" id="headingOne">
-          <h2 class="mb-0">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              <%= q[:question] %>
-            </button>
-          </h2>
-        </div>
-
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-          <div class="card-body">
-            <%= q[:answer] %>
+    <div class="w-100 ml-4 mr-4 d-flex justify-content-center">
+      <div class="accordion w-100" id="accordionExample">
+        <% I18n.t('faq').each_with_index do |q, index| %>
+          <div class="card">
+            <%= content_tag :div, class: "card-header", id: "heading#{index}" do %>
+              <h2 class="mb-0">
+                <%= content_tag :button, class: "btn btn-link", type: "button", data: {toggle: "collapse", target: "#collapse#{index}"}, aria: {expanded: "true", controls: "collapse#{index}"} do %>
+                  <%= q[:question] %>
+                <% end %>
+              </h2>
+            <% end %>
+            <%= content_tag :div, id: "collapse#{index}", class: "collapse", aria: {labelledby: "heading#{index}"}, data: {parent: "#accordionExample"} do %>
+              <div class="card-body">
+                <%= q[:answer] %>
+              </div>
+            <% end %>
           </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-
-</div>
-
-<div class="accordion" id="accordionExample">
-  <div class="card">
-    <div class="card-header" id="headingTwo">
-      <h2 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Collapsible Group Item #2
-        </button>
-      </h2>
-    </div>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header" id="headingThree">
-      <h2 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Collapsible Group Item #3
-        </button>
-      </h2>
-    </div>
-    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        <% end %>
       </div>
     </div>
   </div>

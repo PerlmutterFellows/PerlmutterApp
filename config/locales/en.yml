@@ -87,6 +87,9 @@ en:
     contact:
       submit_text: "Submit Text"
       submit_email: "Submit Email"
+    faq:
+      page_title: "Frequently Asked Questions (FAQ)"
+      page_description: "How can we help you?"
   users:
     role: "Role"
     contact_preferences: "Contact Preferences"
@@ -218,6 +221,12 @@ en:
       new:
         login: "Login"
         login_prompt: "Please login below using your username, email, or phone number."
+    passwords:
+      title: "Forgot your password?"
+      button: "Resend me reset password instructions"
+    confirmations:
+      title: "Resend confirmation instructions"
+      button: "Resend confirmation instructions"
   faq:
     - question: "What is The Haven Project?"
       answer: "The Haven Project provides direct service to more than 200 homeless unaccompanied youth ages 17-24 each year in our Drop-in Centers, with referrals to other youth serving organizations for hundreds more who don't meet intake criteria based on age, homelessness or other factors."
