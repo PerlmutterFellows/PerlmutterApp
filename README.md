@@ -22,7 +22,9 @@ Installation/run instructions:
 1) Install [Git](https://www.atlassian.com/git/tutorials/install-git) (use the page's navigation to pick your operating system)
 2) Install [Ruby](https://rails.devcamp.com/trails/ruby-programming/campsites/introduction-to-the-ruby-programming-lanuage/guides/how-to-install-ruby-on-a-computer)
 3) Download or clone this repository
-4) In the project folder, run the following command
+4) In the project folder, run the following commands
+   * `gem update --system`
+   * `bundle install`
    * `ruby org_init.rb` 
    
 Organization initializer instructions (required steps in bold, all credentials requested will be prompted to create new/sign up for if you don't have):
@@ -54,7 +56,7 @@ Want to develop the Perlmutter App?
 ### Developers
 [Mitchell Dodell](https://github.com/mdodell)
 
-[Adam Fleishaker](https://github.com/adamflyme)
+[Adam Fleishaker](https://github.com/afleishaker)
 
 ### Project Manager
 [Daniel Khudyak](https://www.linkedin.com/in/daniel-khudyak/)
