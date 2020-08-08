@@ -7,13 +7,13 @@
 </div>
 <div class="ml-4 mr-4 d-flex justify-content-center">
   <div class="d-flex justify-content-center">
-    <%= render 'shared/empty_notice', condition: !I18n.t('contact').kind_of?(Hash),
+    <%= render 'shared/empty_notice', condition: !contact_configured?,
                if_prompt: I18n.t('global.missing_input',
                                  types: I18n.t('global.menu.contact').downcase),
                else_prompt: "#{render 'shared/card',
                                       header: "",
-                                      img: I18n.t("global.logo_alt_path"),
-                                      title: I18n.t('global.organization_name'),
+                                      img: I18n.t("config.logo_path"),
+                                      title: I18n.t('config.organization_name'),
                                       body: "",
                                       footer: TextHandler.new.process_social_media_buttons}
                              #{render 'shared/card',

@@ -2,7 +2,7 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="<%= root_path %>"><h4 class="font-weight-bolder"><%= t('global.organization_name') %></h4></a>
+  <a class="navbar-brand" href="<%= root_path %>"><h4 class="font-weight-bolder"><%= t('config.organization_name') %></h4></a>
   <div class="collapse navbar-collapse" id="navbarToggler">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
@@ -13,19 +13,19 @@
           <h4 class="font-weight-light"><%= link_to (t "global.menu.events"), events_path, class: "nav-link" %></h4>
         </li>
       <% end %>
-      <% if I18n.t('faq').kind_of?(Array) %>
+      <% if faq_configured? %>
         <li class="nav-item">
           <h4 class="font-weight-light"><%= link_to (t "global.menu.faq"), faq_path, class: "nav-link" %></h4>
         </li>
       <% end %>
-      <% if I18n.t('contact').kind_of?(Hash) %>
+      <% if contact_configured? %>
         <li class="nav-item">
           <h4 class="font-weight-light"><%= link_to (t "global.menu.contact"), contact_path, class: "nav-link" %></h4>
         </li>
       <% end %>
-      <% if I18n.t('form').kind_of?(Array) %>
+      <% if form_configured? && user_signed_in? %>
         <li class="nav-item">
-          <h4 class="font-weight-light"><%= link_to (t "global.menu.form"), form_path, class: "nav-link" %></h4>
+          <h4 class="font-weight-light"><%= link_to (t "config.form_name"), form_path, class: "nav-link" %></h4>
         </li>
       <% end %>
     </ul>
@@ -64,15 +64,15 @@
         <a class="nav-link" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <h4 class="dropdown-toggle font-weight-light">
             <% if I18n.locale == :en %>
-              <%= emojify('English :us:') %>
+              <%= emojify('English 🇺🇸') %>
             <% elsif I18n.locale == :es %>
-              <%= emojify('Español :es:') %>
+              <%= emojify('Español 🇪🇸') %>
             <% end %>
           </h4>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <p><%= link_to emojify('English :us:'), url_for(locale: :en), class: "dropdown-item" %></p>
-          <p><%= link_to emojify('Español :es:'), url_for(locale: :es), class: "dropdown-item" %></p>
+          <p><%= link_to emojify('English 🇺🇸'), url_for(locale: :en), class: "dropdown-item" %></p>
+          <p><%= link_to emojify('Español 🇪🇸'), url_for(locale: :es), class: "dropdown-item" %></p>
         </div>
       </h4>
     </ul>

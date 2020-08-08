@@ -16,7 +16,7 @@ class TwilioController < ApplicationController
       phone = params[:From].to_s
       input = params[:Body]
     else
-      phone = ENV['phone_number'] == params[:Caller].to_s ? params[:Called].to_s : params[:Caller].to_s
+      phone = I18n.t('config.phone.phone_number') == params[:Caller].to_s ? params[:Called].to_s : params[:Caller].to_s
       input = params[:Digits]
     end
 

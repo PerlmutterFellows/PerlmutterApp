@@ -209,7 +209,7 @@ module EventsHelper
           prompt = (event.event? ? t('texts.new_prompt', id: event.id, yes: t('texts.text_yes'), no: t('texts.text_no')) : "")
           success, error = TwilioHandler.new.send_text(user, t('texts.new_event', params: get_event_text_params(event, false), type: event.eventType, prompt: prompt))
         else
-          prompt = (event.event? ? t('texts.new_prompt', id: event.id, yes: t('texts.call_yes'), no: t('texts.call_no')) : "")
+          prompt = (event.event? ? t('texts.new_prompt', id: event.id.to_s.chars.join(' '), yes: "#{t('texts.call_yes')} #{t('texts.pound')}", no: "#{t('texts.call_no')} #{t('texts.pound')}") : "")
           success, error = TwilioHandler.new.send_call(user, t('texts.new_event', params: get_event_text_params(event, false), type: event.eventType, prompt: prompt))
         end
         set_new_state_after_notify(success, event, status)
@@ -223,7 +223,7 @@ module EventsHelper
           prompt = (event.event? ? t('texts.updated_prompt', id: event.id, yes: t('texts.text_yes'), no: t('texts.text_no')) : "")
           TwilioHandler.new.send_text(user, t('texts.updated_event', params: get_event_text_params(event, false), type: event.eventType.capitalize, prompt: prompt))
         else
-          prompt = (event.event? ? t('texts.updated_prompt', id: event.id, yes: t('texts.call_yes'), no: t('texts.call_no')) : "")
+          prompt = (event.event? ? t('texts.updated_prompt', id: event.id.to_s.chars.join(' '), yes: "#{t('texts.call_yes')} #{t('texts.pound')}", no: "#{t('texts.call_no')} #{t('texts.pound')}") : "")
           TwilioHandler.new.send_call(user, t('texts.updated_event', params: get_event_text_params(event, false), type: event.eventType.capitalize, prompt: prompt))
         end
       end

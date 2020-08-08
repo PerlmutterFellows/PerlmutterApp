@@ -34,13 +34,21 @@ gem "bootstrap_form", "~> 4.0"
 # For displaying SVG images/icons
 gem 'inline_svg'
 # For adding emoji support
-gem 'gemoji'
+gem 'twemoji'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 # Use Faker for seeded records
 gem 'faker'
-# For pretty logging
-gem 'tty-box'
+# For the initializer
+gem "tty-prompt"
+gem "tty-command"
+gem "tty-file"
+gem "tty-box"
+gem "tty-config"
+gem "tty-link"
+gem "tty-spinner"
+gem "platform-api"
+gem "git"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

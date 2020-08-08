@@ -7,13 +7,22 @@ class TwilioHandler
   end
 
   def set_dev_callbacks(url)
-    client.incoming_phone_numbers(ENV['sid']).update(
-      sms_url: "#{url}/receive_text",
-      voice_url: "#{url}/receive_call"
-    )
+    sms_url = ""
+    voice_url = ""
+    begin
+      client.incoming_phone_numbers(I18n.t('config.phone.phone_sid')).update(
+        sms_url: "#{url}/receive_text",
+        voice_url: "#{url}/receive_call"
+      )
 
-    incoming_phone_number = client.incoming_phone_numbers(ENV['sid']).fetch
-    [incoming_phone_number.sms_url, incoming_phone_number.voice_url]
+      incoming_phone_number = client.incoming_phone_numbers(I18n.t('config.phone.phone_sid')).fetch
+      sms_url = incoming_phone_number.sms_url
+      voice_url = incoming_phone_number.voice_url
+    rescue StandardError => e
+      error = e.message.squish
+      puts("Twilio Send Response Error: #{error}")
+    end
+    [sms_url, voice_url]
   end
 
   def get_valid_phone_number(inputted_number)
@@ -23,8 +32,9 @@ class TwilioHandler
       valid_number = client.lookups
           .phone_numbers(inputted_number)
           .fetch.phone_number
-    rescue Twilio::REST::RestError => e
-      error = e
+    rescue StandardError => e
+      error = e.message.squish
+      puts("Twilio Send Response Error: #{error}")
     end
     [valid_number, error]
   end
@@ -35,13 +45,14 @@ class TwilioHandler
     begin
     client.api.account.messages.create(
         to: user.phone_number,
-        from: ENV['phone_number'],
+        from: I18n.t('config.phone.phone_number'),
         body: message
     )
     user.text_confirmation_sent_at = DateTime.now
     rescue StandardError => e
       success = false
       error = e.message.squish
+      puts("Twilio Send Response Error: #{error}")
     end
     [success, error]
   end
@@ -70,9 +81,9 @@ class TwilioHandler
     begin
     client.calls.create(
           to: user.phone_number,
-          from: ENV['phone_number'],
+          from: I18n.t('config.phone.phone_number'),
           twiml: "<Response>
-                      <Gather finishOnKey='#' timeout='15' action='#{callback}' method='POST'>
+                      <Gather finishOnKey='#' timeout='30' action='#{callback}' method='POST'>
                         <Say voice='#{voice}'>#{message}</Say>
                       </Gather>
                     <Say voice='#{voice}'>#{I18n.t('texts.dialer_failed')}</Say>
@@ -82,6 +93,7 @@ class TwilioHandler
     rescue StandardError => e
       success = false
       error = e.message.squish
+      puts("Twilio Send Response Error: #{error}")
     end
     [success, error]
   end
@@ -98,14 +110,15 @@ class TwilioHandler
     end
     begin
       voice_response = Twilio::TwiML::VoiceResponse.new do |r|
-        r.gather(finish_on_key: '#', timeout: 15, action: callback, method: 'POST') do |gather|
+        r.gather(finish_on_key: '#', timeout: 30, action: callback, method: 'POST') do |gather|
           gather.say(voice: voice, message: message)
           gather.say(voice: voice, message: I18n.t('texts.confirmation',
                                 name: name,
-                                organization_name: I18n.t('global.organization_name'),
+                                organization_name: I18n.t('config.organization_name'),
                                 prompt: I18n.t('texts.dialer_prompt',
                                           yes: I18n.t('texts.call_yes'),
-                                          no: I18n.t('texts.call_no'))))
+                                          no: I18n.t('texts.call_no'),
+                                          pound: I18n.t('texts.pound'))))
         end
         r.say(voice: voice, message: I18n.t('texts.dialer_failed'))
       end

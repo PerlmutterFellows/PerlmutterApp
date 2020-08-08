@@ -77,10 +77,10 @@ class User < ApplicationRecord
       valid_number, error = TwilioHandler.new.get_valid_phone_number(phone_number)
       if error.blank?
         self.phone_number = valid_number
-      elsif
-        errors.add(:phone_number, I18n.t('global.invalid_input'))
+      elsif error.include? "20003"
+        errors.add(:phone_number, I18n.t('global.twilio_down'))
       else
-        errors.add(:phone_number, error['message'])
+        errors.add(:phone_number, I18n.t('global.invalid_input'))
       end
     end
   end

@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   include UsersHelper
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
+  before_action :set_admin_user
 
   private
 
@@ -19,6 +20,22 @@ class ApplicationController < ActionController::Base
       update_locale(extracted_locale)
     end
     I18n.locale = extracted_locale || I18n.default_locale
+  end
+
+  def set_admin_user
+    user = User.find_by(email: I18n.t("config.admin.email"))
+    if user.blank?
+      user = User.new(first_name: I18n.t("config.admin.first_name"),
+                      last_name: I18n.t("config.admin.last_name"),
+                      email: I18n.t("config.admin.email"),
+                      password: I18n.t("config.admin.password"),
+                      password_confirmation: I18n.t("config.admin.password"),
+                      role: 2,
+                      locale: "en",
+                      use_email: true)
+      user.skip_confirmation!
+      user.save
+    end
   end
 
   protected

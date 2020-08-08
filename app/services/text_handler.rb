@@ -1,5 +1,6 @@
 class TextHandler
   include EventsHelper
+  include StaticPagesHelper
 
   def process_input(user, input, is_text)
     if user.blank?
@@ -72,7 +73,7 @@ class TextHandler
 
   def process_faqs()
     faqs = ""
-    if I18n.t('faq').kind_of?(Array) && I18n.t('faq').count != 0
+    if faq_configured?
       faqs += "<div id='accordion'>"
       I18n.t('faq').each_with_index do |q, index|
          if !q.blank? && !q[:question].blank? && !q[:answer].blank?
@@ -99,15 +100,15 @@ class TextHandler
   end
 
   def process_social_media_buttons
-    hash = I18n.t('contact')
+    hash = I18n.t('config.contact')
     social_media = ""
-    if I18n.t('contact').kind_of?(Hash)
+    if contact_configured?
       unless hash[:phone].blank?
-      phone, error = TwilioHandler.new.get_valid_phone_number(hash[:phone])
-      if error.blank?
-        url = "tel:#{phone}"
-        social_media += "<p>#{process_fa("fa fa-phone-square", nil, phone, url)}</p>"
-      end
+        phone, error = TwilioHandler.new.get_valid_phone_number(hash[:phone])
+        if error.blank?
+          url = "tel:#{phone}"
+          social_media += "<p>#{process_fa("fa fa-phone-square", nil, phone, url)}</p>"
+        end
       end
       unless hash[:email].blank?
         url = "mailto:#{hash[:email]}"

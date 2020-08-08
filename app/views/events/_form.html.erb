@@ -59,7 +59,7 @@
 
           <div class="col-12">
             <%= f.form_group do %>
-              <%= f.check_box :published, custom: :switch, control_class: "text-secondary" %>
+              <%= f.check_box :published, custom: :switch, control_class: "text-secondary", label: I18n.t("events.published") %>
             <% end %>
           </div>
 

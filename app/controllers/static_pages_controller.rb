@@ -31,9 +31,9 @@ class StaticPagesController < ApplicationController
 
     if !params[:text].blank?
       body = CGI.escape("#{I18n.t("global.subject")}: #{subject}\n#{I18n.t("global.message")}: #{body}")
-      url = "sms:#{I18n.t('contact')[:phone]}?&body=#{body}"
+      url = "sms:#{I18n.t('config.contact.phone')}?&body=#{body}"
     else
-      url = "mailto:#{I18n.t('contact')[:email]}?subject=#{subject}&body=#{body}"
+      url = "mailto:#{I18n.t('config.contact.email')}?subject=#{subject}&body=#{body}"
     end
     respond_to do |format|
       format.js { render js: "window.top.open('#{url}', '_blank');" }
@@ -71,10 +71,10 @@ class StaticPagesController < ApplicationController
         end
         emails.push(ENV['GMAIL_USERNAME'])
         UserMailer.form_create_email(@user, @form, @answered_questions, emails).deliver
-        flash.now.notice = I18n.t("global.model_created", type: I18n.t("global.menu.form"))
+        flash.now.notice = I18n.t("global.model_created", type: I18n.t("config.form_name"))
       rescue StandardError => e
         puts(e)
-        flash.now.alert = I18n.t("global.error_message", type: I18n.t("global.menu.form"))
+        flash.now.alert = I18n.t("global.error_message", type: I18n.t("config.form_name"))
       end
     end
   end

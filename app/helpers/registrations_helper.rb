@@ -19,16 +19,17 @@ module RegistrationsHelper
     confirmed = is_text ? user.confirmed_text? : user.confirmed_call?
     message_text = I18n.t('texts.confirmation',
                      name: user.first_name,
-                     organization_name: I18n.t('global.organization_name'),
+                     organization_name: I18n.t('config.organization_name'),
                      prompt: I18n.t('texts.user_confirmation_prompt',
                                yes: I18n.t('texts.text_yes'),
                                no: I18n.t('texts.text_no')))
     message_call = I18n.t('texts.confirmation',
                      name: user.first_name,
-                     organization_name: I18n.t('global.organization_name'),
+                     organization_name: I18n.t('config.organization_name'),
                      prompt: I18n.t('texts.dialer_prompt',
                                yes: I18n.t('texts.call_yes'),
-                               no: I18n.t('texts.call_no')))
+                               no: I18n.t('texts.call_no'),
+                               pound: I18n.t('texts.pound')))
     unless confirmed
       success, error = is_text ? TwilioHandler.new.send_text(user, message_text) : TwilioHandler.new.send_call(user, message_call)
       if success

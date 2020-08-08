@@ -61,7 +61,7 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "PerlmutterSummer2020_production"
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: 'https://perlmutter-staging.herokuapp.com/' }
+  config.action_mailer.default_url_options = { host: ENV["APP_STRIPPED_URL"] }
 
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -111,5 +111,5 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
-  config.hosts << "perlmutter-staging.herokuapp.com"
+  config.hosts << ENV["APP_STRIPPED_URL"]
 end

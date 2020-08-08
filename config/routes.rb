@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     get 'contact', action: 'contact', controller: 'static_pages'
     post 'contact', action: 'contact_send', controller: 'static_pages'
     root 'static_pages#home'
+    get "/404", :to => redirect { '/' }
     # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   end
 end

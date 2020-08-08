@@ -7,7 +7,7 @@
 </div>
 <div class="ml-4 mr-4 d-flex justify-content-center">
   <div class="d-flex justify-content-center">
-    <%= render 'shared/empty_notice', condition: !I18n.t('faq').kind_of?(Array),
+    <%= render 'shared/empty_notice', condition: !faq_configured?,
                                       if_prompt: I18n.t('global.missing_input',
                                         types: I18n.t('global.menu.faq')),
                                       else_prompt: TextHandler.new.process_faqs,
