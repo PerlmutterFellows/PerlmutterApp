@@ -107,6 +107,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def get_user_score_data
+    user = User.find(params[:id])
+    render json: map_user_scores(user)
+  end
+
+  def get_user_subscore_data
+    user = User.find(params[:id])
+    render json:  map_user_subscores(user)
+  end
+
   # GET /resource/edit
   # def edit
   #   super

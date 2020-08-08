@@ -5,11 +5,11 @@
 
 require("@rails/ujs").start()
 require("turbolinks").start()
+require("chartkick")
+require("chart.js")
 require("@rails/activestorage").start()
 require("channels")
 require("bootstrap-select/dist/js/bootstrap-select.js")
-require("chartkick")
-require("chart.js")
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference

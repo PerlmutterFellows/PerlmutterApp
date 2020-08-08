@@ -85,7 +85,9 @@ end
 
 UserScore.all.each do |score|
   subscores = score.subscores
-  new_date = Faker::Time.between(from: DateTime.now - 2, to: DateTime.now)
+  new_date = Faker::Time.between(from: DateTime.now - 10, to: DateTime.now)
+  score.created_at = new_date
+  score.save
   subscores.each do |subscore|
     subscore.created_at = new_date
     subscore.save

@@ -49,21 +49,22 @@
         </div>
       <% end %>
     </div>
-    <div class="col-12 col-lg-6 row no-gutters align-items-start justify-content-center" data-controller="graph">
+    <div class="col-12 col-lg-6 row no-gutters align-items-start justify-content-center" data-controller="graph" data-graph-id="<%= @user.id %>">
       <div class="row no-gutters w-100 mt-3 mt-sm-0">
         <div class="col-12 col-sm-6 ">
           <h3 class="font-weight-bold"><%= I18n.t('global.menu.form') %></h3>
         </div>
         <div class="col-12 col-sm-6 d-flex justify-content-start justify-content-sm-end mt-2 mt-sm-0">
           <% unless @user.user_scores.length == 0 %>
-            <%= button_tag I18n.t('users.registrations.show.toggle_view'), class: "btn btn-secondary", data: {action: "click->graph#toggleGraphs"}%>
+            <button name="button" type="submit" class="btn btn-secondary" data-action="click->graph#toggleGraphs"><%=  I18n.t('users.registrations.show.toggle_view') %></button>
+            <%#= button_tag I18n.t('users.registrations.show.toggle_view'), class: "btn btn-secondary", data: {action: "click->graph#toggleGraphs", id: @user.id}%>
           <% else %>
             <%= link_to I18n.t('users.registrations.show.new_form', form: I18n.t('global.menu.form')), form_path, class: "btn btn-secondary" %>
           <% end %>
         </div>
         <div class="col-12">
           <% unless @user.user_scores.length == 0  %>
-            <p class="font-weight-lighter"><%= I18n.t('users.registrations.show.most_recent_score') %> <%= @user.user_scores.last.get_total_score[:score].round() %></p>
+            <p class="font-weight-lighter"><%= I18n.t('users.registrations.show.most_recent_score') %> <%= @user.user_scores.order(:created_at).last.get_total_score[:score].round() %></p>
           <% else  %>
             <%= render 'shared/empty_notice', condition: @user.user_scores.length,
                        if_prompt: I18n.t('global.missing_input', types: t('global.menu.form').pluralize.downcase),
@@ -74,20 +75,11 @@
           <% end %>
           <% unless @user.user_scores.length == 0 %>
             <% if @user.user_scores.length == 1 %>
-              <div id="user_scores_graph">
-                <%= column_chart map_user_scores(@user) %>
-              </div>
-              <div id="subscores_graph" style="display: none">
-                <%= column_chart map_user_subscores(@user) %>
-              </div>
+              <%= column_chart map_user_scores(@user), id: "scores_graph" %>
             <% else %>
-              <div id="user_scores_graph">
-                <%= line_chart map_user_scores(@user) %>
-              </div>
-              <div id="subscores_graph" style="display: none">
-                <%= line_chart map_user_subscores(@user) %>
-              </div>
-            <% end  %>
+              <%= line_chart map_user_scores(@user), id: "scores_graph" %>
+              <%#= line_chart map_user_subscores(@user), id: 'subscores_graph'%>
+        <% end  %>
           <% end %>
         </div>
       </div>

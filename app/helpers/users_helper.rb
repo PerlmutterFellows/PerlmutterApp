@@ -1,3 +1,4 @@
+require 'json'
 module UsersHelper
 
   def list_users_groups(user)
@@ -89,15 +90,19 @@ module UsersHelper
   end
 
   def map_user_scores(user)
-    user.user_scores.map do |score|
+    map = user.user_scores.map do |score|
       [Date.new(score.created_at.year, score.created_at.month, score.created_at.day), score.get_total_score[:score].round()]
     end
+
+    return map
   end
 
   def map_user_subscores(user)
-    user.subscores.pluck(:name).uniq.map do |name| {name: name.capitalize, data:
-        Subscore.where(name: name).map {|score| [Date.new(score.created_at.year, score.created_at.month, score.created_at.day), score['score'].round()]}
-    }
+    map = user.subscores.pluck(:name).uniq.map do |name|
+      {name: name.capitalize,
+       data: Subscore.where(name: name).order(:created_at).map { |score| [Date.new(score.created_at.year, score.created_at.month, score.created_at.day).to_s, score[:score].round()] }
+      }
     end
+    return map
   end
 end

@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       get 'users/new', action: 'new_by_admin', controller: 'users/registrations', as: 'user_new'
       get 'users/create', action: 'new_by_admin', controller: 'users/registrations'
       get 'users/clear_user_search', action: 'clear_user_search', controller: 'users/registrations', as: 'clear_user_search'
+      get 'users/scores/:id', action: 'get_user_score_data', controller: 'users/registrations', as: 'user_scores'
+      get 'users/subscores/:id', action: 'get_user_subscore_data', controller: 'users/registrations', as: 'user_subscores'
       post 'users/create', action: 'create_by_admin', controller: 'users/registrations'
       post 'users/promote/:id', action: 'promote_to_moderator', controller: 'users/registrations', as: 'promote_to_moderator'
       post 'users/demote/:id', action: 'demote_to_user', controller: 'users/registrations', as: 'demote_to_user'
