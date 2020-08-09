@@ -1,4 +1,4 @@
-![Perlmutter App](https://raw.githubusercontent.com/mdodell/PerlmutterSummer2020/staging/app/assets/images/perlmutterapp.gif)
+![Perlmutter App](https://raw.githubusercontent.com/PerlmutterFellows/PerlmutterSummer2020/staging/app/assets/images/perlmutterapp.gif)
 # Perlmutter App
 An application developed to help not for profits maintain communication with constituents in the post-pandemic environment.
 
@@ -9,7 +9,7 @@ Organizations can download this repository and run the organization initializer 
 Our initial client in developing the app is [The Haven Project](https://havenproject.net/), an impactful organization started to address a gap in services to unaccompanied homeless young adults and surrounding communities. They provide direct service to more than 200 homeless unaccompanied youth ages 17-24 each year in their Drop-in Centers, with referrals to other youth serving organizations for hundreds more who don’t meet intake criteria.
 
 ## Hosting Services/Costs
-The Perlmutter App relies on a few services to function, which may incur costs. It is hosted on [Heroku](https://www.heroku.com/) and it uses [Twilio](https://www.twilio.com/) to provision and automate a phone number to call/text users from.
+The Perlmutter App relies on a few services to function, which may incur costs. It is hosted on [Heroku](https://www.heroku.com/) and it uses [Twilio](https://www.twilio.com/) to provision and automate a phone number to call/text users from. You must provide a payment method to each of these services to use the Perlmutter App.
 
 Heroku is free by default, but can upgrade your app's performance with increased tiers.
 
@@ -47,6 +47,7 @@ Want to develop the Perlmutter App?
    * `gem update --system`
    * `bundle install`
    * `yarn install --check-files`
+   * `npm install`
    * `rake webpacker:compile`
    * `rake db:create`
    * `rake db:migrate`

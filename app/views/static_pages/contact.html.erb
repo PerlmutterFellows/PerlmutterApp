@@ -7,23 +7,17 @@
 </div>
 <div class="ml-4 mr-4 d-flex justify-content-center">
   <div class="d-flex justify-content-center">
-    <%= render 'shared/empty_notice', condition: !contact_configured?,
-               if_prompt: I18n.t('global.missing_input',
-                                 types: I18n.t('global.menu.contact').downcase),
-               else_prompt: "#{render 'shared/card',
-                                      header: "",
-                                      img: I18n.t("config.logo_path"),
-                                      title: I18n.t('config.organization_name'),
-                                      body: "",
-                                      footer: TextHandler.new.process_social_media_buttons}
-                             #{render 'shared/card',
-                                      header: "",
-                                      img: "",
-                                      title: "",
-                                      body: "#{render 'contact_form'}".html_safe,
-                                      footer: ""}".html_safe,
-               sub_condition: admin_signed_in?(current_user),
-               sub_if_prompt: I18n.t('global.missing_input_admin_prompt_manual'),
-               sub_else_prompt: I18n.t('global.missing_input_user_prompt_manual') %>
+    <%= render 'shared/card',
+        header: "",
+        img: I18n.t("config.logo_path"),
+        title: I18n.t('config.organization_name'),
+        body: "",
+        footer: TextHandler.new.process_social_media_buttons %>
+    <%= render 'shared/card',
+        header: "",
+        img: "",
+        title: "",
+        body: "#{render 'contact_form'}".html_safe,
+        footer: "" %>
   </div>
 </div>

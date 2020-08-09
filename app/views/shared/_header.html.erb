@@ -8,11 +8,6 @@
       <li class="nav-item">
         <h4 class="font-weight-light"><%= link_to (t "global.menu.home"), root_path, class: "nav-link" %></h4>
       </li>
-      <% if current_user %>
-        <li class="nav-item">
-          <h4 class="font-weight-light"><%= link_to (t "global.menu.events"), events_path, class: "nav-link" %></h4>
-        </li>
-      <% end %>
       <% if faq_configured? %>
         <li class="nav-item">
           <h4 class="font-weight-light"><%= link_to (t "global.menu.faq"), faq_path, class: "nav-link" %></h4>

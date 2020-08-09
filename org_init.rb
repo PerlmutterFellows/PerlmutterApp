@@ -537,7 +537,7 @@ def get_heroku_app_name(name)
       end
     end
   else
-    command_case = get_argument_value("heroku_command", true, nil)
+    command_case = get_argument_value("heroku_command", true, "info")
     begin
       @config["config"]["app_name"] = get_argument_value("heroku_app_name", true, nil)
       name = @config["config"]["app_name"]
@@ -582,8 +582,15 @@ def deploy_heroku(name, app_url)
   @cmd.run("heroku config:set SECRET_KEY_BASE=$(rake secret)") rescue TTY::Command::ExitError
   @cmd.run("heroku config:set APP_URL=#{url}") rescue TTY::Command::ExitError
   @cmd.run("heroku config:set APP_STRIPPED_URL=#{stripped_url}") rescue TTY::Command::ExitError
-  @cmd.run("git config --global core.autocrlf true")
+  unless @cmd.run("heroku addons").out.include? "heroku-redis"
+    begin
+      @cmd.run("heroku addons:create heroku-redis:hobby-dev")
+    rescue TTY::Command::ExitError
+      error_box("App #{name} failed. Please ensure that you are on the Hobby Dev payment tier or above.")
+    end
+  end
 
+  @cmd.run("git config --global core.autocrlf true")
   @cmd.run("git checkout -b #{branch_name}")
   @cmd.run("git add .")
   @cmd.run("git add -f config")
@@ -594,7 +601,7 @@ end
 
 # Configures Heroku based on an org's config and deploys
 def configure_heroku
-  box("You will now need to register a Heroku account to host the app. You can do so #{TTY::Link.link_to("here.", "http://url.perlmutterapp.com/heroku")}")
+  box("You will now need to register a Heroku account to host the app, and upgrade to the free Hobby Dev tier by providing payment information. You can do so #{TTY::Link.link_to("here.", "http://url.perlmutterapp.com/heroku")}")
   name = @config["config"]["app_name"].nil? ? @config["config"]["organization_name"].downcase.tr(" ", "") : @config["config"]["app_name"]
   begin
     @cmd.run("which heroku")
@@ -641,8 +648,11 @@ end
 def push_arg_if_present(key, arg, state)
   unless arg.nil?
     case state
-    when "json"
-      @args[key] = YAML.load(JSON.parse(arg).to_yaml)
+    when "yml"
+      download_path = "config/locales/org/#{key}.yml"
+      TTY::File.download_file(arg, download_path)
+      @args[key] = YAML.load(File.read(download_path))
+      File.delete(download_path) if File.exist?(download_path)
     when "boolean"
       @args[key] = arg.to_s.downcase == "true"
     when "integer"
@@ -684,8 +694,8 @@ def configure_args
     opt.on('-hc', '--heroku_command STRING', String) { |arg| push_arg_if_present( "heroku_command", arg, "string") }
     opt.on('-ha', '--heroku_app_name STRING', String) { |arg| push_arg_if_present( "heroku_app_name", arg, "string") }
     opt.on('-sn', '--form_name STRING', String) { |arg| push_arg_if_present( "form_name", arg, "string") }
-    opt.on('-f', '--faq STRING', String) { |arg| push_arg_if_present( "faq", arg, "json") }
-    opt.on('-s', '--form STRING', String) { |arg| push_arg_if_present( "form", arg, "json") }
+    opt.on('-f', '--faq STRING', String) { |arg| push_arg_if_present( "faq", arg, "yml") }
+    opt.on('-s', '--form STRING', String) { |arg| push_arg_if_present( "form", arg, "yml") }
   end.parse!
 end
 
@@ -718,6 +728,8 @@ def initialize_organization
       error_box("Denied agreement, please re-run and accept to proceed.")
     end
   else
+    puts(@args["faq"])
+    puts(@args["form"])
     box("Ran with arguments, proceeding to invoke them silently...")
     configure_enabled = get_argument_value("configure", false, false)
     if configure_enabled

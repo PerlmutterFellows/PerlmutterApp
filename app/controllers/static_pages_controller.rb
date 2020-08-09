@@ -3,6 +3,7 @@ require 'cgi'
 class StaticPagesController < ApplicationController
   before_action :authenticate_user!, only: [:form, :results]
   before_action :set_form_vars, only: [:form, :results]
+  include StaticPagesHelper
 
   def home
     if user_signed_in?
@@ -11,9 +12,17 @@ class StaticPagesController < ApplicationController
   end
 
   def faq
+    unless faq_configured?
+      flash.alert = "#{I18n.t('global.missing_input', types: I18n.t('global.menu.faq'))} #{admin_signed_in?(current_user) ? I18n.t('global.missing_input_admin_prompt_manual') : I18n.t('global.missing_input_user_prompt_manual')}"
+      redirect_to root_path
+    end
   end
 
   def contact
+    unless contact_configured?
+      flash.alert = "#{I18n.t('global.missing_input', types: I18n.t('global.menu.contact'))} #{admin_signed_in?(current_user) ? I18n.t('global.missing_input_admin_prompt_manual') : I18n.t('global.missing_input_user_prompt_manual')}"
+      redirect_to root_path
+    end
   end
 
   def contact_send
@@ -31,9 +40,9 @@ class StaticPagesController < ApplicationController
 
     if !params[:text].blank?
       body = CGI.escape("#{I18n.t("global.subject")}: #{subject}\n#{I18n.t("global.message")}: #{body}")
-      url = "sms:#{I18n.t('contact')[:phone]}?&body=#{body}"
+      url = "sms:#{I18n.t('config.contact')[:phone]}?&body=#{body}"
     else
-      url = "mailto:#{I18n.t('contact')[:email]}?subject=#{subject}&body=#{body}"
+      url = "mailto:#{I18n.t('config.contact')[:email]}?subject=#{subject}&body=#{body}"
     end
     respond_to do |format|
       format.js { render js: "window.top.open('#{url}', '_blank');" }
@@ -41,6 +50,10 @@ class StaticPagesController < ApplicationController
   end
 
   def form
+    unless form_configured?
+      flash.alert = "#{I18n.t('global.missing_input', types: I18n.t('config.form_name'))} #{admin_signed_in?(current_user) ? I18n.t('global.missing_input_admin_prompt_manual') : I18n.t('global.missing_input_user_prompt_manual')}"
+      redirect_to root_path
+    end
   end
 
   def results

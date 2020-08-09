@@ -1,4 +1,14 @@
 en:
+  activerecord:
+    models:
+      user: "User"
+    attributes:
+      user:
+        first_name: "First Name"
+        last_name: "Last Name"
+        birthday: "Birthday"
+        phone_number: "Phone Number"
+        email: "Email"
   config:
     form_name: "Form"
   global:
@@ -10,11 +20,13 @@ en:
       sign_out: "Sign Out"
       admin: "Admin"
       moderator: "Moderator"
+      moderators: "Moderators"
       guest: "Guest"
       events: "Events"
       groups: "Groups"
       users: "Users"
       my_profile: "My Profile"
+      profile: "Profile"
       faq: "FAQ"
       contact: "Contact"
       form: "Score"
@@ -69,6 +81,9 @@ en:
     contact:
       submit_text: "Submit Text"
       submit_email: "Submit Email"
+    faq:
+      page_title: "Frequently Asked Questions (FAQ)"
+      page_description: "How can we help you?"
   users:
     role: "Role"
     contact_preferences: "Contact Preferences"
@@ -78,6 +93,15 @@ en:
         csv_success: "Users have been created."
         csv_failures: "Users have all failed. Please review your CSV and resubmit. The following rows failed:<br><br>%{rows}"
         csv_success_with_failures: "Users have been created, but there were failures. Please review your CSV and edit the failed rows should you want to create them. The following rows failed:<br><br>%{rows}"
+      show:
+        toggle_view: "Toggle View"
+        new_form: "New %{form}"
+        outreach_methods: "Outreach Methods"
+        most_recent_score: "Most Recent Score:"
+        update_modal:
+          update_user_profile: "Update User Profile"
+          close: "Close"
+          save_changes: "Save Changes"
   texts:
     call_yes: "1"
     call_no: "2"
@@ -119,6 +143,8 @@ en:
     event: "Event"
     info: "Info"
     message: "Message"
+  user_score:
+    creation_failed_response: "You may only fill out this form once every 24 hours!"
   groups:
     new:
       create: "Create group"
@@ -127,6 +153,17 @@ en:
       edit: "Edit group"
       edit_prompt: "Please fill out this form to modify and/or publish group!"
     name: "Name"
+    index:
+      filters:
+        search_by_name:
+          label: "Search by name:"
+          placeholder: "Group name"
+        search_by_user:
+          label: "Search by user:"
+          placeholder: "John Doe"
+        reset:
+          label: "Reset Filters"
+          button: "Reset"
   devise:
     registrations:
       new:
@@ -137,7 +174,51 @@ en:
         form_prompt: "Please fill out this form to create an account!"
         csv: "Create user via CSV"
         csv_prompt: "Click here for a user CSV template!"
+      users_table:
+        headers:
+          name: "Name"
+          email: "Email"
+          phone_number: "Phone Number"
+          groups: "Groups"
+          birthday: "Birthday"
+          actions: "Actions"
+        filters:
+          search_by_name:
+            label: "Search by name:"
+            placeholder: "John Doe"
+          search_by_group:
+            label: "Search by group:"
+            placeholder: "Group name"
+          search_by_phone_number:
+            label: "Search by phone number:"
+          search_by_email:
+            label: "Search by email:"
+            placeholder: "johndoe@gmail.com"
+          search_by_birthday: "Search by birthday:"
+          birthday_filter_options:
+            any_day: "Any Day"
+            today: "Today"
+            tomorrow: "Tomorrow"
+            next_week: "Next Week"
+            next_month: "Next Month"
+          reset_filters:
+            label: "Reset filters"
+            button: "Reset"
+        birthday:
+          zero: "Today"
+          one: "Tomorrow"
+          other: "%{count} days"
+        promote_user: "Promote User"
+        demote_moderator: "Demote Moderator"
+        view_user: "View User"
+        delete_user: "Delete User"
     sessions:
       new:
         login: "Login"
         login_prompt: "Please login below using your username, email, or phone number."
+    passwords:
+      title: "Forgot your password?"
+      button: "Resend me reset password instructions"
+    confirmations:
+      title: "Resend confirmation instructions"
+      button: "Resend confirmation instructions"

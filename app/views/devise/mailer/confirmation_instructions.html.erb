@@ -1,6 +1,8 @@
 <p><%= I18n.t('devise.mailer.intro_prompt_welcome', name: @resource.first_name, organization_name: I18n.t('config.organization_name')) %></p>
 
-<p><%= I18n.t('devise.mailer.body', password: @resource.password) %></p>
+<% if @resource.password %>
+  <p><%= I18n.t('devise.mailer.body', password: @resource.password) %></p>
+<% end %>
 
 <p><%= I18n.t('devise.mailer.new_prefix') %> <%= I18n.t('devise.mailer.link_prompt', state: I18n.t('devise.mailer.email')) %></p>
 

@@ -1,6 +1,6 @@
 module StaticPagesHelper
   def contact_configured?
-    I18n.t('config.contact').kind_of?(Hash)
+    I18n.t('config.contact').kind_of?(Hash) && I18n.t('config.contact').count != 0
   end
 
   def faq_configured?

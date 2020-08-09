@@ -26,17 +26,32 @@
       <% if @user.use_email %>
         <div class="row no-gutters mt-2">
           <p class="font-weight-lighter"><%= @user.email %></p>
-          <div class="badge badge-primary d-flex align-items-center ml-2"><%= I18n.t('global.email') %></div>
+          <div class="badge badge-primary d-flex align-items-center ml-2">
+            <% if @user.confirmed? %>
+              <i class="fas fa-md fa-check"></i>️
+            <% end %>
+            <%= I18n.t('global.email') %>
+          </div>
         </div>
       <% end %>
       <% if @user.use_text || @user.use_call %>
         <div class="row no-gutters mt-2">
           <p class="font-weight-lighter"><%= @user.phone_number %></p>
           <% if @user.use_text %>
-            <div class="badge badge-primary d-flex align-items-center ml-2"><%= I18n.t('global.text') %></div>
+            <div class="badge badge-primary d-flex align-items-center ml-2">
+              <% if @user.confirmed_text? %>
+                <i class="fas fa-md fa-check"></i>️
+              <% end %>
+              <%= I18n.t('global.text') %>
+            </div>
           <% end %>
           <% if @user.use_call %>
-            <div class="badge badge-primary d-flex align-items-center ml-2"><%= I18n.t('global.call') %></div>
+            <div class="badge badge-primary d-flex align-items-center ml-2">
+              <% if @user.confirmed_call? %>
+                <i class="fas fa-md fa-check"></i>️
+              <% end %>
+              <%= I18n.t('global.call') %>
+            </div>
           <% end %>
         </div>
       <% end %>
@@ -52,22 +67,23 @@
     <div class="col-12 col-lg-6 row no-gutters align-items-start justify-content-center" data-controller="graph" data-graph-id="<%= @user.id %>">
       <div class="row no-gutters w-100 mt-3 mt-sm-0">
         <div class="col-12 col-sm-6 ">
-          <h3 class="font-weight-bold"><%= I18n.t('global.menu.form') %></h3>
+          <h3 class="font-weight-bold"><%= I18n.t('config.form_name') %></h3>
         </div>
         <div class="col-12 col-sm-6 d-flex justify-content-start justify-content-sm-end mt-2 mt-sm-0">
           <% unless @user.user_scores.length == 0 %>
             <button name="button" type="submit" class="btn btn-secondary" data-action="click->graph#toggleGraphs"><%=  I18n.t('users.registrations.show.toggle_view') %></button>
             <%#= button_tag I18n.t('users.registrations.show.toggle_view'), class: "btn btn-secondary", data: {action: "click->graph#toggleGraphs", id: @user.id}%>
           <% else %>
-            <%= link_to I18n.t('users.registrations.show.new_form', form: I18n.t('global.menu.form')), form_path, class: "btn btn-secondary" %>
+            <%= link_to I18n.t('users.registrations.show.new_form', form: I18n.t('config.form_name')), form_path, class: "btn btn-secondary" %>
           <% end %>
         </div>
         <div class="col-12">
           <% unless @user.user_scores.length == 0  %>
-            <p class="font-weight-lighter"><%= I18n.t('users.registrations.show.most_recent_score') %> <%= @user.user_scores.order(:created_at).last.get_total_score[:score].round() %></p>
+            <% latest = @user.user_scores.order(:created_at).last.get_total_score %>
+            <p class="font-weight-lighter"><%= I18n.t('users.registrations.show.most_recent_score') %> <%= latest[:score].round %>/<%= latest[:max_score].round %></p>
           <% else  %>
             <%= render 'shared/empty_notice', condition: @user.user_scores.length,
-                       if_prompt: I18n.t('global.missing_input', types: t('global.menu.form').pluralize.downcase),
+                       if_prompt: I18n.t('global.missing_input', types: t('config.form_name').pluralize.downcase),
                        else_prompt: "",
                        sub_condition: (user_signed_in? && @user.id == current_user.id) || admin_signed_in?(current_user),
                        sub_if_prompt: I18n.t('global.missing_input_admin_prompt'),
