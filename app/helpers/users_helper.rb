@@ -1,4 +1,9 @@
+require 'json'
 module UsersHelper
+
+  def list_users_groups(user)
+    user.groups.map{|group| group.name}.join(", ")
+  end
 
   def get_full_name(user)
     [user.first_name, user.last_name].join(' ')
@@ -52,11 +57,28 @@ module UsersHelper
     end
     "<div class='text-center'>
       <div class='btn-group btn-group-md' role='group'>
-        #{link_to I18n.t("global.delete"), users_delete_path(user), class: "btn btn-outline-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
+        #{link_to I18n.t("global.delete"), user_delete_path(user), class: "btn btn-outline-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
         #{link_to I18n.t("global.edit"), "#", class: "btn btn-outline-primary"}
         #{tertiary_button}
       </div>
     </div>".html_safe
+  end
+
+  def promote_to_moderator(user)
+    if current_user.moderator? || current_user.admin?
+      user.moderator!
+    end
+  end
+
+  def calculate_days_until_users_birthday(user)
+    birthday = Date.new(Date.today.year, user.birthday.month, user.birthday.day)
+    birthday += 1.year if Date.today > birthday
+    (birthday - Date.today).to_i
+  end
+
+  def reset_filters
+    queries = [:name_query, :group_query, :email_query, :phone_number_query, :date_query]
+    queries.each { |query| session[query] = nil }
   end
 
   def destroy_user(user, redirect_path)
@@ -65,5 +87,22 @@ module UsersHelper
       flash.notice = t('global.model_deleted', type: t('global.user').downcase)
       format.html { redirect_to redirect_path }
     end
+  end
+
+  def map_user_scores(user)
+    map = user.user_scores.map do |score|
+      [Date.new(score.created_at.year, score.created_at.month, score.created_at.day), score.get_total_score[:score].round()]
+    end
+
+    return map
+  end
+
+  def map_user_subscores(user)
+    map = user.subscores.pluck(:name).uniq.map do |name|
+      {name: name.capitalize,
+       data: Subscore.where(name: name).order(:created_at).map { |score| [Date.new(score.created_at.year, score.created_at.month, score.created_at.day).to_s, score[:score].round()] }
+      }
+    end
+    return map
   end
 end

@@ -43,3 +43,9 @@ img.emoji {
   height: 1em;
   width: 1em;
 }
+
+// Hover helpers
+.is-hoverable:hover {
+  color: $info;
+  cursor: pointer;
+}

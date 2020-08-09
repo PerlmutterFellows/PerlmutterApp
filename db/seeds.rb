@@ -12,6 +12,8 @@ EventStatus.delete_all
 Group.delete_all
 GroupMembership.delete_all
 User.not_admin.delete_all
+UserScore.delete_all
+Subscore.delete_all
 
 def generate_user
   pass = Faker::Alphanumeric.alpha(number: 10)
@@ -20,12 +22,17 @@ def generate_user
                   email: Faker::Internet.email,
                   password: pass,
                   password_confirmation: pass,
+                  birthday: Faker::Date.between(from: '1990-07-23', to: '1990-09-24'),
                   role: Faker::Number.within(range: 0..1),
                   locale: "en",
                   use_email: true)
   user.skip_confirmation!
   user.save
   user
+end
+
+30.times do
+  generate_user
 end
 
 10.times do
@@ -42,12 +49,8 @@ end
                use_text: Faker::Boolean.boolean(true_ratio: 0.5),
                use_call: Faker::Boolean.boolean(true_ratio: 0.5),
                use_app: Faker::Boolean.boolean(true_ratio: 0.5))
-  event.users << generate_user
+  event.users << User.all.sample
   event.save
-end
-
-30.times do
-  generate_user
 end
 
 100.times do
@@ -58,7 +61,7 @@ end
 
 10.times do
   group = Group.new(name: [Faker::Company.name, Faker::Team.name].sample)
-  group.users << generate_user
+  group.users << User.all.sample
   group.save
 end
 
@@ -67,13 +70,26 @@ end
                          user_id: User.all.sample.id)
 end
 
-50.times do
+100.times do
   UserScore.create(user_id: User.all.sample.id)
 end
 
-50.times do
+random_subscore_names = ["Basic Needs", "Income", "Housing", "Education", "Health", "Community"]
+
+100.times do
   Subscore.create(user_score_id: UserScore.all.sample.id,
-                  name: [Faker::Company.name, Faker::Team.name].sample,
-                  score: Faker::Number.within(range: 0..10),
-                  max_score: Faker::Number.within(range: 0..100))
+                  name: random_subscore_names.sample,
+                  score: Faker::Number.within(range: 0..100),
+                  max_score: Faker::Number.within(range: 101..1000))
+end
+
+UserScore.all.each do |score|
+  subscores = score.subscores
+  new_date = Faker::Time.between(from: DateTime.now - 10, to: DateTime.now)
+  score.created_at = new_date
+  score.save
+  subscores.each do |subscore|
+    subscore.created_at = new_date
+    subscore.save
+  end
 end

@@ -809,7 +809,7 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.13.0.tgz#fcb113d1aca4b471b709e8c9c168674fbd6e06d9"
   integrity sha512-xKOeQEl5O47GPZYIMToj6uuA2syyFlq9EMSl2ui0uytjY9xbe8XS0pexNWmxrdcCyNGyDmLyYw5FtKsalBUeOg==
 
-"@rails/actioncable@^6.0.0":
+"@rails/actioncable@>= 6.0", "@rails/actioncable@^6.0.0":
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-6.0.3.tgz#722b4b639936129307ddbab3a390f6bcacf3e7bc"
   integrity sha512-I01hgqxxnOgOtJTGlq0ZsGJYiTEEiSGVEGQn3vimZSqEP1HqzyFNbzGTq14Xdyeow2yGJjygjoFF1pmtE+SQaw==
@@ -1648,6 +1648,13 @@ bytes@3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
+"cable_ready@>= 4.1.2":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/cable_ready/-/cable_ready-4.3.0.tgz#69c6c6963a60d7891f43c7530e343007a00a50b3"
+  integrity sha512-/hjwgdwMoe2hE5KKunsuWXDTr26GzwR7CovdFKHdSHD/yZTFFIv/eY27slMiXUEb57X12GHdliSM59rftTKpoQ==
+  dependencies:
+    morphdom "^2.6.1"
+
 cacache@^12.0.2:
   version "12.0.4"
   resolved "https://registry.yarnpkg.com/cacache/-/cacache-12.0.4.tgz#668bcbd105aeb5f1d92fe25570ec9525c8faa40c"
@@ -1795,6 +1802,34 @@ chalk@^1.1.1:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
+chart.js@^2.9.3:
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.9.3.tgz#ae3884114dafd381bc600f5b35a189138aac1ef7"
+  integrity sha512-+2jlOobSk52c1VU6fzkh3UwqHMdSlgH1xFv9FKMqHiNCpXsGPQa/+81AFa+i3jZ253Mq9aAycPwDjnn1XbRNNw==
+  dependencies:
+    chartjs-color "^2.1.0"
+    moment "^2.10.2"
+
+chartjs-color-string@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/chartjs-color-string/-/chartjs-color-string-0.6.0.tgz#1df096621c0e70720a64f4135ea171d051402f71"
+  integrity sha512-TIB5OKn1hPJvO7JcteW4WY/63v6KwEdt6udfnDE9iCAZgy+V4SrbSxoIbTw/xkUIapjEI4ExGtD0+6D3KyFd7A==
+  dependencies:
+    color-name "^1.0.0"
+
+chartjs-color@^2.1.0:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/chartjs-color/-/chartjs-color-2.4.1.tgz#6118bba202fe1ea79dd7f7c0f9da93467296c3b0"
+  integrity sha512-haqOg1+Yebys/Ts/9bLo/BqUcONQOdr/hoEr2LLTRl6C5LXctUdHxsCYfvQVg5JIxITrfCNUDr4ntqmQk9+/0w==
+  dependencies:
+    chartjs-color-string "^0.6.0"
+    color-convert "^1.9.3"
+
+chartkick@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/chartkick/-/chartkick-3.2.1.tgz#a80c2005ae353c5ae011d0a756b6f592fc8fc7a9"
+  integrity sha512-zV0kUeZNqrX28AmPt10QEDXHKadbVFOTAFkCMyJifHzGFkKzGCDXxVR8orZ0fC1HbePzRn5w6kLCOVxDQbMUCg==
+
 chokidar@^2.1.8:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.8.tgz#804b3a7b6a99358c3c5c61e71d8728f041cff917"
@@ -1904,7 +1939,7 @@ collection-visit@^1.0.0:
     map-visit "^1.0.0"
     object-visit "^1.0.0"
 
-color-convert@^1.9.0, color-convert@^1.9.1:
+color-convert@^1.9.0, color-convert@^1.9.1, color-convert@^1.9.3:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
   integrity sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==
@@ -3062,6 +3097,11 @@ form-data@~2.3.2:
     asynckit "^0.4.0"
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
+
+"form-serialize@>= 0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/form-serialize/-/form-serialize-0.7.2.tgz#b0a2ff0c22026fb6d3d15c9d33f6de6a432e4732"
+  integrity sha1-sKL/DCICb7bT0VydM/beakMuRzI=
 
 forwarded@~0.1.2:
   version "0.1.2"
@@ -4535,6 +4575,16 @@ mixin-deep@^1.2.0:
   integrity sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
   dependencies:
     minimist "^1.2.5"
+
+moment@^2.10.2:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
+  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
+
+morphdom@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/morphdom/-/morphdom-2.6.1.tgz#e868e24f989fa3183004b159aed643e628b4306e"
+  integrity sha512-Y8YRbAEP3eKykroIBWrjcfMw7mmwJfjhqdpSvoqinu8Y702nAwikpXcNFDiIkyvfCLxLM9Wu95RZqo4a9jFBaA==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -6789,13 +6839,23 @@ stdout-stream@^1.4.0:
   dependencies:
     readable-stream "^2.0.1"
 
-stimulus@^1.1.1:
+"stimulus@>= 1.1", stimulus@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stimulus/-/stimulus-1.1.1.tgz#53c2fded6849e7b85eed3ed8dd76e33abd74bec5"
   integrity sha512-R0mBqKp48YnRDZOxZ8hiOH4Ilph3Yj78CIFTBkCwyHs4iGCpe7xlEdQ7cjIxb+7qVCSxFKgxO+mAQbsNgt/5XQ==
   dependencies:
     "@stimulus/core" "^1.1.1"
     "@stimulus/webpack-helpers" "^1.1.1"
+
+stimulus_reflex@^3.3.0-pre1:
+  version "3.3.0-pre1"
+  resolved "https://registry.yarnpkg.com/stimulus_reflex/-/stimulus_reflex-3.3.0-pre1.tgz#2d9191a10c4616b69243784bc82eecad42ef7097"
+  integrity sha512-UQ951xwEByVGZEFzguL5dbbvwLaVvDD1KbW32q2MB1vwW6owXbLeebZk+gzRMo2K+7IBgT3IIQs304AJrxmtIg==
+  dependencies:
+    "@rails/actioncable" ">= 6.0"
+    cable_ready ">= 4.1.2"
+    form-serialize ">= 0.7.2"
+    stimulus ">= 1.1"
 
 stream-browserify@^2.0.1:
   version "2.0.2"

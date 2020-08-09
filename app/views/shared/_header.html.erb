@@ -35,7 +35,7 @@
       <% if moderator_signed_in?(current_user) %>
         <h4 class="nav-item dropdown">
           <a class="nav-link d-flex align-items-center dropdown-toggle font-weight-light" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas <%= fa_icon %> d-none d-lg-block mr-2" aria-hidden="true"></i><span><%= account_type %></span>
+            <%= icon('fas', fa_icon, class: 'd-none d-lg-block mr-2') %><span><%= account_type %></span>
           </a>
           <div class="dropdown-menu" aria-labelledby="adminDropdown">
             <p><%= link_to (t "global.menu.events"), events_path, class: "dropdown-item" %></p>
@@ -48,11 +48,12 @@
       <% end %>
       <h4 class="nav-item dropdown">
         <a class="nav-link d-flex align-items-center dropdown-toggle font-weight-light" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fa <%= fa_user_icon %> d-none d-lg-block mr-2" aria-hidden="true"></i><span><%= user_signed_in? ? current_user.first_name : I18n.t("global.menu.guest") %></span>
+          <%= icon('fa', fa_user_icon, class: 'd-none d-lg-block mr-2') %>
+          <span><%= user_signed_in? ? current_user.first_name : I18n.t("global.menu.guest") %></span>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
           <% if current_user %>
-            <p><%= link_to (t "global.menu.my_profile"), users_show_path(current_user), class: "dropdown-item" %></p>
+            <p><%= link_to (t "global.menu.my_profile"), user_path(current_user), class: "dropdown-item" %></p>
             <p><%= link_to (t "global.menu.sign_out"), destroy_user_session_path, method: :delete, class: "dropdown-item" %></p>
           <% else %>
             <p><%= link_to (t "global.menu.sign_up"), new_user_registration_path, class: "dropdown-item" %></p>

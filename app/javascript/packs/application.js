@@ -5,6 +5,8 @@
 
 require("@rails/ujs").start()
 require("turbolinks").start()
+require("chartkick")
+require("chart.js")
 require("@rails/activestorage").start()
 require("channels")
 require("bootstrap-select/dist/js/bootstrap-select.js")
@@ -31,4 +33,5 @@ import "@fortawesome/fontawesome-free/js/all"
 
 global.toastr = require("toastr")
 
+import "controllers"
 import "controllers"

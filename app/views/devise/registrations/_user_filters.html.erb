@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-md-6 col-sm-12">
+    <%= label_tag 'name', I18n.t('devise.registrations.users_table.filters.search_by_name.label') %>
+    <%= text_field_tag 'name', session[:name_query], class: "form-control", placeholder: I18n.t('devise.registrations.users_table.filters.search_by_name.placeholder'), data: {reflex: "input->UsersReflex#search_by_name"} %>
+  </div>
+  <div class="col-md-6 col-sm-12 mt-2 mt-sm-0">
+    <%= label_tag 'group', I18n.t('devise.registrations.users_table.filters.search_by_group.label') %>
+    <%= text_field_tag 'group', session[:group_query], class: "form-control", placeholder: I18n.t('devise.registrations.users_table.filters.search_by_group.placeholder'), data: {reflex: "input->UsersReflex#search_by_groups"}  %>
+  </div>
+  <div class="col-md-6 col-sm-12 mt-2">
+    <%= label_tag 'phone', I18n.t('devise.registrations.users_table.filters.search_by_phone_number.label') %>
+    <%= text_field_tag 'phone', session[:phone_number_query], class: "form-control", placeholder: "0123456789", data: {reflex: "input->UsersReflex#search_by_phone"} %>
+  </div>
+  <div class="col-md-6 col-sm-12 mt-2">
+    <%= label_tag 'email', I18n.t('devise.registrations.users_table.filters.search_by_email.label') %>
+    <%= text_field_tag 'email', session[:email_query], class: "form-control", placeholder: I18n.t('devise.registrations.users_table.filters.search_by_email.placeholder'), data: {reflex: "input->UsersReflex#search_by_email"}  %>
+  </div>
+  <div class="col-md-6 col-sm-12 mt-2">
+    <%= label_tag 'birthday', I18n.t('devise.registrations.users_table.filters.search_by_birthday') %>
+    <%= select_tag 'birthday',
+                   options_for_select([[I18n.t('devise.registrations.users_table.filters.birthday_filter_options.any_day'), I18n.t('devise.registrations.users_table.filters.birthday_filter_options.any_day')],
+                                       [I18n.t('devise.registrations.users_table.filters.birthday_filter_options.today'), Date.today],
+                                       [I18n.t('devise.registrations.users_table.filters.birthday_filter_options.tomorrow'), Date.tomorrow],
+                                       [I18n.t('devise.registrations.users_table.filters.birthday_filter_options.next_week'), Date.today + 1.week],
+                                       [I18n.t('devise.registrations.users_table.filters.birthday_filter_options.next_month'), Date.today + 1.month]],
+                                       session[:date_query] || I18n.t('devise.registrations.users_table.filters.birthday_filter_options.any_day')),
+                   class: "form-control",
+                   data: {reflex: "change->UsersReflex#search_by_date"}  %>
+  </div>
+  <div class="col-md-6"></div>
+  <div class="col-md-6 col-sm-12 mt-2">
+    <%= label_tag 'group', I18n.t('devise.registrations.users_table.filters.reset_filters.label') %>
+    <%= button_tag I18n.t('devise.registrations.users_table.filters.reset_filters.button'), class: "btn btn-danger", data: {reflex: "click->UsersReflex#reset_filters_reflex"}  %>
+  </div>
+</div>

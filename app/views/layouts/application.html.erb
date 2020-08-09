@@ -12,7 +12,7 @@
 </head>
 
   <body>
-    <% unless ["registrations", "sessions"].include?(controller_name) && !["index", "show"].include?(action_name) %>
+    <% unless ["registrations", "sessions"].include?(controller_name) && !["index", "show", "moderators"].include?(action_name) %>
       <%= render "shared/header" %>
     <% end %>
     <%= toastr_flash %>

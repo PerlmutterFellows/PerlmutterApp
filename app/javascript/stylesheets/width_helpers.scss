@@ -1,6 +1,11 @@
 @import "media_queries_utils";
 // Width Helpers
 // These can be accessed by doing w-md-50, w-md-75, w-xs-25, etc...
+
+.w-90 {
+  width: 90%!important;
+}
+
 @include respond-below(sm){
   .w-xs-25 {
     width: 25% !important;

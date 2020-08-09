@@ -23,15 +23,15 @@ module GroupsHelper
 
   def get_group_html_buttons(group, is_on_show)
     if is_on_show
-      tertiary_button = "#{link_to I18n.t("global.back"), :back, class: "btn btn-outline-primary"}"
+      tertiary_button = "#{link_to I18n.t("global.back"), :back, class: "btn btn-primary"}"
     else
-      tertiary_button = "#{link_to I18n.t("global.show"), group, class: "btn btn-outline-primary"}"
+      tertiary_button = "#{link_to I18n.t("global.show"), group, class: "btn btn-primary"}"
     end
     button_html = "<div class='text-center'>
                     <div class='btn-group btn-group-md' role='group'>"
     if moderator_signed_in?(current_user)
-      button_html += "#{link_to I18n.t("global.delete"), group, class: "btn btn-outline-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
-                      #{link_to I18n.t("global.edit"), edit_group_path(group), class: "btn btn-outline-primary"}
+      button_html += "#{link_to I18n.t("global.delete"), group, class: "btn btn-danger", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
+                      #{link_to I18n.t("global.edit"), edit_group_path(group), class: "btn btn-secondary"}
                       #{tertiary_button}
                     </div>
                   </div>"
@@ -41,6 +41,11 @@ module GroupsHelper
                   </div>"
     end
     button_html.html_safe
+  end
+
+  def reset_filters
+    queries = [:user_name_query, :group_name_query]
+    queries.each { |query| session[query] = nil }
   end
 
   ##
