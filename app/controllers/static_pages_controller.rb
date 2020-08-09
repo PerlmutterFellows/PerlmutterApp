@@ -73,7 +73,7 @@ class StaticPagesController < ApplicationController
           if @user.use_email? && @user.confirmed?
             emails.push(@user.email)
           end
-          emails.push(ENV['GMAIL_USERNAME'])
+          emails.push(I18n.t("config.smtp.smtp_username"))
           UserMailer.form_create_email(@user, @form, @answered_questions, emails).deliver
           flash.now.notice = I18n.t("global.model_created", type: I18n.t("config.form_name"))
         rescue StandardError => e
