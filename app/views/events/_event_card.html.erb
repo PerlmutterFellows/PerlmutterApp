@@ -13,9 +13,7 @@
         <%= get_event_html_buttons(event, false) %>
       </div>
       <% if user_invited?(event) && event.event? %>
-        <div data-action="click->progressBar#drawProgressBar">
-          <%= button_to user_attending?(event) ? "Attending" : "Not Attending", toggle_attending_path(event_id: event.id), class: "btn #{user_attending?(event) ? "btn-success" : "btn-danger"} mt-2" %>
-        </div>
+        <%= button_to user_attending?(event) ? I18n.t('global.attending') : I18n.t('global.not_attending'), toggle_attending_path(event_id: event.id), class: "btn #{user_attending?(event) ? "btn-success" : "btn-danger"} mt-2" %>
       <% end %>
     </div>
   </div>
