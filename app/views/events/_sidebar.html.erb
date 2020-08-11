@@ -11,9 +11,11 @@
           <div id="container" style="margin: 20px; width: 200px; height: 100px" data-controller="progressBar" data-progressBar-score=<%= current_user.last_score[:score].round() %> data-progressBar-max_score=<%= current_user.last_score[:max_score].round() %>></div>
         </div>
       <% else %>
-        <div class="jumbotron p-5 m-5">
-          <div class="d-flex justify-content-center align-items-center">
-            <h5 class="text-center"><%= I18n.t('global.missing_input', types: t('config.form_name').pluralize.downcase) %></h5>
+        <div class="col-12 d-flex justify-content-center">
+          <div class="jumbotron p-5 m-5">
+            <div class="d-flex justify-content-center align-items-center">
+              <h5 class="text-center"><%= I18n.t('global.missing_input', types: t('config.form_name').pluralize.downcase) %></h5>
+            </div>
           </div>
         </div>
       <% end %>
