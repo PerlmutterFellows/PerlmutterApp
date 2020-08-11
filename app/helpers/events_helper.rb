@@ -70,15 +70,15 @@ module EventsHelper
 
   def get_event_html_buttons(event, is_on_show)
     if is_on_show
-      tertiary_button = "#{link_to I18n.t("global.back"), :back, class: "btn btn-outline-primary"}"
+      tertiary_button = "#{link_to I18n.t("global.back"), :back, class: "btn btn-primary"}"
     else
-      tertiary_button = "#{link_to I18n.t("global.show"), event, class: "btn btn-outline-primary"}"
+      tertiary_button = "#{link_to I18n.t("global.show"), event, class: "btn btn-primary"}"
     end
     button_html = "<div class='text-center'>
                     <div class='btn-group btn-group-md' role='group'>"
     if moderator_signed_in?(current_user)
-      button_html += "#{link_to I18n.t("global.delete"), event, class: "btn btn-outline-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
-                      #{link_to I18n.t("global.edit"), edit_event_path(event), class: "btn btn-outline-primary"}
+      button_html += "#{link_to I18n.t("global.delete"), event, class: "btn btn-danger", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
+                      #{link_to I18n.t("global.edit"), edit_event_path(event), class: "btn btn-secondary"}
                       #{tertiary_button}
                     </div>
                   </div>"

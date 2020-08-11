@@ -1,0 +1,16 @@
+<div class="card mt-2">
+  <div class="card-header">
+    <div class="no-gutters row d-flex align-items-center">
+      <%= icon('fa', icon,  class: "m-1") %>
+      <div class="ml-2"><%= event.eventType.capitalize %></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><%= event.title %></h5>
+    <%= get_event_html_body(event, get_attending_counts(event), false) %>
+    <div class="no-gutters row d-flex justify-content-start mt-2">
+      <%= get_event_html_buttons(event, false) %>
+
+    </div>
+  </div>
+</div>

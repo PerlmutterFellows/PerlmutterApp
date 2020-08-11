@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  include StaticPagesHelper
   before_action :set_event, only: [:show, :attend, :unattend, :edit, :update, :destroy]
   before_action :authenticate_moderator!, only: [:edit, :update, :destroy]
   before_action :authenticate_user!, only: [:index, :new, :show, :attend, :unattend]
@@ -6,7 +7,15 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    @events = Event.event.order(:startDate).reverse_order.select {|event| (event.users.exists?(current_user.id) && event.published? && event.use_app?) || current_user.admin? || current_user.moderator?}
+  end
+
+  def messages
+    @events = Event.message.order(:startDate).reverse_order.select {|event| event.users.exists?(current_user.id) && event.published? && event.use_app?}
+  end
+
+  def info
+    @events = Event.info.order(:startDate).reverse_order.select {|event| event.users.exists?(current_user.id) && event.published? && event.use_app?}
   end
 
   # GET /events/1

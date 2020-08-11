@@ -11,6 +11,12 @@
   min-height: calc(100vh - 64px);
 }
 
+@include respond-above(lg){
+  .full-page-lg-nav {
+    min-height: calc(100vh - 56px);
+  }
+}
+
 @include respond-below(lg) {
   .full-page-nav {
     min-height: calc(100vh - 56px);

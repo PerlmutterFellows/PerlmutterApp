@@ -1,0 +1,22 @@
+<% if form_configured? %>
+  <div class="col-12 col-xl-3 side-bar-border mt-3 mt-lg-0">
+    <div class="row no-gutters">
+      <div id="progressStart" class="bg-primary"></div>
+      <div id="progressEnd" class="bg-secondary"></div>
+      <div class="col-12 d-flex justify-content-center">
+        <h3 class="font-weight-lighter mt-5"><%= I18n.t("config.form_name")%></h3>
+      </div>
+      <% if current_user.last_score.present? %>
+        <div class="col-12 d-flex justify-content-center">
+          <div id="container" style="margin: 20px; width: 200px; height: 100px" data-controller="progressBar" data-progressBar-score=<%= current_user.last_score[:score].round() %>></div>
+        </div>
+      <% else %>
+        <div class="jumbotron p-5 m-5">
+          <div class="d-flex justify-content-center align-items-center">
+            <h5 class="text-center"><%= I18n.t('global.missing_input', types: t('config.form_name').pluralize.downcase) %></h5>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

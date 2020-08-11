@@ -1,0 +1,7 @@
+@import "media_queries_utils";
+
+@include respond-above(lg){
+  .side-bar-border {
+    border-left: 1px solid #dee2e6 !important;
+  }
+}

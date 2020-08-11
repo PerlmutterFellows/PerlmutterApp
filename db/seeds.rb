@@ -35,10 +35,10 @@ end
   generate_user
 end
 
-10.times do
+100.times do
   event = Event.new(title: Faker::Book.title,
                description: Faker::Quote.matz,
-               published: Faker::Boolean.boolean(true_ratio: 0.5),
+               published: true,
                startDate: Faker::Date.between(from: 2.days.ago, to: Date.today),
                endDate: Faker::Date.between(from: Date.today, to: 2.days.from_now),
                startTime: Time.now,
@@ -48,7 +48,7 @@ end
                use_email: Faker::Boolean.boolean(true_ratio: 0.5),
                use_text: Faker::Boolean.boolean(true_ratio: 0.5),
                use_call: Faker::Boolean.boolean(true_ratio: 0.5),
-               use_app: Faker::Boolean.boolean(true_ratio: 0.5))
+               use_app: Faker::Boolean.boolean(true_ratio: 0.5),)
   event.users << User.all.sample
   event.save
 end

@@ -11,6 +11,8 @@ Rails.application.routes.draw do
         post :unattend
       end
     end
+    get 'info', action: 'info', controller: 'events', as: 'info'
+    get 'messages', action: 'messages', controller: 'events', as: 'messages'
     get 'home/index'
     devise_scope :user do
       get 'users', action: 'index', controller: 'users/registrations'

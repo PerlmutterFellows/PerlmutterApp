@@ -72,15 +72,13 @@
         <div class="col-12 col-sm-6 d-flex justify-content-start justify-content-sm-end mt-2 mt-sm-0">
           <% unless @user.user_scores.length == 0 %>
             <button name="button" type="submit" class="btn btn-secondary" data-action="click->graph#toggleGraphs"><%=  I18n.t('users.registrations.show.toggle_view') %></button>
-            <%#= button_tag I18n.t('users.registrations.show.toggle_view'), class: "btn btn-secondary", data: {action: "click->graph#toggleGraphs", id: @user.id}%>
           <% else %>
             <%= link_to I18n.t('users.registrations.show.new_form', form: I18n.t('config.form_name')), form_path, class: "btn btn-secondary" %>
           <% end %>
         </div>
         <div class="col-12">
           <% unless @user.user_scores.length == 0  %>
-            <% latest = @user.user_scores.order(:created_at).last.get_total_score %>
-            <p class="font-weight-lighter"><%= I18n.t('users.registrations.show.most_recent_score') %> <%= latest[:score].round %>/<%= latest[:max_score].round %></p>
+            <p class="font-weight-lighter"><%= I18n.t('users.registrations.show.most_recent_score') %> <%= @user.last_score[:score].round %>/<%= @user.last_score[:max_score].round %></p>
           <% else  %>
             <%= render 'shared/empty_notice', condition: @user.user_scores.length,
                        if_prompt: I18n.t('global.missing_input', types: t('config.form_name').pluralize.downcase),
@@ -94,7 +92,6 @@
               <%= column_chart map_user_scores(@user), id: "scores_graph" %>
             <% else %>
               <%= line_chart map_user_scores(@user), id: "scores_graph" %>
-              <%#= line_chart map_user_subscores(@user), id: 'subscores_graph'%>
         <% end  %>
           <% end %>
         </div>
