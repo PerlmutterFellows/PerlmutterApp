@@ -3,12 +3,8 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
 
-    initialize(){
-        this.removeExtraChildren();
-        this.drawProgressBar();
-    }
-
     connect(){
+        this.drawProgressBar();
         this.removeExtraChildren();
     }
 
@@ -24,6 +20,7 @@ export default class extends Controller {
     }
 
     drawProgressBar(){
+        console.log('drawing progress bar');
         const primary = getComputedStyle(document.getElementById("progressStart")).backgroundColor;
         const secondary = getComputedStyle(document.getElementById("progressEnd")).backgroundColor;
         const bar = new ProgressBar.SemiCircle("#container", {
@@ -56,7 +53,11 @@ export default class extends Controller {
         bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
         bar.text.style.fontSize = '2rem';
 
-        bar.set(1.0);  // Number from 0.0 to 1.0
+        bar.animate(1.0);  // Number from 0.0 to 1.0
+        this.removeExtraChildren();
+    }
+
+    disconnect(){
         this.removeExtraChildren();
     }
 }

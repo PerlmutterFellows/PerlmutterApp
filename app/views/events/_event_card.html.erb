@@ -8,9 +8,15 @@
   <div class="card-body">
     <h5 class="card-title"><%= event.title %></h5>
     <%= get_event_html_body(event, get_attending_counts(event), false) %>
-    <div class="no-gutters row d-flex justify-content-start mt-2">
-      <%= get_event_html_buttons(event, false) %>
-
+    <div class="no-gutters flex-row d-flex flex-column flex-md-row align-items-md-center align-items-start justify-content-between mt-2">
+      <div class="mt-2">
+        <%= get_event_html_buttons(event, false) %>
+      </div>
+      <% if user_invited?(event) && event.event? %>
+        <div data-action="click->progressBar#drawProgressBar">
+          <%= button_to user_attending?(event) ? "Attending" : "Not Attending", toggle_attending_path(event_id: event.id), class: "btn #{user_attending?(event) ? "btn-success" : "btn-danger"} mt-2" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

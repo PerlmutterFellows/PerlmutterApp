@@ -1,5 +1,18 @@
 module EventsHelper
 
+  def user_attending?(event)
+    event_status = EventStatus.find_by(event_id: event.id, user_id: current_user.id)
+    if event_status.attending?
+      return true
+    else
+      return false
+    end
+  end
+
+  def user_invited?(event)
+    return EventStatus.find_by(event_id: event.id, user_id: current_user.id).present?
+  end
+
   def get_event_html_header(event)
     if event.event?
       fa_icon = 'fa fa-calendar-alt'

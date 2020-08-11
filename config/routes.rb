@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     end
     get 'info', action: 'info', controller: 'events', as: 'info'
     get 'messages', action: 'messages', controller: 'events', as: 'messages'
+    post 'toggle_attending', action: 'toggle_attending', controller: 'events', as: 'toggle_attending'
     get 'home/index'
     devise_scope :user do
       get 'users', action: 'index', controller: 'users/registrations'

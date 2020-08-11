@@ -18,6 +18,18 @@ class EventsController < ApplicationController
     @events = Event.info.order(:startDate).reverse_order.select {|event| event.users.exists?(current_user.id) && event.published? && event.use_app?}
   end
 
+  def toggle_attending
+    event_id = params[:event_id]
+    event_status = EventStatus.find_by(event_id: event_id, user_id: current_user.id)
+    if event_status.not_attending?
+      event_status.attending!
+      redirect_to event_path(event_id)
+    elsif event_status.attending?
+      event_status.not_attending!
+      redirect_to event_path(event_id)
+    end
+  end
+
   # GET /events/1
   # GET /events/1.json
   def show
