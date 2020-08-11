@@ -1,9 +1,7 @@
 <%= bootstrap_form_tag(url: contact_path, remote: true) do |f| %>
-  <h5 class="font-weight-light pb-2"><%= f.label I18n.t("global.menu.contact") %></h5>
-  <%= f.text_field :subject, label: I18n.t("events.title"), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
-    <%= f.text_area :body, label: I18n.t("events.message"), autofocus: true, label_as_placeholder: true, input_group_class: 'input-group-lg' %>
+  <%= f.text_field :subject, label: I18n.t("events.title"), autofocus: true, label_as_placeholder: true, height: "100%", input_group_class: 'input-group-lg' %>
+    <%= f.text_area :body, label: I18n.t("events.message"), autofocus: true, label_as_placeholder: true, rows: 6, input_group_class: 'input-group-lg' %>
   <div class='btn-group mb-1 d-flex justify-content-center' role='group'>
-    <%= f.submit I18n.t("static_pages.contact.submit_text"), name: :text %>
-    <%= f.submit I18n.t("static_pages.contact.submit_email"), name: :email, class: "btn btn-primary" %>
+    <%= f.submit I18n.t("static_pages.contact.submit_email"), name: :email %>
   </div>
 <% end %>

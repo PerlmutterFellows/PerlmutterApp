@@ -37,14 +37,25 @@ module UsersHelper
 
   def get_user_html_body(user, status)
 
-    "#{!user.phone_number.blank? ?
-           "<p class='card-text'>#{TextHandler.new.process_fa("fa fa-phone-square", nil, user.phone_number, nil)}</p>" :
-           ""}
-    #{ !user.email.blank? ?
-           "<p class='card-text'>#{TextHandler.new.process_fa("fa fa-envelope-square", nil, user.email, nil)}</p>" :
+    using_email = user.confirmed? && user.use_email?
+    using_text = user.confirmed_text? && user.use_text?
+    using_call = user.confirmed_call? && user.use_call?
+
+    "#{
+    if !user.phone_number.blank? && (using_text || using_call)
+      "<p class='card-text'>
+        #{ using_text ? "#{TextHandler.new.process_fa("fa fa-comments", nil, nil, nil)}" : ""}#{ using_call ? "#{TextHandler.new.process_fa("fa fa-phone-alt", nil, nil, nil)}" : ""}#{user.phone_number}
+      </p>"
+    else
+      ""
+    end}
+    #{ !user.email.blank? && using_email ?
+           "<p class='card-text'>
+              #{TextHandler.new.process_fa("fa fa-envelope-open-text", nil, nil, nil)}#{user.email}
+            </p>" :
            ""}
     #{ !status.blank? ?
-           "<p class='card-text'>#{t(:".global.#{status.state}")}</p>" :
+           "<p class='card-text'>#{t("activerecord.enums.event_status.states.#{status.state}")}</p>" :
            "" }".html_safe
   end
 

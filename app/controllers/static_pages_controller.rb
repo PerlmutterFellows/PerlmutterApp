@@ -26,27 +26,18 @@ class StaticPagesController < ApplicationController
   end
 
   def contact_send
-    if !params[:subject].blank?
-      subject = params[:subject]
+    if !params[:subject].blank? && !params[:body].blank?
+      emails = []
+      if current_user && current_user.use_email? && current_user.confirmed?
+        emails.push(current_user.email)
+      end
+      emails.push(I18n.t('config.contact.email'))
+      UserMailer.contact_org(params[:subject], params[:body], emails).deliver
+      flash.notice = I18n.t("global.model_created", type: I18n.t("global.email").downcase)
     else
-      subject = ""
+      flash.alert = I18n.t("global.error_message", type: I18n.t("global.email").downcase)
     end
-
-    if !params[:body].blank?
-      body = params[:body]
-    else
-      body = ""
-    end
-
-    if !params[:text].blank?
-      body = CGI.escape("#{I18n.t("global.subject")}: #{subject}\n#{I18n.t("global.message")}: #{body}")
-      url = "sms:#{I18n.t('config.contact')[:phone]}?&body=#{body}"
-    else
-      url = "mailto:#{I18n.t('config.contact')[:email]}?subject=#{subject}&body=#{body}"
-    end
-    respond_to do |format|
-      format.js { render js: "window.top.open('#{url}', '_blank');" }
-    end
+    redirect_to contact_path
   end
 
   def form
