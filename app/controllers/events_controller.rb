@@ -7,15 +7,15 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.event.order(:startDate).reverse_order.select {|event| (event.users.exists?(current_user.id) && event.published? && event.use_app?) || current_user.admin? || current_user.moderator?}
+    @events =  Kaminari.paginate_array(Event.event.order(:startDate).reverse_order.select {|event| (event.users.exists?(current_user.id) && event.published? && event.use_app?) || current_user.admin? || current_user.moderator?}).page params[:page]
   end
 
   def messages
-    @events = Event.message.order(:startDate).reverse_order.select {|event| event.users.exists?(current_user.id) && event.published? && event.use_app?}
+    @events = Kaminari.paginate_array(Event.message.order(:startDate).reverse_order.select {|event| event.users.exists?(current_user.id) && event.published? && event.use_app?}).page params[:page]
   end
 
   def info
-    @events = Event.info.order(:startDate).reverse_order.select {|event| event.users.exists?(current_user.id) && event.published? && event.use_app?}
+    @events = Kaminari.paginate_array(Event.info.order(:startDate).reverse_order.select {|event| event.users.exists?(current_user.id) && event.published? && event.use_app?}).page params[:page]
   end
 
   def toggle_attending

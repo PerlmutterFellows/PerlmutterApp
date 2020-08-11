@@ -6,6 +6,7 @@
              sub_if_prompt: I18n.t('global.missing_input_admin_prompt'),
              sub_else_prompt: I18n.t('global.missing_input_user_prompt') %>
 <% else  %>
+  <%= paginate @events %>
   <div class="no-gutters row">
     <% @events.each do |event| %>
       <div class="col-12">
