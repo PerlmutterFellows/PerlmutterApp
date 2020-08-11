@@ -104,16 +104,22 @@ module GroupsHelper
     User.all.select {|user| !moderator_signed_in?(user)}.each do |user|
       val_label = get_full_name(user)
 
-      unless user.phone_number.blank?
-        val_label += " <span class='badge'><i class='fa fa-phone-square' aria-hidden='true'></i> #{user.phone_number}</span>"
-      end
+      using_email = user.confirmed? && user.use_email?
+      using_text = user.confirmed_text? && user.use_text?
+      using_call = user.confirmed_call? && user.use_call?
 
-      unless user.email.blank?
-        val_label += " <span class='badge'><i class='fa fa-envelope-square' aria-hidden='true'></i> #{user.email}</span>"
-      end
+      if using_email || using_text || using_call
+        if !user.phone_number.blank? && (using_text || using_call)
+          val_label += " <span class='badge'>#{using_text ? "<i class='fa fa-comments' aria-hidden='true'></i> " : ""}#{using_call ? "<i class='fa fa-phone-alt' aria-hidden='true'></i> " : ""}#{user.phone_number}</span>"
+        end
 
-      select_user_vals.push([val_label, user.id.to_s])
-      id_vals.push(user.id.to_s)
+        if !user.email.blank? && using_email
+          val_label += " <span class='badge'><i class='fa fa-envelope-open-text' aria-hidden='true'></i> #{user.email}</span>"
+        end
+
+        select_user_vals.push([val_label, user.id.to_s])
+        id_vals.push(user.id.to_s)
+      end
     end
 
     selected_vals = []

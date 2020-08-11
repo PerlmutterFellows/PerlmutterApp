@@ -5,11 +5,12 @@ export default class extends Controller {
     static targets = [ "dropdown" ]
 
     connect(){
-        var selected_vals = this.parseArrayFromText($('#selected_vals')[0].textContent)
+        var width = document.getElementsByClassName('form-control')[0].offsetWidth;
+        var selected_vals = this.parseArrayFromText($('#selected_vals')[0].textContent);
         $('.selectpicker').selectpicker('val', selected_vals);
         this.setDataContentSelectInputs();
         $('.selectpicker').selectpicker('refresh');
-        this.setSelectPickerFilterWidth();
+        this.setSelectPickerFilterWidth(width);
     }
 
     parseArrayFromText(input){
@@ -22,8 +23,8 @@ export default class extends Controller {
         }
     }
 
-    setSelectPickerFilterWidth() {
-        var width = "width:" + document.getElementsByClassName('input-group-lg')[0].offsetWidth + "px!important";
+    setSelectPickerFilterWidth(widthVal) {
+        var width = "width:" + widthVal + "px!important";
         document.getElementsByClassName('filter-option-inner-inner')[0].setAttribute("style", width);
         document.getElementsByClassName('bootstrap-select')[0].setAttribute("style", width);
     }
