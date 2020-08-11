@@ -1,8 +1,8 @@
 class EventsController < ApplicationController
   include StaticPagesHelper
   before_action :set_event, only: [:show, :attend, :unattend, :edit, :update, :destroy]
-  before_action :authenticate_moderator!, only: [:edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:index, :new, :show, :attend, :unattend]
+  before_action :authenticate_moderator!, only: [:new, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:index, :show, :attend, :unattend]
 
   # GET /events
   # GET /events.json
