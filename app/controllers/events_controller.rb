@@ -22,10 +22,10 @@ class EventsController < ApplicationController
     event_id = params[:event_id]
     event_status = EventStatus.find_by(event_id: event_id, user_id: current_user.id)
     if event_status.not_attending?
-      event_status.attending!
+      toggle_attendance(current_user.id, event_id, true, true)
       redirect_to event_path(event_id)
     elsif event_status.attending?
-      event_status.not_attending!
+      toggle_attendance(current_user.id, event_id, false, true)
       redirect_to event_path(event_id)
     end
   end

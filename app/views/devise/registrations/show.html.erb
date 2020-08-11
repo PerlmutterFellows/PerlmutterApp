@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <h1 class="font-weight-light d-none d-sm-block"><%= I18n.t('global.menu.profile') %></h1>
-  <div class="row no-gutters mt-4">
-    <div class="col-12 col-lg-6">
+  <div class="full-page-lg-nav no-gutters flex-row d-flex flex-column-reverse flex-xl-row">
+    <div class="<%= "col-12 #{form_configured? ? "col-lg-7 " : "" } p-4" %>">
       <div class="row no-gutters align-items-center">
         <div class="col col-sm-4 col-md-6">
           <h1 class="font-weight-light d-block d-sm-none">Profile</h1>
@@ -64,40 +64,42 @@
         </div>
       <% end %>
     </div>
-    <div class="col-12 col-lg-6 row no-gutters align-items-start justify-content-center" data-controller="graph" data-graph-id="<%= @user.id %>">
-      <div class="row no-gutters w-100 mt-3 mt-sm-0">
-        <div class="col-12 col-sm-6 ">
-          <h3 class="font-weight-bold"><%= I18n.t('config.form_name') %></h3>
-        </div>
-        <div class="col-12 col-sm-6 d-flex justify-content-start justify-content-sm-end mt-2 mt-sm-0">
-          <% unless @user.user_scores.length == 0 %>
-            <button name="button" type="submit" class="btn btn-secondary" data-action="click->graph#toggleGraphs"><%=  I18n.t('users.registrations.show.toggle_view') %></button>
-          <% else %>
-            <%= link_to I18n.t('users.registrations.show.new_form', form: I18n.t('config.form_name')), form_path, class: "btn btn-secondary" %>
-          <% end %>
-        </div>
-        <div class="col-12">
-          <% unless @user.user_scores.length == 0  %>
-            <p class="font-weight-lighter"><%= I18n.t('users.registrations.show.most_recent_score') %> <%= @user.last_score[:score].round %>/<%= @user.last_score[:max_score].round %></p>
-          <% else  %>
-            <%= render 'shared/empty_notice', condition: @user.user_scores.length,
-                       if_prompt: I18n.t('global.missing_input', types: t('config.form_name').pluralize.downcase),
-                       else_prompt: "",
-                       sub_condition: (user_signed_in? && @user.id == current_user.id) || admin_signed_in?(current_user),
-                       sub_if_prompt: I18n.t('global.missing_input_admin_prompt'),
-                       sub_else_prompt: I18n.t('global.missing_input') %>
-          <% end %>
-          <% unless @user.user_scores.length == 0 %>
-            <% if @user.user_scores.length == 1 %>
-              <%= column_chart map_user_scores(@user), id: "scores_graph" %>
+    <% if form_configured? %>
+      <div class="col-12 col-lg-5 row no-gutters align-items-start justify-content-center" data-controller="graph" data-graph-id="<%= @user.id %>">
+        <div class="row no-gutters w-100 mt-3 mt-sm-0">
+          <div class="col-12 col-sm-6 ">
+            <h3 class="font-weight-bold"><%= I18n.t('config.form_name') %></h3>
+          </div>
+          <div class="col-12 col-sm-6 d-flex justify-content-start justify-content-sm-end mt-2 mt-sm-0">
+            <% unless @user.user_scores.length == 0 %>
+              <button name="button" type="submit" class="btn btn-secondary" data-action="click->graph#toggleGraphs"><%=  I18n.t('users.registrations.show.toggle_view') %></button>
             <% else %>
-              <%= line_chart map_user_scores(@user), id: "scores_graph" %>
-        <% end  %>
-          <% end %>
+              <%= link_to I18n.t('users.registrations.show.new_form', form: I18n.t('config.form_name')), form_path, class: "btn btn-secondary" %>
+            <% end %>
+          </div>
+          <div class="col-12">
+            <% unless @user.user_scores.length == 0  %>
+              <p class="font-weight-lighter"><%= I18n.t('users.registrations.show.most_recent_score') %> <%= @user.last_score[:score].round %>/<%= @user.last_score[:max_score].round %></p>
+            <% else  %>
+              <%= render 'shared/empty_notice', condition: @user.user_scores.length,
+                         if_prompt: I18n.t('global.missing_input', types: t('config.form_name').pluralize.downcase),
+                         else_prompt: "",
+                         sub_condition: (user_signed_in? && @user.id == current_user.id) || admin_signed_in?(current_user),
+                         sub_if_prompt: I18n.t('global.missing_input_admin_prompt'),
+                         sub_else_prompt: I18n.t('global.missing_input') %>
+            <% end %>
+            <% unless @user.user_scores.length == 0 %>
+              <% if @user.user_scores.length == 1 %>
+                <%= column_chart map_user_scores(@user), id: "scores_graph" %>
+              <% else %>
+                <%= line_chart map_user_scores(@user), id: "scores_graph" %>
+          <% end  %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  <% end %>
 </div>
 
 <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel" aria-hidden="true">

@@ -40,7 +40,7 @@ export default class extends Controller {
             // Set default step function for all animate calls
             step: (state, bar) => {
                 bar.path.setAttribute('stroke', state.color);
-                const value = Math.round(bar.value() * this.data.get("score"));
+                const value = Math.round(bar.value() * this.data.get("max_score"));
                 if (value === 0) {
                     bar.setText('');
                 } else {
@@ -53,7 +53,7 @@ export default class extends Controller {
         bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
         bar.text.style.fontSize = '2rem';
 
-        bar.animate(1.0);  // Number from 0.0 to 1.0
+        bar.animate(this.data.get("score") / this.data.get("max_score"));  // Number from 0.0 to 1.0
         this.removeExtraChildren();
     }
 

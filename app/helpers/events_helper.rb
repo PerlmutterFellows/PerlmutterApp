@@ -32,7 +32,6 @@ module EventsHelper
   end
 
   def get_event_html_body(event, attending_count, is_on_show)
-    attendance_check_box_html = ""
     attendance_display_html = ""
     users_html = ""
     if !moderator_signed_in?(current_user)
@@ -43,13 +42,6 @@ module EventsHelper
       else
         attendance_display_html = I18n.t("global.others_count", count: attending_count.to_s, prefix: "", suffix: I18n.t("global.attending").downcase)
         confirm_path = attend_event_path(event)
-      end
-
-      if event.event?
-        attendance_check_box_html = check_box_tag(I18n.t("global.attending"), true, status.attending?, id: "attendCheck", class: "mr-2")
-        attendance_check_box_html = "<p>#{link_to confirm_path, method: :post do
-          "#{attendance_check_box_html}<label class='form-check-label' for='attendCheck'>#{I18n.t('global.attending')}</label>".html_safe
-        end }</p>"
       end
     else
       if is_on_show
@@ -76,7 +68,6 @@ module EventsHelper
           "<p class='card-text'><strong>#{I18n.t("events.where")}:</strong> #{event.location}</p>" :
           ""}
     #{attendance_display_html}
-    #{attendance_check_box_html}
     #{users_html}"
     .html_safe
   end

@@ -1,14 +1,14 @@
 <% if form_configured? %>
   <div class="col-12 col-xl-3 side-bar-border mt-3 mt-lg-0">
     <div class="row no-gutters">
-      <div id="progressStart" class="bg-primary"></div>
-      <div id="progressEnd" class="bg-secondary"></div>
+      <div id="progressStart" class="bg-danger"></div>
+      <div id="progressEnd" class="bg-success"></div>
       <div class="col-12 d-flex justify-content-center">
         <h3 class="font-weight-lighter mt-5"><%= I18n.t("config.form_name")%></h3>
       </div>
       <% if current_user.last_score.present? %>
         <div class="col-12 d-flex justify-content-center">
-          <div id="container" style="margin: 20px; width: 200px; height: 100px" data-controller="progressBar" data-progressBar-score=<%= current_user.last_score[:score].round() %>></div>
+          <div id="container" style="margin: 20px; width: 200px; height: 100px" data-controller="progressBar" data-progressBar-score=<%= current_user.last_score[:score].round() %> data-progressBar-max_score=<%= current_user.last_score[:max_score].round() %>></div>
         </div>
       <% else %>
         <div class="jumbotron p-5 m-5">
