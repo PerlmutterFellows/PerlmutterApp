@@ -1,5 +1,18 @@
 module EventsHelper
 
+  def user_attending?(event)
+    event_status = EventStatus.find_by(event_id: event.id, user_id: current_user.id)
+    if event_status.attending?
+      return true
+    else
+      return false
+    end
+  end
+
+  def user_invited?(event)
+    return EventStatus.find_by(event_id: event.id, user_id: current_user.id).present?
+  end
+
   def get_event_html_header(event)
     if event.event?
       fa_icon = 'fa fa-calendar-alt'
@@ -19,7 +32,6 @@ module EventsHelper
   end
 
   def get_event_html_body(event, attending_count, is_on_show)
-    attendance_check_box_html = ""
     attendance_display_html = ""
     users_html = ""
     if !moderator_signed_in?(current_user)
@@ -30,13 +42,6 @@ module EventsHelper
       else
         attendance_display_html = I18n.t("global.others_count", count: attending_count.to_s, prefix: "", suffix: I18n.t("global.attending").downcase)
         confirm_path = attend_event_path(event)
-      end
-
-      if event.event?
-        attendance_check_box_html = check_box_tag(I18n.t("global.attending"), true, status.attending?, id: "attendCheck", class: "mr-2")
-        attendance_check_box_html = "<p>#{link_to confirm_path, method: :post do
-          "#{attendance_check_box_html}<label class='form-check-label' for='attendCheck'>#{I18n.t('global.attending')}</label>".html_safe
-        end }</p>"
       end
     else
       if is_on_show
@@ -63,22 +68,21 @@ module EventsHelper
           "<p class='card-text'><strong>#{I18n.t("events.where")}:</strong> #{event.location}</p>" :
           ""}
     #{attendance_display_html}
-    #{attendance_check_box_html}
     #{users_html}"
     .html_safe
   end
 
   def get_event_html_buttons(event, is_on_show)
     if is_on_show
-      tertiary_button = "#{link_to I18n.t("global.back"), :back, class: "btn btn-outline-primary"}"
+      tertiary_button = "#{link_to I18n.t("global.back"), :back, class: "btn btn-primary"}"
     else
-      tertiary_button = "#{link_to I18n.t("global.show"), event, class: "btn btn-outline-primary"}"
+      tertiary_button = "#{link_to I18n.t("global.show"), event, class: "btn btn-primary"}"
     end
     button_html = "<div class='text-center'>
                     <div class='btn-group btn-group-md' role='group'>"
     if moderator_signed_in?(current_user)
-      button_html += "#{link_to I18n.t("global.delete"), event, class: "btn btn-outline-primary", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
-                      #{link_to I18n.t("global.edit"), edit_event_path(event), class: "btn btn-outline-primary"}
+      button_html += "#{link_to I18n.t("global.delete"), event, class: "btn btn-danger", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
+                      #{link_to I18n.t("global.edit"), edit_event_path(event), class: "btn btn-secondary"}
                       #{tertiary_button}
                     </div>
                   </div>"

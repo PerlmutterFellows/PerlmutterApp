@@ -84,6 +84,13 @@ class User < ApplicationRecord
     self.first_name + " " + self.last_name
   end
 
+  def last_score
+    if self.user_scores.present?
+      return self.user_scores.order(:created_at).last.get_total_score
+    end
+    return nil
+  end
+
   def self.filter(name_query, group_query, phone_query, email_query, date_query)
    search_by_name(name_query).search_by_group(group_query).search_by_email(email_query).search_by_phone_number(phone_query).search_by_date(date_query)
   end

@@ -1,0 +1,8 @@
+<div class="full-page-lg-nav no-gutters flex-row d-flex flex-column-reverse flex-xl-row">
+  <%= content_tag :div, class: "col-12 #{form_configured? ? "col-xl-9 " : "" } p-4" do %>
+    <%= render 'event_navigation', current_page: :messages %>
+    <%= render 'shared/page_header', path: new_event_path, page_title: I18n.t("events.message").pluralize %>
+    <%= render 'events_list', icon: "comments", type: I18n.t('events.message') %>
+  <% end %>
+  <%= render 'sidebar' %>
+</div>

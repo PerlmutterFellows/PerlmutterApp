@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  include StaticPagesHelper
   before_action :set_event, only: [:show, :attend, :unattend, :edit, :update, :destroy]
   before_action :authenticate_moderator!, only: [:edit, :update, :destroy]
   before_action :authenticate_user!, only: [:index, :new, :show, :attend, :unattend]
@@ -6,7 +7,27 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    @events =  Kaminari.paginate_array(Event.event.order(:startDate).reverse_order.select {|event| (event.users.exists?(current_user.id) && event.published? && event.use_app?) || current_user.admin? || current_user.moderator?}).page params[:page]
+  end
+
+  def messages
+    @events = Kaminari.paginate_array(Event.message.order(:startDate).reverse_order.select {|event| event.users.exists?(current_user.id) && event.published? && event.use_app?}).page params[:page]
+  end
+
+  def info
+    @events = Kaminari.paginate_array(Event.info.order(:startDate).reverse_order.select {|event| event.users.exists?(current_user.id) && event.published? && event.use_app?}).page params[:page]
+  end
+
+  def toggle_attending
+    event_id = params[:event_id]
+    event_status = EventStatus.find_by(event_id: event_id, user_id: current_user.id)
+    if event_status.not_attending?
+      toggle_attendance(current_user.id, event_id, true, true)
+      redirect_to event_path(event_id)
+    elsif event_status.attending?
+      toggle_attendance(current_user.id, event_id, false, true)
+      redirect_to event_path(event_id)
+    end
   end
 
   # GET /events/1

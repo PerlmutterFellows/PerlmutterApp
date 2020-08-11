@@ -28,6 +28,10 @@ h1, h2, h3, h4, h5, h6, p {
   box-shadow: none!important;
 }
 
+.bg-grey {
+  background-color: whitesmoke;
+}
+
 @import "~bootstrap/scss/_functions.scss";
 @import "~bootstrap/scss/_variables.scss";
 
