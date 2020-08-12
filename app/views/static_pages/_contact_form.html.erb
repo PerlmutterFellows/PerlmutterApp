@@ -1,3 +1,4 @@
+<div class="w-100 mb-3">
 <%= bootstrap_form_tag(url: contact_path, remote: true) do |f| %>
   <%= f.text_field :subject, label: I18n.t("events.title"), autofocus: true, label_as_placeholder: true, height: "100%", input_group_class: 'input-group-lg' %>
     <%= f.text_area :body, label: I18n.t("events.message"), autofocus: true, label_as_placeholder: true, rows: 6, input_group_class: 'input-group-lg' %>
@@ -5,3 +6,4 @@
     <%= f.submit I18n.t("static_pages.contact.submit_email"), name: :email %>
   </div>
 <% end %>
+</div>
