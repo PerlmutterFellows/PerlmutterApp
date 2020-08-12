@@ -1,10 +1,18 @@
 <div class="container mt-2 mb-2">
   <%= render 'shared/page_header', path: new_group_path, page_title: I18n.t("global.menu.groups") %>
   <%= render 'groups/group_filters' %>
-  <div class="row">
-    <% @groups.each do |group| %>
-      <div class="col-lg-4 col-md-6 col-sm-12 mt-3 d-flex align-items-stretch justify-content-center">
-        <div class="card w-100">
+  <% if @groups.count == 0 %>
+    <%= render 'shared/empty_notice', condition: @groups.count == 0,
+               if_prompt: I18n.t('global.missing_input', types: I18n.t('global.menu.groups').downcase),
+               else_prompt: "",
+               sub_condition: moderator_signed_in?(current_user),
+               sub_if_prompt: I18n.t('global.missing_input_admin_prompt'),
+               sub_else_prompt: I18n.t('global.missing_input_user_prompt') %>
+  <% else %>
+    <div class="row">
+      <% @groups.each do |group| %>
+        <div class="col-lg-4 col-md-6 col-sm-12 mt-3 d-flex align-items-stretch justify-content-center">
+          <div class="card w-100">
             <div class="card-header">
               <%= get_group_html_header %>
             </div>
@@ -17,9 +25,10 @@
             <div class="card-footer">
               <%= get_group_html_buttons(group, false) %>
             </div>
+          </div>
         </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
