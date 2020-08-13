@@ -51,6 +51,7 @@ Want to develop the Perlmutter App?
    * `rake webpacker:compile`
    * `rake db:create`
    * `rake db:migrate`
+   * `rails dev:cache` - (Toggles caching on/off, run until it **is** being cached)
 5) If running in development, install ngrok ([Link here](https://ngrok.com/download), or `brew cask install ngrok` on OSX with Homebrew) for receiving calls/texts when running on your local environment
 
 ## Team

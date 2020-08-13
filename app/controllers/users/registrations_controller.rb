@@ -100,26 +100,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
     initial_use_call = user[:use_call]
     initial_use_text = user[:use_text]
     path = user_path(user)
+    if user_params[:phone_number] != initial_phone_number
+      user.call_confirmation_sent_at = nil
+      user.call_confirmed_at = nil
+      user.text_confirmation_sent_at = nil
+      user.text_confirmed_at = nil
+    end
+    if !user_params[:use_call].to_i.zero? != initial_use_call
+      user.call_confirmation_sent_at = nil
+      user.call_confirmed_at = nil
+    end
+    if !user_params[:use_text].to_i.zero? != initial_use_text
+      user.text_confirmation_sent_at = nil
+      user.text_confirmed_at = nil
+    end
     if user.update_attributes(user_params)
       if user_params[:email] != initial_email
         sign_out user
         path = root_path
       end
-      if user_params[:phone_number] != initial_phone_number
-        user.call_confirmation_sent_at = nil
-        user.call_confirmed_at = nil
-        user.text_confirmation_sent_at = nil
-        user.text_confirmed_at = nil
-      end
-      if !user_params[:use_call].to_i.zero? != initial_use_call
-        user.call_confirmation_sent_at = nil
-        user.call_confirmed_at = nil
-      end
-      if !user_params[:use_text].to_i.zero? != initial_use_text
-        user.text_confirmation_sent_at = nil
-        user.text_confirmed_at = nil
-      end
-      user.save
       flash.notice = t('devise.registrations.updated')
     else
       flash.alert = user.errors.full_messages.join('<br>')
