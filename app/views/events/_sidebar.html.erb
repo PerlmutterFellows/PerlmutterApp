@@ -1,4 +1,4 @@
-<% if form_configured? %>
+<% if form_configured? && !admin_signed_in?(current_user) %>
   <div class="col-12 col-xl-3 side-bar-border mt-3 mt-lg-0">
     <div class="row no-gutters">
       <div id="progressStart" class="bg-primary"></div>

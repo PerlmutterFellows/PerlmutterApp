@@ -1,5 +1,4 @@
-﻿first_name,last_name,email,phone_number
-John,Doe,john@doe.me,1234567890
-Jane,Doe,,1357924680
-Sam,P. L. Name,sampl@name.me,
-,,,
+﻿first_name,last_name,email,phone_number,use_email,use_call,use_text,role,,Column Notes:
+John,Doe,john@doe.me,9149801320,TRUE,FALSE,TRUE,admin,,The use_[contact method] columns denote a user's contact preference (required). The role column denotes the user role (defaults to user).
+Jane,Doe,jane@doe.me,,TRUE,FALSE,FALSE,moderator,,
+Sam,P. L. Name,sampl@name.me,,TRUE,FALSE,FALSE,user,,

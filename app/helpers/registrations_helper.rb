@@ -11,6 +11,7 @@ module RegistrationsHelper
       while user.password.length < 6
         user.password += (('a'..'z').to_a.concat (('1'...'10').to_a)).sample
       end
+      user.password = user.password.gsub(' ', '_')
       user.password_confirmation = user.password
     end
   end
@@ -64,6 +65,10 @@ module RegistrationsHelper
       user.email = row["email"]
       user.phone_number = row["phone_number"]
       user.password = row["password"]
+      user.role = row["role"]
+      user.use_call = row["use_call"]
+      user.use_text = row["use_text"]
+      user.use_email = row["use_email"]
 
       if user.password.blank?
         generate_password_by_name(user)

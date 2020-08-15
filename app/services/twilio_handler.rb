@@ -6,6 +6,14 @@ class TwilioHandler
     @client = Twilio::REST::Client.new
   end
 
+  # As per Twilio, to have multilingual/special
+  # characters, a UCS2 punctuation space must
+  # be added to the end of the text input.
+  def force_twilio_ucs2_encoding(message)
+    punctuation_space = "\u{2008}"
+    "#{message}#{punctuation_space}"
+  end
+
   def set_dev_callbacks(url)
     sms_url = ""
     voice_url = ""
@@ -46,7 +54,7 @@ class TwilioHandler
     client.api.account.messages.create(
         to: user.phone_number,
         from: I18n.t('config.phone.phone_number'),
-        body: message
+        body: force_twilio_ucs2_encoding(message)
     )
     user.text_confirmation_sent_at = DateTime.now
     rescue StandardError => e
@@ -61,7 +69,7 @@ class TwilioHandler
     text_response = nil
     begin
       text_response = Twilio::TwiML::MessagingResponse.new do |r|
-        r.message body: message
+        r.message body: force_twilio_ucs2_encoding(message)
       end
     rescue StandardError => e
       puts("Twilio Send Response Error: #{e.message.squish}")
