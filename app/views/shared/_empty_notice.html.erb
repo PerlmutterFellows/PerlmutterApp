@@ -1,0 +1,14 @@
+<% if condition %>
+  <div class="jumbotron p-5 mt-5">
+    <div class="row flex-row flex-row-reverse">
+      <div class="col-lg-12">
+        <h1 class="display-4 pb-4 text-lg-center"><%= if_prompt %></h1>
+      </div>
+      <div class="col-lg-12">
+        <h2 class="font-weight-lighter text-lg-center"><%= sub_condition ? sub_if_prompt : sub_else_prompt %></h2>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <%= else_prompt %>
+<% end %>

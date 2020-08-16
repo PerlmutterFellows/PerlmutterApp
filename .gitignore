@@ -58,6 +58,9 @@ node_modules/
 /public/packs-test
 /public/assets
 
+# Ignore all org specific files
+/config/locales/org/*
+
 # Ignore yarn files
 /yarn-error.log
 yarn-debug.log*

@@ -1,0 +1,19 @@
+<div class="full-page-nav d-flex align-items-center">
+  <div class="container w-90 jumbotron">
+    <h2><%= I18n.t('devise.passwords.title') %></h2>
+
+    <%= bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="field">
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit I18n.t('devise.passwords.button') %>
+      </div>
+    <% end %>
+
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

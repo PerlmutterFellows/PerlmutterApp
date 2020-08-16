@@ -1,0 +1,29 @@
+<div class="col-sm-12 col-md-6 p-2">
+  <div class="card">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+          <div class="col">
+            <h5><%= user.full_name %></h5>
+          </div>
+          <div class="col">
+            <div class="row no-gutters justify-content-end align-items-center">
+              <%= link_to user_path(user) do %>
+                <i class="fa fa-eye text-info"></i>
+              <% end %>
+              <% if current_user.admin? %>
+                <%= link_to user_delete_path(user), :method => :delete, data: {confirm: I18n.t('global.are_you_sure')} do %>
+                  <i class="fa fa-trash text-danger ml-2"></i>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+      </div>
+      <h6 class="card-subtitle mb-2 text-muted"><%= user.email %></h6>
+
+      <h6 class="card-subtitle mb-2 text-muted"><%= user.phone_number %></h6>
+      <% user.groups.each do |group| %>
+        <span class="badge badge-dark"><%= group.name %></span>
+      <% end %>
+    </div>
+  </div>
+</div>

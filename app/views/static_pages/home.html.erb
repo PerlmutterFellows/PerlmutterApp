@@ -1,0 +1,23 @@
+<div class="full-page-nav d-flex justify-content-center align-items-center">
+  <div class="jumbotron p-5 w-xs-90 w-75 mt-5">
+    <div class="row flex-row flex-row-reverse">
+      <div class="col-lg-5 col-md-12 align-items-center justify-content-center d-flex">
+          <%= inline_svg_pack_tag(I18n.t("config.logo_path"), class: 'organization-svg mb-2') %>
+      </div>
+      <div class="col-lg-7 col-md-12">
+        <h1 class="display-4"><%= t('config.organization_name') %></h1>
+        <h4 class="font-weight-lighter">
+          <%= t('config.organization_description') %>
+        </h4>
+      </div>
+    </div>
+    <div class="row justify-content-center align-items-center mt-2">
+      <div class="align-content-center">
+        <div class='btn-group btn-group-lg mt-4' role='group'>
+          <%= link_to t('global.menu.sign_up'), new_user_registration_path, class: 'btn btn-lg btn-secondary d-flex align-items-center' %>
+          <%= link_to t('global.menu.sign_in'), new_user_session_path, class: 'btn btn-lg btn-primary d-flex align-items-center' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

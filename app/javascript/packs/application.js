@@ -5,8 +5,11 @@
 
 require("@rails/ujs").start()
 require("turbolinks").start()
+require("chartkick")
+require("chart.js")
 require("@rails/activestorage").start()
 require("channels")
+require("bootstrap-select/dist/js/bootstrap-select.js")
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -14,7 +17,11 @@ require("channels")
 // or the `imagePath` JavaScript helper below.
 //
 // const images = require.context('../images', true)
-// const imagePath = (name) => images(name, true)
+// // const imagePath = (name) => images(name, true)
+
+const svgs = require.context('../svgs', true);
+const svgPath = (name) =>  svgs(name, true);
+
 import 'bootstrap';
 import '../stylesheets/application';
 
@@ -23,3 +30,8 @@ document.addEventListener("turbolinks:load", () => {
     $('[data-toggle="popover"]').popover();
 });
 import "@fortawesome/fontawesome-free/js/all"
+
+global.toastr = require("toastr")
+
+import "controllers"
+import "controllers"

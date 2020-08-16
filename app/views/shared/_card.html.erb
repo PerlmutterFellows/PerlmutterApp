@@ -1,0 +1,24 @@
+<div class="card w-75">
+  <% unless img.blank? %>
+    <%= inline_svg_pack_tag(img, class: 'card-img-top') %>
+  <% end %>
+
+  <% unless header.blank? %>
+    <div class="card-header">
+      <%= header %>
+    </div>
+  <% end %>
+
+  <% unless body.blank? && title.blank? %>
+  <div class="card-body">
+    <h5 class="card-title"><strong><%= title %></strong></h5>
+    <%= body %>
+  </div>
+  <% end %>
+
+  <% unless footer.blank? %>
+    <div class="card-footer">
+      <%= footer %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,40 @@
+<table class="table table-sm table-hover table-striped">
+  <thead class="border">
+  <tr class="bg-secondary text-center d-flex ">
+    <th class="col-1 border border-primary"><%= I18n.t('devise.registrations.users_table.headers.name') %></th>
+    <th class="col-2 border border-primary"><%= I18n.t('devise.registrations.users_table.headers.email') %></th>
+    <th class="col-2 border border-primary"><%= I18n.t('devise.registrations.users_table.headers.phone_number') %></th>
+    <th class="col-2 border border-primary"><%= I18n.t('devise.registrations.users_table.headers.groups') %></th>
+    <th class="col-1 border border-primary"><%= I18n.t('devise.registrations.users_table.headers.birthday') %></th>
+    <th class="col-4 border border-primary"><%= I18n.t('devise.registrations.users_table.headers.actions') %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% users.each do |user| %>
+    <tr class="border d-flex">
+      <td class="col-1 text-break text-center border-right"><%= user.full_name %></td>
+      <td class="col-2 text-break text-center border-right"><%= user.email %></td>
+      <td class="col-2 text-break text-center border-right"><%= user.phone_number %></td>
+      <td class="col-2 text-break text-left border-right"><%= list_users_groups(user) %></td>
+      <% unless user.birthday.blank? %>
+        <td class="col-1 text-break text-center border-right"><%= I18n.t('devise.registrations.users_table.birthday', count: calculate_days_until_users_birthday(user)) %></td>
+      <% else %>
+        <td class="col-1 text-break text-center border-right">N.A.</td>
+    <% end %>
+      <td class="col-4 text-break border-right d-flex justify-content-around align-items-center">
+        <% if user.user? %>
+          <%= link_to I18n.t('devise.registrations.users_table.view_user'), user_path(user), class: 'btn btn-info' %>
+        <% end %>
+        <% if admin_signed_in?(current_user) && user.moderator? %>
+          <%= button_to I18n.t('devise.registrations.users_table.demote_moderator'), demote_to_user_path(user), class: 'btn btn-dark', data: {confirm: "Are you sure you would like to demote #{user.full_name} to a regular user?"} %>
+          <%= button_to 'Delete User', user_delete_path(user), method: :delete, data: {confirm: I18n.t('global.are_you_sure')}, class: 'btn btn-danger' %>
+      <% end %>
+        <% if admin_signed_in?(current_user) && user.user? %>
+          <%= button_to I18n.t('devise.registrations.users_table.promote_user'), promote_to_moderator_path(user), class: 'btn btn-dark', data: {confirm: "Are you sure you would like to promote #{user.full_name} to moderator?"} %>
+          <%= button_to I18n.t('devise.registrations.users_table.delete_user'), user_delete_path(user), method: :delete, data: {confirm: I18n.t('global.are_you_sure')}, class: 'btn btn-danger' %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

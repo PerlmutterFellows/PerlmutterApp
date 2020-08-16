@@ -1,3 +1,11 @@
 @import "bootstrap_custom";
-@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap";
 @import '@fortawesome/fontawesome-free';
+@import "toastr";
+@import "devise";
+@import "shared";
+@import "width_helpers";
+@import "static_pages";
+@import "users";
+@import "events";
+@import "bootstrap-select/sass/bootstrap-select.scss";

@@ -36,3 +36,43 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+
+perlmutter_box = TTY::Box.frame(width: 50, height: 14, align: :center, padding: 2, title: {top_left: "Perlmutter App", bottom_right: "Perlmutter App"}, style: {fg: :blue, bg: :black, border: {fg: :blue, bg: :black}}) do
+  "Organization: #{I18n.t('config.organization_name')}\nEmail: #{I18n.t('config.smtp.smtp_username')}\nTwilio SID: #{I18n.t('config.phone.account_sid')}\nTwilio Auth Token: #{I18n.t('config.phone.auth_token')}\nTwilio Phone: #{I18n.t('config.phone.phone_number')}\nTwilio Phone SID: #{I18n.t('config.phone.phone_sid')}\n"
+end
+puts(perlmutter_box)
+
+def configure_url(url)
+  default_url_options = {host: url}
+  Rails.application.config.action_controller.asset_host = url
+  Rails.application.config.action_mailer.asset_host = url
+  Rails.application.routes.default_url_options = default_url_options
+  Rails.application.config.action_mailer.default_url_options = default_url_options
+  TwilioHandler.new.set_dev_callbacks(url)
+end
+
+if Rails.env.development?
+  require 'ngrok/tunnel'
+  can_run_ngrok = true
+  begin
+    Ngrok::Tunnel.start(port: 3000)
+  rescue StandardError => e
+    can_run_ngrok = false
+  end
+  if can_run_ngrok && Ngrok::Tunnel.status == :running
+    sms_url, call_url = configure_url(Ngrok::Tunnel.ngrok_url_https)
+    status_box = TTY::Box.frame(width: 50, height: 14, align: :center, padding: 2, title: {top_left: "NGROK", bottom_right: "NGROK"}, style: {fg: :green, bg: :black, border: {fg: :green, bg: :black}}) do
+      "STATUS: #{Ngrok::Tunnel.status}\nPORT: #{Ngrok::Tunnel.port}\nHTTP: #{Ngrok::Tunnel.ngrok_url}\nHTTPS: #{Ngrok::Tunnel.ngrok_url_https}\nText Callback: #{sms_url}\nVoice Callback: #{call_url}\n"
+    end
+  else
+    status_box = TTY::Box.frame(width: 50, height: 6, align: :center, padding: 1, title: {top_left: "NGROK", bottom_right: "NGROK"}, style: {fg: :red, bg: :black, border: {fg: :red, bg: :black}}) do
+      "Failed to start ;(\nPlease ensure NGROK is configured in PATH.\n"
+    end
+  end
+else
+  sms_url, call_url = configure_url(ENV["APP_URL"])
+  status_box = TTY::Box.frame(width: 50, height: 14, align: :center, padding: 2, title: {top_left: "NGROK", bottom_right: "NGROK"}, style: {fg: :green, bg: :black, border: {fg: :green, bg: :black}}) do
+    "URL: #{ENV["APP_URL"]}\nText Callback: #{sms_url}\nVoice Callback: #{call_url}\n"
+  end
+end
+puts(status_box)

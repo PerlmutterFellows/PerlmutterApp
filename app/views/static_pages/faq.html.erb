@@ -1,0 +1,28 @@
+<div class="d-flex justify-content-center">
+  <div class="row w-90 mt-4 d-flex">
+    <div class="col-12 text-center pb-3">
+      <h1 class="font-weight-lighter"><%= I18n.t("static_pages.faq.page_title") %></h1>
+      <h5 class="font-weight-lighter"><%= I18n.t("static_pages.faq.page_description") %></h5>
+    </div>
+    <div class="w-100 d-flex justify-content-center">
+      <div class="accordion w-100" id="accordionExample">
+        <% I18n.t('faq').each_with_index do |q, index| %>
+          <div class="card">
+            <%= content_tag :div, class: "card-header", id: "heading#{index}" do %>
+              <h2 class="mb-0">
+                <%= content_tag :button, class: "btn btn-link", type: "button", data: {toggle: "collapse", target: "#collapse#{index}"}, aria: {expanded: "true", controls: "collapse#{index}"} do %>
+                  <%= q[:question] %>
+                <% end %>
+              </h2>
+            <% end %>
+            <%= content_tag :div, id: "collapse#{index}", class: "collapse", aria: {labelledby: "heading#{index}"}, data: {parent: "#accordionExample"} do %>
+              <div class="card-body">
+                <%= q[:answer] %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<p><%= I18n.t('devise.mailer.intro_prompt', name: @resource.first_name, organization_name: I18n.t('config.organization_name')) %></p>
+
+<p><%= I18n.t('devise.mailer.unlock_instructions.body') %></p>
+
+<p><%= I18n.t('devise.mailer.unlock_instructions.link_prompt') %></p>
+
+<p><%= link_to I18n.t('devise.mailer.unlock_instructions.link'), unlock_url(@resource, unlock_token: @token) %></p>

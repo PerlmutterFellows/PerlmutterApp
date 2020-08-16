@@ -1,0 +1,76 @@
+<nav class="navbar navbar-expand-xl navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="<%= root_path %>"><h4 class="font-weight-bolder"><%= t('config.organization_name') %></h4></a>
+  <div class="collapse navbar-collapse" id="navbarToggler">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <h4 class="font-weight-light"><%= link_to (t "global.menu.home"), user_signed_in? ? events_path : root_path, class: "nav-link" %></h4>
+      </li>
+      <% if faq_configured? %>
+        <li class="nav-item">
+          <h4 class="font-weight-light"><%= link_to (t "global.menu.faq"), faq_path, class: "nav-link" %></h4>
+        </li>
+      <% end %>
+      <% if contact_configured? %>
+        <li class="nav-item">
+          <h4 class="font-weight-light"><%= link_to (t "global.menu.contact"), contact_path, class: "nav-link" %></h4>
+        </li>
+      <% end %>
+      <% if form_configured? && user_signed_in? %>
+        <li class="nav-item">
+          <h4 class="font-weight-light"><%= link_to (t "config.form_name"), form_path, class: "nav-link" %></h4>
+        </li>
+      <% end %>
+    </ul>
+    <hr />
+    <% fa_user_icon, fa_icon, account_type = get_user_role_info(current_user) %>
+    <ul class="nav navbar-nav justify-content-start">
+      <% if moderator_signed_in?(current_user) %>
+        <h4 class="nav-item dropdown">
+          <a class="nav-link d-flex align-items-center dropdown-toggle font-weight-light" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= icon('fas', fa_icon, class: 'd-none d-lg-block mr-2') %><span><%= account_type %></span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="adminDropdown">
+            <p><%= link_to (t "global.menu.events"), events_path, class: "dropdown-item" %></p>
+            <p><%= link_to (t "global.menu.groups"), groups_path, class: "dropdown-item" %></p>
+            <% if current_user.admin? %>
+              <p><%= link_to (t "global.menu.users"), users_path, class: "dropdown-item" %></p>
+            <% end %>
+          </div>
+        </h4>
+      <% end %>
+      <h4 class="nav-item dropdown">
+        <a class="nav-link d-flex align-items-center dropdown-toggle font-weight-light" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <%= icon('fa', fa_user_icon, class: 'd-none d-lg-block mr-2') %>
+          <span><%= user_signed_in? ? current_user.first_name : I18n.t("global.menu.guest") %></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+          <% if current_user %>
+            <p><%= link_to (t "global.menu.my_profile"), user_path(current_user), class: "dropdown-item" %></p>
+            <p><%= link_to (t "global.menu.sign_out"), destroy_user_session_path, method: :delete, class: "dropdown-item" %></p>
+          <% else %>
+            <p><%= link_to (t "global.menu.sign_up"), new_user_registration_path, class: "dropdown-item" %></p>
+            <p><%= link_to (t "global.menu.sign_in"), new_user_session_path, class: "dropdown-item" %></p>
+          <% end %>
+        </div>
+      </h4>
+      <h4 class="nav-item dropdown">
+        <a class="nav-link" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <h4 class="dropdown-toggle font-weight-light">
+            <% if I18n.locale == :en %>
+              <%= emojify('English 🇺🇸') %>
+            <% elsif I18n.locale == :es %>
+              <%= emojify('Español 🇪🇸') %>
+            <% end %>
+          </h4>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <p><%= link_to emojify('English 🇺🇸'), url_for(locale: :en), class: "dropdown-item" %></p>
+          <p><%= link_to emojify('Español 🇪🇸'), url_for(locale: :es), class: "dropdown-item" %></p>
+        </div>
+      </h4>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,19 @@
+<p><%= I18n.t('devise.mailer.intro_prompt', name: user.first_name, organization_name: I18n.t('config.organization_name')) %></p>
+
+<p><%= get_event_action_prefix(is_being_updated, is_being_deleted) %> <%= event.eventType %>:</p>
+
+<p><%= get_event_text_params(event, true).html_safe%></p>
+
+<% unless is_being_deleted %>
+
+  <% if event.event? || event.info? %>
+    <p><%=  link_to I18n.t('devise.mailer.more_info'), event_url(id: event.id) %></p>
+  <% end %>
+
+  <% if event.event?  %>
+    <p><%= is_being_updated ? I18n.t('devise.mailer.update_prefix') : I18n.t('devise.mailer.new_prefix') %> <%= I18n.t('devise.mailer.link_prompt', state: I18n.t('devise.mailer.attendance')) %></p>
+
+    <p><%= link_to I18n.t('global.attending'), attend_event_url(id: event.id) %></p>
+    <p><%= link_to I18n.t('global.not_attending'), unattend_event_url(id: event.id) %></p>
+  <% end %>
+<% end %>

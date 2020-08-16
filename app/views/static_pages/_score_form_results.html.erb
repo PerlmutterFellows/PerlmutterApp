@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-center">
+  <div class="row w-75 mt-4 d-flex">
+    <div class="col-12 d-flex align-items-center pb-3">
+      <h1 class="font-weight-light"><%= I18n.t("config.form_name") %></h1>
+    </div>
+    <% if form.valid? %>
+      <div class="col-md-6 col-xs-12">
+        <% form.get_score(answered_questions) %>
+        <div class="form-group w-100 mb-2">
+          <h4><strong><%= I18n.t("global.user") %>:</strong> <%= link_to(user.first_name, user_url(id: user.id)) %></h4>
+        </div>
+        <div class="form-group w-100 mb-2">
+          <h4><strong><%= I18n.t("activerecord.attributes.user.created_at") %>:</strong> <%= DateService.new.convert_to_readable_date_time(DateTime.now, DateTime.now) %></h4>
+        </div>
+        <div class="form-group w-100 mb-2">
+          <% score_string_prefix, score_string = form.get_score_string %>
+          <h4><strong><%= score_string_prefix %></strong> <%= score_string %></h4>
+        </div>
+        <ul>
+          <% form.get_subscores.keys.each do |key| %>
+            <div class="form-group w-100 mb-2">
+              <% subscore_string_prefix, subscore_string = form.get_subscore_string(key) %>
+              <li><strong><%= subscore_string_prefix %></strong> <%= subscore_string %></li>
+            </div>
+          <% end %>
+        </ul>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <% form.get_form_sequence.each do |index| %>
+          <% if form.valid_answer?(answered_questions, index) %>
+            <% answer_index = form.get_answer_index(answered_questions, index) %>
+            <div class="form-group w-100 mb-2">
+              <p><strong><%= form.get_numbered_question_string(index) %></strong></p>
+              <p><%= form.get_answer_string_with_score(index, answer_index) %></p>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

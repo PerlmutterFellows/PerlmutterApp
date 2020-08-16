@@ -1,0 +1,31 @@
+<div class="container mt-2 mb-2">
+  <%= render 'devise/registrations/users_navigation', current_page: :users %>
+  <%= render 'shared/page_header', path: user_new_path, page_title: I18n.t("global.menu.users") %>
+  <%= render 'devise/registrations/user_filters' %>
+</div>
+
+<!--If there are users-->
+<% if @users.present? %>
+  <!-- Only viewable on desktop and larger-->
+  <div class="w-90 mx-auto d-none d-lg-block">
+    <%= render 'devise/registrations/users_table', users: @users %>
+  </div>
+  <!-- Only viewable below desktop -->
+
+  <div class="d-lg-none d-xl-none">
+    <div class="row no-gutters">
+      <% @users.each do |user| %>
+        <%= render 'devise/registrations/user_card', user: user %>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <div class="container">
+    <%= render 'shared/empty_notice', condition: @users.count == 0,
+               if_prompt: I18n.t('global.missing_input', types: t('global.menu.users').downcase),
+               else_prompt: "",
+               sub_condition: moderator_signed_in?(current_user),
+               sub_if_prompt: I18n.t('global.missing_input_admin_prompt'),
+               sub_else_prompt: I18n.t('global.missing_input_user_prompt') %>
+  </div>
+<% end %>

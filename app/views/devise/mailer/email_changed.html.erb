@@ -1,0 +1,7 @@
+<p><%= I18n.t('devise.mailer.intro_prompt', name: @resource.first_name, organization_name: I18n.t('config.organization_name')) %></p>
+
+<% if @resource.try(:unconfirmed_email?) %>
+  <p><%= I18n.t('devise.mailer.email_changed.body', state: I18n.t('devise.mailer.in_progress'), email: @resource.unconfirmed_email) %></p>
+<% else %>
+  <p><%= I18n.t('devise.mailer.email_changed.body', state: I18n.t('devise.mailer.complete'), email: @resource.email) %></p>
+<% end %>
