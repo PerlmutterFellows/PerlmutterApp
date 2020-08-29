@@ -114,7 +114,7 @@ en:
     input_user_failed: "This phone number is not tied to an account. Please register in app and try again."
     user_confirmation_prompt: "Respond %{yes} to confirm your interest in notifications, %{no} to cancel."
     new_event: "New %{type}:\n%{params}%{prompt}"
-    updated_event: "%{type} updated:\n%{params}%{prompt}"
+    updated_event: "%{type} update:\n%{params}%{prompt}"
     deleted_event: "%{type} deleted:\n%{params}"
     new_prompt: "Respond %{id}%{yes} to confirm your attendance, %{id}%{no} to decline."
     updated_prompt: "If you haven't already, respond %{id}%{yes} to confirm your attendance, %{id}%{no} to decline."

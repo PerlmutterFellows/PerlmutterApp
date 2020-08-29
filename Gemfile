@@ -62,6 +62,7 @@ gem "tty-link"
 gem "tty-spinner"
 gem "platform-api"
 gem "git"
+gem "rename"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

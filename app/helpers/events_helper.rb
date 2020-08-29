@@ -200,23 +200,22 @@ module EventsHelper
   # contact - a contact type
   def handle_send_publish_event_notification(event, user, status, contact)
     # If a new contact, send as new event and update their state
+    success = true
     if status.non_message? || status.not_delivered?
       if contact == "email"
         begin
           UserMailer.event_create_email(user, event).deliver
-          set_new_state_after_notify(true, event, status)
         rescue StandardError => e
-          set_new_state_after_notify(false, event, status)
+          success = false
         end
       else
         if contact == "text"
           prompt = (event.event? ? t('texts.new_prompt', id: event.id, yes: t('texts.text_yes'), no: t('texts.text_no')) : "")
           success, error = TwilioHandler.new.send_text(user, t('texts.new_event', params: get_event_text_params(event, false), type: event.eventType, prompt: prompt))
         else
-          prompt = (event.event? ? t('texts.new_prompt', id: event.id.to_s.chars.join(' '), yes: "#{t('texts.call_yes')} #{t('texts.pound')}", no: "#{t('texts.call_no')} #{t('texts.pound')}") : "")
+          prompt = (event.event? ? t('texts.new_prompt', id: event.id.to_s.chars.join(' '), yes: " #{t('texts.call_yes')} #{t('texts.pound')}", no: " #{t('texts.call_no')} #{t('texts.pound')}") : "")
           success, error = TwilioHandler.new.send_call(user, t('texts.new_event', params: get_event_text_params(event, false), type: event.eventType, prompt: prompt))
         end
-        set_new_state_after_notify(success, event, status)
       end
       # Otherwise, they aren't new, don't update their state, send as updated event
     else
@@ -227,11 +226,12 @@ module EventsHelper
           prompt = (event.event? ? t('texts.updated_prompt', id: event.id, yes: t('texts.text_yes'), no: t('texts.text_no')) : "")
           TwilioHandler.new.send_text(user, t('texts.updated_event', params: get_event_text_params(event, false), type: event.eventType.capitalize, prompt: prompt))
         else
-          prompt = (event.event? ? t('texts.updated_prompt', id: event.id.to_s.chars.join(' '), yes: "#{t('texts.call_yes')} #{t('texts.pound')}", no: "#{t('texts.call_no')} #{t('texts.pound')}") : "")
+          prompt = (event.event? ? t('texts.updated_prompt', id: event.id.to_s.chars.join(' '), yes: " #{t('texts.call_yes')} #{t('texts.pound')}", no: " #{t('texts.call_no')} #{t('texts.pound')}") : "")
           TwilioHandler.new.send_call(user, t('texts.updated_event', params: get_event_text_params(event, false), type: event.eventType.capitalize, prompt: prompt))
         end
       end
     end
+    success
   end
 
   ##
@@ -243,15 +243,17 @@ module EventsHelper
     if !user.confirmed? && !user.confirmed_text? && !user.confirmed_call?
       status.not_delivered!
     else
+      success = true
       if user.use_email? && user.confirmed? && event.use_email?
-        handle_send_publish_event_notification(event, user, status, "email")
+        success = handle_send_publish_event_notification(event, user, status, "email")
       end
       if user.use_text? && user.confirmed_text? && event.use_text?
-        handle_send_publish_event_notification(event, user, status, "text")
+        success = handle_send_publish_event_notification(event, user, status, "text")
       end
       if user.use_call? && user.confirmed_call? && event.use_call?
-        handle_send_publish_event_notification(event, user, status, "call")
+        success = handle_send_publish_event_notification(event, user, status, "call")
       end
+      set_new_state_after_notify(success, event, status)
     end
   end
 

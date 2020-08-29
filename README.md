@@ -1,4 +1,4 @@
-![Perlmutter App](https://raw.githubusercontent.com/PerlmutterFellows/PerlmutterSummer2020/staging/app/assets/images/perlmutterapp.gif)
+![Perlmutter App](https://raw.githubusercontent.com/PerlmutterFellows/PerlmutterApp/staging/app/assets/images/perlmutterapp.gif)
 # Perlmutter App
 An application developed to help not for profits maintain communication with constituents in the post-pandemic environment.
 
@@ -29,14 +29,15 @@ Installation/run instructions:
    
 Organization initializer instructions (required steps in bold, all credentials requested will be prompted to create new/sign up for if you don't have):
 1) **Provide your organization's name & description**
-2) Provide your organization's colors
-3) Provide your organization's logo or use one of our presets
-4) **Provide your organization's email credentials to power the app's email capabilities**
-5) **Provide your Twilio credentials to power the app's phone capabilities**
-6) Create an FAQ for your organization
-7) Create a score form for your organization
-8) **Provide details to set your organization's admin user login for the app**
-9) **Provide your Heroku credentials to deploy the app**
+2) Provide your organization's preferred website for the app
+3) Provide your organization's colors
+4) Provide your organization's logo or use one of our presets
+5) **Provide your organization's email credentials to power the app's email capabilities**
+6) **Provide your Twilio credentials to power the app's phone capabilities**
+7) Create an FAQ for your organization
+8) Create a score form for your organization
+9) **Provide details to set your organization's admin user login for the app**
+10) **Provide your Heroku credentials to deploy the app**
 
 ## Development
 Want to develop the Perlmutter App?

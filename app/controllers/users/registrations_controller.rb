@@ -115,7 +115,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       user.text_confirmed_at = nil
     end
     if user.update_attributes(user_params)
-      if user_params[:email] != initial_email
+      if user_params[:email] != initial_email && params[:id].to_s == current_user.id.to_s
         sign_out user
         path = root_path
       end

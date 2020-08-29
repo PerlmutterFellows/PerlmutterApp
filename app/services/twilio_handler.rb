@@ -87,12 +87,13 @@ class TwilioHandler
       voice = 'Polly.Matthew-Neural'
     end
     begin
+    message_twiml = message.lines.map { |line| "<Say voice='#{voice}'>#{line}</Say>" }.join()
     client.calls.create(
           to: user.phone_number,
           from: I18n.t('config.phone.phone_number'),
           twiml: "<Response>
                       <Gather finishOnKey='#' timeout='30' action='#{callback}' method='POST'>
-                        <Say voice='#{voice}'>#{message}</Say>
+                        #{message_twiml}
                       </Gather>
                     <Say voice='#{voice}'>#{I18n.t('texts.dialer_failed')}</Say>
                   </Response>"
@@ -119,7 +120,9 @@ class TwilioHandler
     begin
       voice_response = Twilio::TwiML::VoiceResponse.new do |r|
         r.gather(finish_on_key: '#', timeout: 30, action: callback, method: 'POST') do |gather|
-          gather.say(voice: voice, message: message)
+          message.lines.each do |line|
+            gather.say(voice: voice, message: line)
+          end
           gather.say(voice: voice, message: I18n.t('texts.confirmation',
                                 name: name,
                                 organization_name: I18n.t('config.organization_name'),

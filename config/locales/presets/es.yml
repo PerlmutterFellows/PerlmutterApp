@@ -114,7 +114,7 @@ es:
     input_user_failed: "Este número de teléfono no está vinculado a una cuenta. Regístrese en la aplicación e intente nuevamente."
     user_confirmation_prompt: "Responda %{yes} para confirmar su interés en las notificaciones, %{no} para cancelar."
     new_event: "Nuevo %{type}:\n%{params}%{prompt}"
-    updated_event: "%{type} actualizado:\n%{params}%{prompt}"
+    updated_event: "Actualización de %{type}:\n%{params}%{prompt}"
     deleted_event: "%{type} eliminado:\n%{params}"
     new_prompt: "Responda %{id} %{yes} para confirmar su asistencia, %{id} %{no} para rechazar."
     updated_prompt: "Si aún no lo ha hecho, responda %{id} %{yes} para confirmar su asistencia, %{id} %{no} para rechazar."

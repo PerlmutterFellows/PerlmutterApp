@@ -7,9 +7,9 @@ test:
 staging:
   adapter: redis
   url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
-  channel_prefix: PerlmutterSummer2020_staging
+  channel_prefix: PerlmutterApp_staging
 
 production:
   adapter: redis
   url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
-  channel_prefix: PerlmutterSummer2020_production
+  channel_prefix: PerlmutterApp_production

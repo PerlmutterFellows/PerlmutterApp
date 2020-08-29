@@ -105,6 +105,7 @@ def configure_information
   if @args.empty?
     @config["config"]["organization_name"] = @prompt.ask(prompt_box("What is your organization\'s name?"), required: true)
     @config["config"]["organization_description"] = @prompt.ask(prompt_box("What is your organization\'s description?"))
+    @config["config"]["organization_domain"] = @prompt.ask(prompt_box("What is your organization\'s custom URL that you would like to host the app at? (ex. demo.perlmutterapp.com) Leave blank to use the default instead."))
     prefs = @prompt.multi_select(prompt_box("Please select contact preferences to configure for your users to view:"), %W[email phone facebook twitter instagram website])
     if prefs.include? "email"
       @config["config"]["contact"]["email"] = @prompt.ask(prompt_box("What is your contact email?"), default: @config["config"]["contact"]["email"], required: true) { |q| q.validate :email, "Invalid email" }
@@ -129,6 +130,10 @@ def configure_information
     description = get_argument_value("org_desc", false, nil)
     unless description.nil?
       @config["config"]["organization_description"] = description
+    end
+    domain = get_argument_value("org_domain", false, nil)
+    unless domain.nil?
+      @config["config"]["organization_domain"] = domain
     end
     email = get_argument_value("org_email", false, nil)
     unless email.nil?
@@ -552,8 +557,12 @@ end
 
 # Helper to get Heroku app URL
 def get_heroku_app_url(name)
-  url_str = @cmd.run("heroku info #{name}").out.lines[-1]
-  url_str[url_str.rindex(' ')+1..-1].strip
+  if @config["config"]["organization_domain"]
+    @config["config"]["organization_domain"]
+  else
+    url_str = @cmd.run("heroku info #{name}").out.lines[-1]
+    url_str[url_str.rindex(' ')+1..-1].strip
+  end
 end
 
 # Helper to strip a URL as needed downstream
@@ -587,6 +596,15 @@ def deploy_heroku(name, app_url)
       @cmd.run("heroku addons:create heroku-redis:hobby-dev")
     rescue TTY::Command::ExitError
       error_box("App #{name} failed. Please ensure that you are on the Hobby Dev payment tier or above.")
+      raise ArgumentError
+    end
+  end
+  unless @cmd.run("heroku domains -a #{name}").out.include? stripped_url
+    begin
+      @cmd.run("heroku domains:add #{stripped_url} -a #{name}")
+    rescue TTY::Command::ExitError
+      error_box("Setting custom URL #{stripped_url} failed.")
+      raise ArgumentError
     end
   end
 
@@ -637,11 +655,25 @@ def configure_organization
   success_box("Your app is now configured!")
 end
 
+def get_heroku_dns_target(name, app_url)
+  output = @cmd.run("heroku domains -a #{name}").out
+  domain_line = output.lines.detect { |line| line.include? app_url }
+  if domain_line.nil?
+    nil
+  else
+    domain_line[domain_line.rindex('CNAME')+'CNAME'.length..-1].strip
+  end
+end
+
 # Deploys an organization's app
 def deploy_organization
   name, app_url = configure_heroku
   log_url = "https://dashboard.heroku.com/apps/#{name}/logs"
   success_box("Your app #{name} is now deployed at #{app_url}! If you encounter any issues, check the logs at #{log_url}.")
+  dns_target = get_heroku_dns_target(name, app_url)
+  unless dns_target.nil?
+    box("NOTE: Since you configured a custom host URL (#{app_url}), you must set your URL's DNS settings to point to #{dns_target} before using the app. You can find more info #{TTY::Link.link_to("here.", "http://url.perlmutterapp.com/custom-url")}")
+  end
 end
 
 # Adds an arg to set of args if converted properly
@@ -671,6 +703,7 @@ def configure_args
     opt.on('-d', '--deploy STRING', String) { |arg| push_arg_if_present( "deploy", arg, "boolean") }
     opt.on('-on', '--org_name STRING', String) { |arg| push_arg_if_present( "org_name", arg, "string") }
     opt.on('-od', '--org_desc STRING', String) { |arg| push_arg_if_present( "org_desc", arg, "string") }
+    opt.on('-odo', '--org_domain STRING', String) { |arg| push_arg_if_present( "org_domain", arg, "string") }
     opt.on('-oe', '--org_email STRING', String) { |arg| push_arg_if_present( "org_email", arg, "string") }
     opt.on('-op', '--org_phone STRING', String) { |arg| push_arg_if_present( "org_phone", arg, "string") }
     opt.on('-of', '--org_facebook STRING', String) { |arg| push_arg_if_present( "org_facebook", arg, "string") }
@@ -715,7 +748,7 @@ def initialize_organization
       when "Deploy"
         begin
           yaml = YAML.load(File.open("config/locales/org/config/en.yml", "rb").read)
-          @config["config"]["organization_name"] = yaml["en"]["config"]["organization_name"]
+          @config["config"] = yaml["en"]["config"]
           deploy_organization
         rescue StandardError
           error_box("Failed to begin deploying from your config. Please verify its validity and re-run, and if not, run the configure option and start anew.")
@@ -728,8 +761,6 @@ def initialize_organization
       error_box("Denied agreement, please re-run and accept to proceed.")
     end
   else
-    puts(@args["faq"])
-    puts(@args["form"])
     box("Ran with arguments, proceeding to invoke them silently...")
     configure_enabled = get_argument_value("configure", false, false)
     if configure_enabled

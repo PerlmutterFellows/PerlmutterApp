@@ -1,5 +1,5 @@
 {
-  "name": "PerlmutterSummer2020",
+  "name": "PerlmutterApp",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
