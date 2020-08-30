@@ -558,8 +558,11 @@ end
 # Helper to get Heroku app URL
 def get_heroku_app_url(name)
   if @config["config"]["organization_domain"]
-    @config["config"]["organization_domain"]
+    # Establishes a uniform prefix of http:// for whatever domain inputted
+    domain_no_prefix = get_stripped_url(@config["config"]["organization_domain"], true)
+    "http://#{domain_no_prefix}"
   else
+    # Gets domain from Heroku
     url_str = @cmd.run("heroku info #{name}").out.lines[-1]
     url_str[url_str.rindex(' ')+1..-1].strip
   end
@@ -615,6 +618,7 @@ def deploy_heroku(name, app_url)
   @cmd.run("git commit -m '#{name}'")
   @cmd.run("git push -f heroku #{branch_name}:main")
   deploy_loader.stop
+  stripped_url
 end
 
 # Configures Heroku based on an org's config and deploys
@@ -632,7 +636,7 @@ def configure_heroku
   name = get_heroku_app_name(name)
   app_url = get_heroku_app_url(name)
   success_prompt("Heroku app configured. Beginning to deploy...")
-  deploy_heroku(name, app_url)
+  app_url = deploy_heroku(name, app_url)
   @cmd.run("heroku run:detached rake db:migrate -a #{name}")
   db_loader = loader("Almost there! Configuring database of app...", 60)
   db_loader.stop
@@ -672,7 +676,7 @@ def deploy_organization
   success_box("Your app #{name} is now deployed at #{app_url}! If you encounter any issues, check the logs at #{log_url}.")
   dns_target = get_heroku_dns_target(name, app_url)
   unless dns_target.nil?
-    box("NOTE: Since you configured a custom host URL (#{app_url}), you must set your URL's DNS settings to point to #{dns_target} before using the app. You can find more info #{TTY::Link.link_to("here.", "http://url.perlmutterapp.com/custom-url")}")
+    box("NOTE: Since you configured a custom host URL (#{app_url}), you must set your URL's DNS settings to point to #{dns_target} before using the app if you haven't already. You can find more info #{TTY::Link.link_to("here.", "http://url.perlmutterapp.com/custom-url")}")
   end
 end
 
