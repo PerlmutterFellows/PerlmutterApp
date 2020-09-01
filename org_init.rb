@@ -661,7 +661,7 @@ end
 
 def get_heroku_dns_target(name, app_url)
   output = @cmd.run("heroku domains -a #{name}").out
-  domain_line = output.lines.detect { |line| line.include? app_url }
+  domain_line = output.lines.detect { |line| line.include?(app_url) && !line.include?("herokuapp.com") }
   if domain_line.nil?
     nil
   else
