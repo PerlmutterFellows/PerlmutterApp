@@ -111,7 +111,7 @@ module UsersHelper
   def map_user_subscores(user)
     map = user.subscores.pluck(:name).uniq.map do |name|
       {name: name.capitalize,
-       data: Subscore.where(name: name).order(:created_at).map { |score| [Date.new(score.created_at.year, score.created_at.month, score.created_at.day).to_s, score[:score].round()] }
+       data: user.subscores.where(name: name).order(:created_at).map { |score| [Date.new(score.created_at.year, score.created_at.month, score.created_at.day).to_s, score[:score].round()] }
       }
     end
     return map
