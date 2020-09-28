@@ -47,22 +47,26 @@ class TwilioHandler
     [valid_number, error]
   end
 
-  def send_text(user, message)
+  def send_text_direct(phone, message)
     success = true
     error = nil
     begin
-    client.api.account.messages.create(
-        to: user.phone_number,
-        from: I18n.t('config.phone.phone_number'),
-        body: force_twilio_ucs2_encoding(message)
-    )
-    user.text_confirmation_sent_at = DateTime.now
+      client.api.account.messages.create(
+          to: phone,
+          from: I18n.t('config.phone.phone_number'),
+          body: force_twilio_ucs2_encoding(message)
+      )
     rescue StandardError => e
       success = false
       error = e.message.squish
       puts("Twilio Send Response Error: #{error}")
     end
     [success, error]
+  end
+
+  def send_text(user, message)
+    user.text_confirmation_sent_at = DateTime.now
+    send_text_direct(user.phone_number, message)
   end
 
   def send_respond_text(message)

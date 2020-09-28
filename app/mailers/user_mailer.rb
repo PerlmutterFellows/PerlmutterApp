@@ -21,6 +21,16 @@ class UserMailer < Devise::Mailer
     end
   end
 
+  def contact_org(subject, body, name, method, emails)
+    @subject = subject
+    @body = body
+    @name = name
+    @method = method
+    I18n.with_locale(I18n.locale) do
+      mail(from: I18n.t('config.smtp.smtp_username'), to: emails, subject: @subject)
+    end
+  end
+
   def event_create_email(user, event)
     base_mail(user, event, "#{I18n.t("global.new")} #{event.eventType}: #{event.title}")
   end

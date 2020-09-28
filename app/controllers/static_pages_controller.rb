@@ -26,16 +26,19 @@ class StaticPagesController < ApplicationController
   end
 
   def contact_send
-    if !params[:text].blank?
-      body = CGI.escape("#{I18n.t("global.subject")}: #{params[:subject]}\n#{I18n.t("global.message")}: #{params[:body]}")
-      url = "sms:#{I18n.t('config.contact')[:phone]}?&body=#{body}"
-    else
-      url = "mailto:#{I18n.t('config.contact')[:email]}?subject=#{params[:subject]}&body=#{params[:body]}"
+    success = true
+    if !params[:email].blank?
+      emails = []
+      emails.push(I18n.t('config.contact.email'))
+      UserMailer.contact_org(params[:subject], params[:body], params[:name], params[:contact], emails).deliver
+      success, error = TwilioHandler.new.send_text_direct(I18n.t("config.contact.phone"), TextHandler.new.get_contact_message(params[:subject], params[:body], params[:name], params[:contact], false))
     end
-    respond_to do |format|
+    if success
       flash.notice = I18n.t("global.model_created", type: I18n.t("global.message").downcase)
-      format.js { render js: "window.top.open('#{url}', '_blank'); location.reload();" }
+    else
+      flash.alert = I18n.t("global.error_message", type: I18n.t("global.message").downcase)
     end
+    redirect_to contact_path
   end
 
   def form

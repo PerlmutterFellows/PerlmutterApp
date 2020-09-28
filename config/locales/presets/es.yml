@@ -79,8 +79,7 @@ es:
     are_you_sure: "¿Estás seguro?"
   static_pages:
     contact:
-      submit_text: "Enviar texto"
-      submit_email: "Enviar correo electrónico"
+      method: "¿Cómo podemos responderte?"
     faq:
       page_title: "Preguntas más frecuentes"
       page_description: "Como podemos ayudarte?"

@@ -57,7 +57,7 @@
       <div class="tab" data-target="tabs.panel">
         <%= bootstrap_form_tag(url: users_create_path) do |f| %>
           <h3 class="font-weight-light mb-1"><%= t '.csv' %></h3>
-          <h4 class="font-weight-lighter"><%= link_to t('.csv_prompt'), '/sample.csv' %></h4>
+          <h4 class="font-weight-lighter"><%= link_to t('.csv_prompt'), '/sample.csv', download: '' %></h4>
           <hr />
           <div data-controller="upload">
           <%= f.file_field :file, data: {target: 'upload.file', action: 'change->upload#update'}, accept: '.csv'%>

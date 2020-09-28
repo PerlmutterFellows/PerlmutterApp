@@ -50,8 +50,6 @@ gem 'groupdate'
 # gem 'image_processing', '~> 1.2'
 # Use Faker for seeded records
 gem 'faker'
-# For verifying mobile browser for contact
-gem 'browser'
 # For the initializer
 gem "tty-prompt"
 gem "tty-command"
@@ -63,6 +61,7 @@ gem "tty-spinner"
 gem "platform-api"
 gem "git"
 gem "rename"
+gem "rmagick"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

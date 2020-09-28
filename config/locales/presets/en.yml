@@ -79,8 +79,7 @@ en:
     are_you_sure: "Are you sure?"
   static_pages:
     contact:
-      submit_text: "Submit Text"
-      submit_email: "Submit Email"
+      method: "How can we respond to you?"
     faq:
       page_title: "Frequently Asked Questions (FAQ)"
       page_description: "How can we help you?"

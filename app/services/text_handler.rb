@@ -130,4 +130,21 @@ class TextHandler
     "#{social_media}".html_safe
   end
 
+  ##
+  # Returns a parsed payload of a message, separated by the proper separator for the contact method
+  # uses_email - whether this result will be sent in email or a text
+  def get_contact_message(subject, body, name, method, uses_email)
+    separator = (uses_email ? "<br>" : "\n")
+    title_text = "#{I18n.t("events.title")}: #{subject}#{separator}"
+    if uses_email
+      title_text = "<h1>#{title_text}</h1>"
+    end
+    message_text = "#{I18n.t("events.message")}: #{body}#{separator}"
+    name_text = "#{I18n.t("groups.name")}: #{name}#{separator}"
+    method_text = "#{I18n.t("static_pages.contact.method")}: #{method}#{separator}"
+    "#{title_text}"\
+    "#{message_text}"\
+    "#{name_text}"\
+    "#{method_text}"
+  end
 end

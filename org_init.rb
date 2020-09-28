@@ -13,6 +13,7 @@ require "git"
 require "yaml"
 require "json"
 require "optparse"
+require "rmagick"
 
 public
 
@@ -36,6 +37,7 @@ def wrap(body)
   sentences.join("\n")
 end
 
+# Output text with loader for terminal display
 def loader(body, time)
   pastel = Pastel.new
   spinner = TTY::Spinner.new(pastel.blue(":spinner :text :spinner "), format: :dots_2)
@@ -201,11 +203,23 @@ def configure_colors
   end
 end
 
+# Generate favicon images from logo SVG
+def write_png_from_svg(input, output, width, height)
+  success = true
+  begin
+    Magick::Image.read(input).first.resize(width, height).write(output)
+  rescue
+    success = false
+  end
+  success
+end
+
 # Configure app logo and favicon
 def configure_logo
   actual_path = "app/javascript/svgs/logo.svg"
   favicon_fallback_path = "app/assets/images/perlmutterapp.svg"
   favicon_path = "app/assets/images/favicon.svg"
+  apple_icon_path = "app/assets/images/favicon.png"
   webpack_path = "media/svgs/logo.svg"
   if @args.empty?
     while @config["config"]["logo_path"].nil?
@@ -264,6 +278,7 @@ def configure_logo
       TTY::File.copy_file(favicon_fallback_path, favicon_path)
     end
   end
+  write_png_from_svg(favicon_path, apple_icon_path, 180, 180)
 end
 
 # Helper for testing SMTP settings
@@ -607,6 +622,16 @@ def deploy_heroku(name, app_url)
       @cmd.run("heroku domains:add #{stripped_url} -a #{name}")
     rescue TTY::Command::ExitError
       error_box("Setting custom URL #{stripped_url} failed.")
+      raise ArgumentError
+    end
+  end
+  unless @cmd.run("heroku buildpacks -a #{name}").out.include? "apt"
+    begin
+      @cmd.run("heroku buildpacks:add --index 1 https://github.com/heroku/heroku-buildpack-apt.git -a #{name}")
+      @cmd.run("heroku buildpacks:add --index 2 heroku/ruby -a #{name}")
+      @cmd.run("heroku config:set GI_TYPELIB_PATH=/app/.apt/usr/lib/x86_64-linux-gnu/girepository-1.0") rescue TTY::Command::ExitError
+    rescue TTY::Command::ExitError
+      error_box("Setting buildpacks failed.")
       raise ArgumentError
     end
   end
