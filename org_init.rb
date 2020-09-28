@@ -109,6 +109,9 @@ def configure_information
     @config["config"]["organization_description"] = @prompt.ask(prompt_box("What is your organization\'s description?"))
     @config["config"]["organization_domain"] = @prompt.ask(prompt_box("What is your organization\'s custom URL that you would like to host the app at? (ex. demo.perlmutterapp.com) Leave blank to use the default instead."))
     prefs = @prompt.multi_select(prompt_box("Please select contact preferences to configure for your users to view:"), %W[email phone facebook twitter instagram website])
+    if prefs.count != 0
+      @config["config"]["contact"]["description"] = @prompt.ask(prompt_box("Enter a description for your contact page:"), default: "Fill out the form to send us a message!", required: true)
+    end
     if prefs.include? "email"
       @config["config"]["contact"]["email"] = @prompt.ask(prompt_box("What is your contact email?"), default: @config["config"]["contact"]["email"], required: true) { |q| q.validate :email, "Invalid email" }
     end
@@ -136,6 +139,10 @@ def configure_information
     domain = get_argument_value("org_domain", false, nil)
     unless domain.nil?
       @config["config"]["organization_domain"] = domain
+    end
+    contact_description = get_argument_value("contact_desc", false, nil)
+    unless contact_description.nil?
+      @config["config"]["contact"]["description"] = contact_description
     end
     email = get_argument_value("org_email", false, nil)
     unless email.nil?
@@ -732,6 +739,7 @@ def configure_args
     opt.on('-d', '--deploy STRING', String) { |arg| push_arg_if_present( "deploy", arg, "boolean") }
     opt.on('-on', '--org_name STRING', String) { |arg| push_arg_if_present( "org_name", arg, "string") }
     opt.on('-od', '--org_desc STRING', String) { |arg| push_arg_if_present( "org_desc", arg, "string") }
+    opt.on('-cd', '--contact_desc STRING', String) { |arg| push_arg_if_present( "contact_desc", arg, "string") }
     opt.on('-odo', '--org_domain STRING', String) { |arg| push_arg_if_present( "org_domain", arg, "string") }
     opt.on('-oe', '--org_email STRING', String) { |arg| push_arg_if_present( "org_email", arg, "string") }
     opt.on('-op', '--org_phone STRING', String) { |arg| push_arg_if_present( "org_phone", arg, "string") }

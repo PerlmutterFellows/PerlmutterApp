@@ -67,6 +67,7 @@ en:
     error_email: "must have an email!"
     error_phone: "must have a phone number!"
     error_email_or_phone: "must have an email or a phone number!"
+    error_length: "exceeded max length of %{length} characters!"
     twilio_down: "Failed to call an internal service, this usually means the organization's account is paused. Please contact the administrator if this persists."
     invalid_input: "Invalid input. Please try again."
     invalid_action: "This action cannot be completed. Please try another selection or try again later."
