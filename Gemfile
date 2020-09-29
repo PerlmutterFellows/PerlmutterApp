@@ -1,99 +1,392 @@
-source 'https://rubygems.org'
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+GEM
+  remote: https://rubygems.org/
+  specs:
+    actioncable (6.0.3.2)
+      actionpack (= 6.0.3.2)
+      nio4r (~> 2.0)
+      websocket-driver (>= 0.6.1)
+    actionmailbox (6.0.3.2)
+      actionpack (= 6.0.3.2)
+      activejob (= 6.0.3.2)
+      activerecord (= 6.0.3.2)
+      activestorage (= 6.0.3.2)
+      activesupport (= 6.0.3.2)
+      mail (>= 2.7.1)
+    actionmailer (6.0.3.2)
+      actionpack (= 6.0.3.2)
+      actionview (= 6.0.3.2)
+      activejob (= 6.0.3.2)
+      mail (~> 2.5, >= 2.5.4)
+      rails-dom-testing (~> 2.0)
+    actionpack (6.0.3.2)
+      actionview (= 6.0.3.2)
+      activesupport (= 6.0.3.2)
+      rack (~> 2.0, >= 2.0.8)
+      rack-test (>= 0.6.3)
+      rails-dom-testing (~> 2.0)
+      rails-html-sanitizer (~> 1.0, >= 1.2.0)
+    actiontext (6.0.3.2)
+      actionpack (= 6.0.3.2)
+      activerecord (= 6.0.3.2)
+      activestorage (= 6.0.3.2)
+      activesupport (= 6.0.3.2)
+      nokogiri (>= 1.8.5)
+    actionview (6.0.3.2)
+      activesupport (= 6.0.3.2)
+      builder (~> 3.1)
+      erubi (~> 1.4)
+      rails-dom-testing (~> 2.0)
+      rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    activejob (6.0.3.2)
+      activesupport (= 6.0.3.2)
+      globalid (>= 0.3.6)
+    activemodel (6.0.3.2)
+      activesupport (= 6.0.3.2)
+    activerecord (6.0.3.2)
+      activemodel (= 6.0.3.2)
+      activesupport (= 6.0.3.2)
+    activestorage (6.0.3.2)
+      actionpack (= 6.0.3.2)
+      activejob (= 6.0.3.2)
+      activerecord (= 6.0.3.2)
+      marcel (~> 0.3.1)
+    activesupport (6.0.3.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+      zeitwerk (~> 2.2, >= 2.2.2)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
+    ansi (1.5.0)
+    bcrypt (3.1.15)
+    bindex (0.8.1)
+    bootsnap (1.4.7)
+      msgpack (~> 1.0)
+    bootstrap_form (4.5.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
+    builder (3.2.4)
+    byebug (11.1.3)
+    cable_ready (4.3.0)
+      rails (>= 5.2)
+    capybara (3.33.0)
+      addressable
+      mini_mime (>= 0.1.3)
+      nokogiri (~> 1.8)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      regexp_parser (~> 1.5)
+      xpath (~> 3.2)
+    chartkick (3.4.0)
+    childprocess (3.0.0)
+    concurrent-ruby (1.1.7)
+    crass (1.0.6)
+    devise (4.7.2)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 4.1.0)
+      responders
+      warden (~> 1.2.3)
+    diff-lcs (1.4.4)
+    dotenv (2.7.6)
+    dotenv-rails (2.7.6)
+      dotenv (= 2.7.6)
+      railties (>= 3.2)
+    equatable (0.6.1)
+    erubi (1.9.0)
+    erubis (2.7.0)
+    excon (0.76.0)
+    faker (2.13.0)
+      i18n (>= 1.6, < 2)
+    faraday (1.0.1)
+      multipart-post (>= 1.2, < 3)
+    ffi (1.13.1)
+    font-awesome-sass (5.13.0)
+      sassc (>= 1.11)
+    git (1.7.0)
+      rchardet (~> 1.8)
+    globalid (0.4.2)
+      activesupport (>= 4.2.0)
+    gravatar_image_tag (1.2.0)
+    groupdate (5.1.0)
+      activesupport (>= 5)
+    heroics (0.1.1)
+      erubis (~> 2.0)
+      excon
+      moneta
+      multi_json (>= 1.9.2)
+    hiredis (0.6.3)
+    i18n (1.8.5)
+      concurrent-ruby (~> 1.0)
+    inline_svg (1.7.1)
+      activesupport (>= 3.0)
+      nokogiri (>= 1.6)
+    jbuilder (2.10.0)
+      activesupport (>= 5.0.0)
+    jwt (2.2.1)
+    kaminari (1.2.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
+      actionview
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
+      activerecord
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
+    listen (3.1.5)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
+    loofah (2.6.0)
+      crass (~> 1.0.2)
+      nokogiri (>= 1.5.9)
+    mail (2.7.1)
+      mini_mime (>= 0.1.1)
+    marcel (0.3.3)
+      mimemagic (~> 0.3.2)
+    method_source (1.0.0)
+    mimemagic (0.3.5)
+    mini_mime (1.0.2)
+    mini_portile2 (2.4.0)
+    minitest (5.14.1)
+    minitest-rails (6.0.1)
+      minitest (~> 5.10)
+      railties (~> 6.0.0)
+    minitest-reporters (1.4.2)
+      ansi
+      builder
+      minitest (>= 5.0)
+      ruby-progressbar
+    moneta (1.0.0)
+    msgpack (1.3.3)
+    multi_json (1.15.0)
+    multipart-post (2.1.1)
+    necromancer (0.5.1)
+    ngrok-tunnel (2.1.1)
+    nio4r (2.5.2)
+    nokogiri (1.10.10)
+      mini_portile2 (~> 2.4.0)
+    orm_adapter (0.5.0)
+    pastel (0.7.4)
+      equatable (~> 0.6)
+      tty-color (~> 0.5)
+    pg (1.2.3)
+    platform-api (3.0.0)
+      heroics (~> 0.1.1)
+      moneta (~> 1.0.0)
+      rate_throttle_client (~> 0.1.0)
+    public_suffix (4.0.5)
+    puma (4.3.5)
+      nio4r (~> 2.0)
+    rack (2.2.3)
+    rack-proxy (0.6.5)
+      rack
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
+    rails (6.0.3.2)
+      actioncable (= 6.0.3.2)
+      actionmailbox (= 6.0.3.2)
+      actionmailer (= 6.0.3.2)
+      actionpack (= 6.0.3.2)
+      actiontext (= 6.0.3.2)
+      actionview (= 6.0.3.2)
+      activejob (= 6.0.3.2)
+      activemodel (= 6.0.3.2)
+      activerecord (= 6.0.3.2)
+      activestorage (= 6.0.3.2)
+      activesupport (= 6.0.3.2)
+      bundler (>= 1.3.0)
+      railties (= 6.0.3.2)
+      sprockets-rails (>= 2.0.0)
+    rails-dom-testing (2.0.3)
+      activesupport (>= 4.2.0)
+      nokogiri (>= 1.6)
+    rails-html-sanitizer (1.3.0)
+      loofah (~> 2.3)
+    rails-i18n (6.0.0)
+      i18n (>= 0.7, < 2)
+      railties (>= 6.0.0, < 7)
+    railties (6.0.3.2)
+      actionpack (= 6.0.3.2)
+      activesupport (= 6.0.3.2)
+      method_source
+      rake (>= 0.8.7)
+      thor (>= 0.20.3, < 2.0)
+    rake (13.0.1)
+    rate_throttle_client (0.1.2)
+    rb-fsevent (0.10.4)
+    rb-inotify (0.10.1)
+      ffi (~> 1.0)
+    rchardet (1.8.0)
+    redis (4.2.1)
+    regexp_parser (1.7.1)
+    rename (1.0.6)
+      activesupport
+      rails (>= 3.0.0)
+      thor (>= 0.19.1)
+    responders (3.0.1)
+      actionpack (>= 5.0)
+      railties (>= 5.0)
+    rmagick (4.1.2)
+    ruby-progressbar (1.10.1)
+    ruby_dep (1.5.0)
+    rubyzip (2.3.0)
+    sass-rails (6.0.0)
+      sassc-rails (~> 2.1, >= 2.1.1)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
+    selenium-webdriver (3.142.7)
+      childprocess (>= 0.5, < 4.0)
+      rubyzip (>= 1.2.2)
+    spring (2.1.0)
+    spring-watcher-listen (2.0.1)
+      listen (>= 2.7, < 4.0)
+      spring (>= 1.2, < 3.0)
+    sprockets (4.0.2)
+      concurrent-ruby (~> 1.0)
+      rack (> 1, < 3)
+    sprockets-rails (3.2.1)
+      actionpack (>= 4.0)
+      activesupport (>= 4.0)
+      sprockets (>= 3.0.0)
+    stimulus_reflex (3.2.3)
+      cable_ready (>= 4.1.2)
+      nokogiri
+      rack
+      rails (>= 5.2)
+    strings (0.1.8)
+      strings-ansi (~> 0.1)
+      unicode-display_width (~> 1.5)
+      unicode_utils (~> 1.4)
+    strings-ansi (0.2.0)
+    thor (1.0.1)
+    thread_safe (0.3.6)
+    tilt (2.0.10)
+    tty-box (0.5.0)
+      pastel (~> 0.7.2)
+      strings (~> 0.1.6)
+      tty-cursor (~> 0.7)
+    tty-color (0.5.1)
+    tty-command (0.9.0)
+      pastel (~> 0.7.0)
+    tty-config (0.4.0)
+    tty-cursor (0.7.1)
+    tty-file (0.9.0)
+      diff-lcs (~> 1.3)
+      pastel (~> 0.7.2)
+      tty-prompt (~> 0.20)
+    tty-link (0.1.1)
+    tty-prompt (0.21.0)
+      necromancer (~> 0.5.0)
+      pastel (~> 0.7.0)
+      tty-reader (~> 0.7.0)
+    tty-reader (0.7.0)
+      tty-cursor (~> 0.7)
+      tty-screen (~> 0.7)
+      wisper (~> 2.0.0)
+    tty-screen (0.8.1)
+    tty-spinner (0.9.3)
+      tty-cursor (~> 0.7)
+    turbolinks (5.2.1)
+      turbolinks-source (~> 5.2)
+    turbolinks-source (5.2.0)
+    twemoji (3.1.6)
+      nokogiri (~> 1.6)
+    twilio-ruby (5.35.0)
+      faraday (>= 0.9, < 2.0)
+      jwt (>= 1.5, <= 2.5)
+      nokogiri (>= 1.6, < 2.0)
+    tzinfo (1.2.7)
+      thread_safe (~> 0.1)
+    unicode-display_width (1.7.0)
+    unicode_utils (1.4.0)
+    warden (1.2.8)
+      rack (>= 2.0.6)
+    web-console (4.0.4)
+      actionview (>= 6.0.0)
+      activemodel (>= 6.0.0)
+      bindex (>= 0.4.0)
+      railties (>= 6.0.0)
+    webdrivers (4.4.1)
+      nokogiri (~> 1.6)
+      rubyzip (>= 1.3.0)
+      selenium-webdriver (>= 3.0, < 4.0)
+    webpacker (4.2.2)
+      activesupport (>= 4.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 4.2)
+    websocket-driver (0.7.3)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.5)
+    wisper (2.0.1)
+    xpath (3.2.0)
+      nokogiri (~> 1.8)
+    zeitwerk (2.4.0)
 
-ruby '2.7.0'
+PLATFORMS
+  ruby
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.2', '>= 6.0.2.2'
-# For multi-language application
-gem 'rails-i18n'
-# Use postgresql as the database for Active Record
-gem 'pg', '>= 0.18', '< 2.0'
-# Use Puma as the app server
-gem 'puma', '~> 4.1'
-# Use SCSS for stylesheets
-gem 'sass-rails', '>= 6'
-# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 4.0'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.7'
-# Devise is used for user login and authentication
-gem 'devise'
-# DotENV is used to keep track of environmental variables locally for development/test. Heroku config variables are used for production and staging.
-gem 'dotenv-rails'
-# Kaminari is for pagination
-gem 'kaminari'
-# Use Redis adapter to run Action Cable in production
-gem "redis", ">= 4.0", :require => ["redis", "redis/connection/hiredis"]
-gem "hiredis"
-# Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-# Use Twilio for text/call capabilities
-gem 'twilio-ruby', '~> 5.35.0'
-# Use bootstrap_form for nicely formatted forms with error handling
-gem "bootstrap_form", "~> 4.0"
-# For displaying SVG images/icons
-gem 'inline_svg'
-# For adding emoji support
-gem 'twemoji'
-# For icons
-gem 'font-awesome-sass', '~> 5.13.0'
-# For profile photos
-gem 'gravatar_image_tag'
-# For graphing
-gem 'chartkick'
-# For grouping models by time
-gem 'groupdate'
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
-# Use Faker for seeded records
-gem 'faker'
-# For the initializer
-gem "tty-prompt"
-gem "tty-command"
-gem "tty-file"
-gem "tty-box"
-gem "tty-config"
-gem "tty-link"
-gem "tty-spinner"
-gem "platform-api"
-gem "git"
-gem "rename"
-gem "rmagick"
+DEPENDENCIES
+  bootsnap (>= 1.4.2)
+  bootstrap_form (~> 4.0)
+  byebug
+  capybara (>= 2.15)
+  chartkick
+  devise
+  dotenv-rails
+  faker
+  font-awesome-sass (~> 5.13.0)
+  git
+  gravatar_image_tag
+  groupdate
+  hiredis
+  inline_svg
+  jbuilder (~> 2.7)
+  kaminari
+  listen (>= 3.0.5, < 3.2)
+  minitest-rails (~> 6.0.0)
+  minitest-reporters (>= 0.5.0)
+  ngrok-tunnel
+  pg (>= 0.18, < 2.0)
+  platform-api
+  puma (~> 4.1)
+  rails (~> 6.0.2, >= 6.0.2.2)
+  rails-i18n
+  redis (>= 4.0)
+  rename
+  rmagick
+  sass-rails (>= 6)
+  selenium-webdriver
+  spring
+  spring-watcher-listen (~> 2.0.0)
+  stimulus_reflex (~> 3.2)
+  tty-box
+  tty-command
+  tty-config
+  tty-file
+  tty-link
+  tty-prompt
+  tty-spinner
+  turbolinks (~> 5)
+  twemoji
+  twilio-ruby (~> 5.35.0)
+  tzinfo-data
+  web-console (>= 3.3.0)
+  webdrivers
+  webpacker (~> 4.0)
 
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.4.2', require: false
+RUBY VERSION
+   ruby 2.7.0p0
 
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  # For generating fake data for testing
-  gem 'faker'
-end
-
-group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'ngrok-tunnel'
-end
-
-group :test do
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
-  # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers'
-  gem "minitest-rails", "~> 6.0.0"
-  gem 'minitest-reporters', '>= 0.5.0'
-end
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-gem "stimulus_reflex", "~> 3.2"
+BUNDLED WITH
+   2.1.4
