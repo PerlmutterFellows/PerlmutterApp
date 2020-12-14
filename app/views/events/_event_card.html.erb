@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="card-body">
-    <h5 class="card-title"><%= event.title %></h5>
+    <h5 class="card-title"><strong><%= get_event_html_title(event) %></strong></h5>
     <%= get_event_html_body(event, get_attending_counts(event), false) %>
     <div class="no-gutters flex-row d-flex flex-column flex-md-row align-items-md-center align-items-start justify-content-between mt-2">
       <div class="mt-2">

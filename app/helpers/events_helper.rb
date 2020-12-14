@@ -36,7 +36,7 @@ module EventsHelper
   end
 
   def get_event_html_title(event)
-    "#{event.title}".html_safe
+    with_urls("#{event.title}").html_safe
   end
 
   def get_event_html_body(event, attending_count, is_on_show)
@@ -70,10 +70,10 @@ module EventsHelper
            "<p class='card-text'><strong>#{I18n.t("events.description")}:</strong> #{with_urls(event.description)}</p>" :
            ""}
     #{!get_when_text(event).blank? ?
-          "<p class='card-text'><strong>#{I18n.t("events.when")}:</strong> #{get_when_text(event)}</p>" :
+          "<p class='card-text'><strong>#{I18n.t("events.when")}:</strong> #{with_urls(get_when_text(event))}</p>" :
           ""}
     #{!event.location.blank? ?
-          "<p class='card-text'><strong>#{I18n.t("events.where")}:</strong> #{event.location}</p>" :
+          "<p class='card-text'><strong>#{I18n.t("events.where")}:</strong> #{with_urls(event.location)}</p>" :
           ""}
     #{attendance_display_html}
     #{users_html}"
