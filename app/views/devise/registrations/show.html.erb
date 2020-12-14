@@ -22,6 +22,12 @@
           <h3 class="font-weight-bolder"><%= @user.full_name %></h3>
         </div>
       </div>
+      <% if @user.birthday %>
+        <h3 class="font-weight-light mt-4"><%= I18n.t('activerecord.attributes.user.birthday') %></h3>
+        <div class="row no-gutters mt-2">
+          <%= @user.birthday %>
+        </div>
+      <% end %>
       <h3 class="font-weight-light mt-4"><%= I18n.t('users.registrations.show.outreach_methods') %></h3>
       <% if @user.use_email %>
         <div class="row no-gutters mt-2">

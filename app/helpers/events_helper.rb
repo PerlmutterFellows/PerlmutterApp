@@ -1,5 +1,13 @@
 module EventsHelper
 
+  def get_events(model)
+    Kaminari.paginate_array(model.order(:startDate).reverse_order.select {|event| (event.users.exists?(current_user.id) && event.published? && event.use_app?) || current_user.admin? || current_user.moderator?}).page params[:page]
+  end
+
+  def with_urls(text)
+    text.gsub(URI.regexp, '<a class="inline-url" href="\0">\0</a>')
+  end
+
   def user_attending?(event)
     event_status = EventStatus.find_by(event_id: event.id, user_id: current_user.id)
     if event_status.attending?
@@ -59,7 +67,7 @@ module EventsHelper
     end
 
     "#{!event.description.blank? ?
-           "<p class='card-text'><strong>#{I18n.t("events.description")}:</strong> #{event.description}</p>" :
+           "<p class='card-text'><strong>#{I18n.t("events.description")}:</strong> #{with_urls(event.description)}</p>" :
            ""}
     #{!get_when_text(event).blank? ?
           "<p class='card-text'><strong>#{I18n.t("events.when")}:</strong> #{get_when_text(event)}</p>" :

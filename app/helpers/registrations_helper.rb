@@ -69,6 +69,7 @@ module RegistrationsHelper
       user.use_call = row["use_call"]
       user.use_text = row["use_text"]
       user.use_email = row["use_email"]
+      user.birthday = row["birthday"]
 
       if user.password.blank?
         generate_password_by_name(user)
