@@ -5,7 +5,7 @@ module EventsHelper
   end
 
   def with_urls(text)
-    text.gsub(URI.regexp, '<a class="inline-url" href="\0">\0</a>')
+    text.gsub(URI.regexp(["http", "https"]), '<a class="inline-url" href="\0">\0</a>')
   end
 
   def user_attending?(event)
