@@ -28,10 +28,14 @@ class StaticPagesController < ApplicationController
   def contact_send
     success = true
     if !params[:email].blank?
-      emails = []
-      emails.push(I18n.t('config.contact.email'))
-      UserMailer.contact_org(params[:subject], params[:body], params[:name], params[:contact], emails).deliver
-      success, error = TwilioHandler.new.send_text_direct(I18n.t("config.contact.phone"), TextHandler.new.get_contact_message(params[:subject], params[:body], params[:name], params[:contact], false))
+      if !I18n.t("config.contact.email", :default => '').empty?
+        emails = []
+        emails.push(I18n.t('config.contact.email'))
+        success, error = UserMailer.contact_org(params[:subject], params[:body], params[:name], params[:contact], emails).deliver
+      end
+      if !I18n.t("config.contact.phone", :default => '').empty?
+        success, error = TwilioHandler.new.send_text_direct(I18n.t("config.contact.phone"), TextHandler.new.get_contact_message(params[:subject], params[:body], params[:name], params[:contact], false))
+      end
     end
     if success
       flash.notice = I18n.t("global.model_created", type: I18n.t("global.message").downcase)
