@@ -54,7 +54,7 @@ module EventsHelper
     else
       if is_on_show
         event.users.each do |user|
-        users_html += "<p class='card-text pt-2'><strong>#{get_full_name(user)}</strong></p>" + get_user_html_body(user, EventStatus.find_by(user_id: user.id, event_id: event.id))
+          users_html += "<p class='card-text pt-2'><strong>#{get_full_name(user)}</strong></p>" + get_user_html_body(user, EventStatus.find_by(user_id: user.id, event_id: event.id))
         end
       end
       attendance_display_html = "#{attending_count} #{I18n.t("global.attending").downcase}"
@@ -67,17 +67,17 @@ module EventsHelper
     end
 
     "#{!event.description.blank? ?
-           "<p class='card-text'><strong>#{I18n.t("events.description")}:</strong> #{with_urls(event.description)}</p>" :
-           ""}
+         "<p class='card-text'><strong>#{I18n.t("events.description")}:</strong> #{with_urls(event.description)}</p>" :
+         ""}
     #{!get_when_text(event).blank? ?
-          "<p class='card-text'><strong>#{I18n.t("events.when")}:</strong> #{with_urls(get_when_text(event))}</p>" :
-          ""}
+        "<p class='card-text'><strong>#{I18n.t("events.when")}:</strong> #{with_urls(get_when_text(event))}</p>" :
+        ""}
     #{!event.location.blank? ?
-          "<p class='card-text'><strong>#{I18n.t("events.where")}:</strong> #{with_urls(event.location)}</p>" :
-          ""}
+        "<p class='card-text'><strong>#{I18n.t("events.where")}:</strong> #{with_urls(event.location)}</p>" :
+        ""}
     #{attendance_display_html}
     #{users_html}"
-    .html_safe
+      .html_safe
   end
 
   def get_event_html_buttons(event, is_on_show)
@@ -90,8 +90,8 @@ module EventsHelper
                     <div class='btn-group btn-group-md' role='group'>"
     if moderator_signed_in?(current_user)
       button_html += "#{link_to I18n.t("global.delete"), event, class: "btn btn-danger", method: :delete, data: { confirm: I18n.t("global.are_you_sure") }}
-                      #{link_to I18n.t("global.edit"), edit_event_path(event), class: "btn btn-secondary"}
-                      #{tertiary_button}
+      #{link_to I18n.t("global.edit"), edit_event_path(event), class: "btn btn-secondary"}
+      #{tertiary_button}
                     </div>
                   </div>"
     else
@@ -141,10 +141,10 @@ module EventsHelper
     event.users.each do |user|
       status = EventStatus.find_by(user_id: user.id, event_id: event.id)
       if !status.blank? && status.attending?
-          attending_count += 1
+        attending_count += 1
       end
     end
-      attending_count
+    attending_count
   end
 
   ##
@@ -188,16 +188,18 @@ module EventsHelper
   # event - an event
   # status - a status
   def set_new_state_after_notify(was_successful, event, status)
-    if was_successful
-      if event.event?
-        status.not_responded!
+    unless status.attending?
+      if was_successful
+        if event.event?
+          status.not_responded!
+        else
+          status.delivered!
+        end
       else
-        status.delivered!
+        status.not_delivered!
       end
-    else
-      status.not_delivered!
+      status.save
     end
-    status.save
   end
 
   ##
@@ -227,15 +229,17 @@ module EventsHelper
       end
       # Otherwise, they aren't new, don't update their state, send as updated event
     else
-      if contact == "email"
-        UserMailer.event_update_email(user, event).deliver rescue user
-      else
-        if contact == "text"
-          prompt = (event.event? ? t('texts.updated_prompt', id: event.id, yes: t('texts.text_yes'), no: t('texts.text_no')) : "")
-          TwilioHandler.new.send_text(user, t('texts.updated_event', params: get_event_text_params(event, false), type: event.eventType.capitalize, prompt: prompt))
+      if event.notify?
+        if contact == "email"
+          UserMailer.event_update_email(user, event).deliver rescue user
         else
-          prompt = (event.event? ? t('texts.updated_prompt', id: event.id.to_s.chars.join(' '), yes: " #{t('texts.call_yes')} #{t('texts.pound')}", no: " #{t('texts.call_no')} #{t('texts.pound')}") : "")
-          TwilioHandler.new.send_call(user, t('texts.updated_event', params: get_event_text_params(event, false), type: event.eventType.capitalize, prompt: prompt))
+          if contact == "text"
+            prompt = (event.event? ? t('texts.updated_prompt', id: event.id, yes: t('texts.text_yes'), no: t('texts.text_no')) : "")
+            TwilioHandler.new.send_text(user, t('texts.updated_event', params: get_event_text_params(event, false), type: event.eventType.capitalize, prompt: prompt))
+          else
+            prompt = (event.event? ? t('texts.updated_prompt', id: event.id.to_s.chars.join(' '), yes: " #{t('texts.call_yes')} #{t('texts.pound')}", no: " #{t('texts.call_no')} #{t('texts.pound')}") : "")
+            TwilioHandler.new.send_call(user, t('texts.updated_event', params: get_event_text_params(event, false), type: event.eventType.capitalize, prompt: prompt))
+          end
         end
       end
     end
@@ -248,21 +252,20 @@ module EventsHelper
   # user - a user
   # status - a status
   def send_publish_event_notification(event, user, status)
-    if !user.confirmed? && !user.confirmed_text? && !user.confirmed_call?
-      status.not_delivered!
-    else
-      success = true
-      if user.use_email? && user.confirmed? && event.use_email?
-        success = handle_send_publish_event_notification(event, user, status, "email")
-      end
-      if user.use_text? && user.confirmed_text? && event.use_text?
-        success = handle_send_publish_event_notification(event, user, status, "text")
-      end
-      if user.use_call? && user.confirmed_call? && event.use_call?
-        success = handle_send_publish_event_notification(event, user, status, "call")
-      end
-      set_new_state_after_notify(success, event, status)
+    success = true
+    if user.use_email? && user.confirmed? && event.use_email?
+      success = handle_send_publish_event_notification(event, user, status, "email")
     end
+    if user.use_text? && user.confirmed_text? && event.use_text?
+      success = handle_send_publish_event_notification(event, user, status, "text")
+    end
+    if user.use_call? && user.confirmed_call? && event.use_call?
+      success = handle_send_publish_event_notification(event, user, status, "call")
+    end
+    unless success
+      status.not_delivered!
+    end
+    set_new_state_after_notify(success, event, status)
   end
 
   ##
@@ -270,14 +273,16 @@ module EventsHelper
   # event - an event
   # user - a user
   def send_delete_event_notification(event, user)
-    if user.use_email? && user.confirmed? && event.use_email?
-      UserMailer.event_delete_email(user, event).deliver rescue user
-    end
-    if user.use_text? && user.confirmed_text? && event.use_text?
-      success, error = TwilioHandler.new.send_text(user, t('texts.deleted_event', params: get_event_text_params(event, false), type: event.eventType.capitalize))
-    end
-    if user.use_call? && user.confirmed_call? && event.use_call?
-      success, error = TwilioHandler.new.send_call(user, t('texts.deleted_event', params: get_event_text_params(event, false), type: event.eventType.capitalize))
+    if event.notify?
+      if user.use_email? && user.confirmed? && event.use_email?
+        UserMailer.event_delete_email(user, event).deliver rescue user
+      end
+      if user.use_text? && user.confirmed_text? && event.use_text?
+        success, error = TwilioHandler.new.send_text(user, t('texts.deleted_event', params: get_event_text_params(event, false), type: event.eventType.capitalize))
+      end
+      if user.use_call? && user.confirmed_call? && event.use_call?
+        success, error = TwilioHandler.new.send_call(user, t('texts.deleted_event', params: get_event_text_params(event, false), type: event.eventType.capitalize))
+      end
     end
   end
 

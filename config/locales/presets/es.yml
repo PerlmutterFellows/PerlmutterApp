@@ -140,6 +140,7 @@ es:
     location: "Sitio"
     type: "Tipo"
     published: "Publicado"
+    notify_changes: "Notificar cambios"
     event: "Evento"
     info: "Información"
     message: "Mensaje"
@@ -215,7 +216,7 @@ es:
     sessions:
       new:
         login: "Iniciar sesión"
-        login_prompt: "Inicie sesión a continuación utilizando su nombre de usuario, correo electrónico o número de teléfono."
+        login_prompt: "Inicie sesión a continuación utilizando su correo electrónico."
     passwords:
       title: "¿Olvidaste tu contraseña?"
       button: "Reenviarme las instrucciones para restablecer la contraseña"

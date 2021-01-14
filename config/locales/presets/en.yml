@@ -140,6 +140,7 @@ en:
     location: "Location"
     type: "Type"
     published: "Published"
+    notify_changes: "Notify changes"
     event: "Event"
     info: "Info"
     message: "Message"
@@ -215,7 +216,7 @@ en:
     sessions:
       new:
         login: "Login"
-        login_prompt: "Please login below using your username, email, or phone number."
+        login_prompt: "Please login below using your email."
     passwords:
       title: "Forgot your password?"
       button: "Resend me reset password instructions"

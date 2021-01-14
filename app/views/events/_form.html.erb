@@ -63,6 +63,12 @@
             <% end %>
           </div>
 
+          <div class="col-12">
+            <%= f.form_group do %>
+              <%= f.check_box :notify, custom: :switch, control_class: "text-secondary", label: I18n.t("events.notify_changes") %>
+            <% end %>
+          </div>
+
         </div>
         <div class='btn-group mb-1' role='group'>
           <%= f.submit I18n.t("global.submit") %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_21_054514) do
+ActiveRecord::Schema.define(version: 2021_01_14_090813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 2020_07_21_054514) do
     t.boolean "use_text", default: false
     t.boolean "use_call", default: false
     t.boolean "use_app", default: false
+    t.boolean "notify", default: false, null: false
   end
 
   create_table "group_memberships", force: :cascade do |t|

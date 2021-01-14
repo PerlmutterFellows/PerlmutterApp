@@ -557,7 +557,7 @@ def get_heroku_app_name(name)
       begin
         @config["config"]["app_name"] = @prompt.ask(prompt_box(name_prompt), default: name, required: true) { |q| q.validate /^[a-z0-9]+$/m, "Must be lowercase alphanumeric only" }
         name = @config["config"]["app_name"]
-        @cmd.run("heroku #{command_case} #{name}")
+        @cmd.run("heroku #{command_case} #{name} #{command_case == "create" ? "--stack heroku-18" : ""}")
         app_not_found = false
       rescue TTY::Command::ExitError
         error_box("App #{command_case} failed. Please try a different name.")
@@ -568,7 +568,7 @@ def get_heroku_app_name(name)
     begin
       @config["config"]["app_name"] = get_argument_value("heroku_app_name", true, nil)
       name = @config["config"]["app_name"]
-      @cmd.run("heroku #{command_case} #{name}")
+      @cmd.run("heroku #{command_case} #{name} #{command_case == "create" ? "--stack heroku-18" : ""}")
     rescue TTY::Command::ExitError
       error_box("App #{command_case} failed.")
       raise ArgumentError
